@@ -296,7 +296,7 @@ The facilities defined in this section provide a mechanism for using a compare p
 ===== Syntax:
 {{<c>}}, {{<less>}}, {{<equal>}}, and {{<greater>}} are expressions.
 ===== Semantics:
-If3 is the 3-way conditional for comparisons. First {{<c>}} is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. If {{c = - 1}} then the value of the if3-expression is obtained by evaluating <less>. If {{c = 0}} then {{<equal>}} is evaluated. If {{c = 1}} then <greater> is evaluated.
+{{If3}} is the 3-way conditional for comparisons. First {{<c>}} is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. If {{c = - 1}} then the value of the {{if3}}-expression is obtained by evaluating <less>. If {{c = 0}} then {{<equal>}} is evaluated. If {{c = 1}} then <greater> is evaluated.
 ===== Note:
 As an example, the following procedure inserts {{x}} into the sorted list s, possibly replacing the first equivalent element.
 ===== Example
@@ -310,7 +310,7 @@ As an example, the following procedure inserts {{x}} into the sorted list s, pos
            (cons (car s) (insert compare x (cdr s))))))
 </enscript>
 ===== Rationale:
-If3 is the preferred way of branching on the result of a comparison in case all three branches are different.
+{{If3}} is the preferred way of branching on the result of a comparison in case all three branches are different.
 ====== syntax:  (if=? <c> <consequent> [ <alternate> ])
 ====== syntax:  (if<? <c> <consequent> [ <alternate> ])
 ====== syntax:  (if>? <c> <consequent> [ <alternate> ])
@@ -721,7 +721,7 @@ procedures.
 
 We have chosen for control structures instead of higher-order procedures for simplicity. This becomes particularly evident when a recursive compare procedure, e.g. default-compare, is to be defined. Using select-compare it is possible to define default-compare simply as a procedure calling itself in some branches (refer to the example in Section 4.4). In the higher-order approach, the procedure under construction must also be able to call itself, with arguments that are application specific. Expressing this with a flexible higher-order procedure is much more indirect.
 ==== Why the operations <?, <=? etc.?
-Programs need both 2-way branching and 3-way branching. For 3-way branching, the conditional if3 is provided.
+Programs need both 2-way branching and 3-way branching. For 3-way branching, the conditional {{if3}} is provided.
 
 For 2-way branching, the set { - 1,0,1} of results of a comparison is mapped onto the set {#f, #t}. There are eight functions from a 3-set into a 2-set; all six non-constant functions are provided as =?, <?, etc.
 
@@ -831,7 +831,7 @@ However, in Scheme the higher-order style is less convenient than it is in curri
 
 Fortunately, Dave Mason proposed a syntax for resolving the apparent alternative parametric test vs. higher order style. (Refer to msg00014.) By combining both functionalities into a single procedure, the user can choose the style at any moment.
 === 7  Related work
-The use of compare procedures is not new; defining control structures (if3, select-compare etc.) for dealing with them efficiently, however, seems to be new (at least we have not seen it before).
+The use of compare procedures is not new; defining control structures ({{if3}}, select-compare etc.) for dealing with them efficiently, however, seems to be new (at least we have not seen it before).
 
 Total ordering in R^5RS is represented by typed order predicates, such as <=, char<=? etc. Although a ``less or equal''-predicate is sufficient to define a total order, R^ 5RS defines a complete set of compare predicates (that is = , <, >, <, and <) for the sake of convenience and readability. There are 25 procedures related to total orders in R^5RS . These are named (=|<|>|<=|>=) and (char|string)[-ci](=|<|>|<=|>=)?.
 
