@@ -739,7 +739,7 @@ Taking this approach one step further, one can even require the compare procedur
 
 Clearly, "transitive" tests have an overhead, namely that they need to execute potentially redundant type checks. Even worse, as types are only known to the compare procedure the only way to check the type of a value is to compare it, maybe with itself (which should result in 0 by definition of a compare procedure).
 
-The advantage of "transitive" comparisons is the automatic insertion of a type assertion. For example, after {{(chain<? integer-compare x y z)}} has been evaluated, no matter the result, it is known that x, y, and z are integers. We consider this advantage sufficiently important to pay the price.
+The advantage of "transitive" comparisons is the automatic insertion of a type assertion. For example, after {{(chain<? integer-compare x y z)}} has been evaluated, no matter the result, it is known that {{x}}, {{y}}, and {{z}} are integers. We consider this advantage sufficiently important to pay the price.
 ==== Why compare-by< etc.?
 It is often easier to define an order predicate, and possibly a separate equivalence relation, than it is to define a compare procedure. For this case, compare< etc.
 provide a convenient and robust way of constructing the associated compare procedure.
@@ -751,9 +751,9 @@ You better don't.
 
 A compare function defines a total order on equivalence classes, and vice versa (refer to Section 5). Hence, a compare procedure compare can be used to test equivalence: (=? compare x y).
 
-In reverse, one could be tempted to define a "compare function" c from just an equivalence relation ~ as c(x, y) = 0 if x ~ y and c(x, y) = 1 otherwise. However, c is not antisymmetric (unless all objects are equivalent, i.e. c(x,y) = 0 for all x, y) and hence it is not a compare function. In fact, there is no way at all of avoiding a total order on the equivalence classes.
+In reverse, one could be tempted to define a "compare function" c from just an equivalence relation ~ as {{c(x, y) = 0}} if {{x ~ y}} and {{c(x, y) = 1}} otherwise. However, c is not antisymmetric (unless all objects are equivalent, i.e. {{c(x,y) = 0}} for all {{x, y}}) and hence it is not a compare function. In fact, there is no way at all of avoiding a total order on the equivalence classes.
 
-This is also reflected in the fact that there are efficient (log-time) search data structures based on a total order, but we know of no efficient (sublinear worst-case) data structures based solely on an equivalence relation. The following program takes time and space O(h), where h is the number of equivalence classes in use:
+This is also reflected in the fact that there are efficient (log-time) search data structures based on a total order, but we know of no efficient (sublinear worst-case) data structures based solely on an equivalence relation. The following program takes time and space {{O(h)}}, where {{h}} is the number of equivalence classes in use:
 
 <enscript highlight="scheme">
 (define (equal->compare equal)
