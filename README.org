@@ -199,58 +199,59 @@ Two objects of the same type type are compared as type-compare would, if there i
 #+END_SRC
 *** 4.5  Constructing compare procedures
 An important goal of this SRFI is to provide a mechanism for defining new compare procedures as conveniently as possible. The syntactic extensions defined in this section are the primary utilities for doing so.
+**** syntax:
+(refine-compare <c[1]> ...)
 
-syntax:  (refine-compare <c[1]> ...)
 Syntax: The <c[i]> are expressions.
-
-Semantics: The arguments <c[1]> ...are evaluated from left to right until a non-zero value is found (which then is the value) or until there are no more arguments to
+**** Semantics:
+The arguments <c[1]> ...are evaluated from left to right until a non-zero value is found (which then is the value) or until there are no more arguments to
 evaluate (in which case the value is 0). It is allowed that there are no arguments at all.
-
-Note:   This macro is the preferred way to define a compare procedure as a refinement (refer to Section 5). Example:
-
+**** Note:
+This macro is the preferred way to define a compare procedure as a refinement (refer to Section 5).
+**** Example:
 #+BEGIN_SRC scheme
 (define (compare-rectangle r s)
   (refine-compare
     (compare-length (width  r) (width  s))
     (compare-length (height r) (height s))))
 #+END_SRC
-
-syntax:  (select-compare <x[1]> <x[2]> <clause[1]> ...)
-
-Syntax: Each <clause>, with the possible exception of the last, is of the form (<type?> <c[1]> ...) where <type?> is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last <clause> may be an ``else clause'', which has the form (else <c[1]> ...).
-
-Semantics: Select-compare is a conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5). It compares the values of <x [1]> and <x[2]> by trying the type tests in order, and applies an implict refine-compare on the consequences upon a match.
+**** syntax:
+(select-compare <x[1]> <x[2]> <clause[1]> ...)
+**** Syntax:
+Each <clause>, with the possible exception of the last, is of the form (<type?> <c[1]> ...) where <type?> is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last <clause> may be an ``else clause'', which has the form (else <c[1]> ...).
+**** Semantics:
+Select-compare is a conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5). It compares the values of <x [1]> and <x[2]> by trying the type tests in order, and applies an implict refine-compare on the consequences upon a match.
 
 In more detail, evaluation proceeds as follows: First <x[1]> and <x[2]> are evaluated in unspecified order, resulting in values x[1] and x[2], respectively. Then the clauses are evaluated one by one, from left to right.
 
 For clause (<type?> <c[1]> ...), first <type?> is evaluated resulting in a predicate procedure type? and then the expressions (type? x[1]) and (type? x[2]) are evaluated and interpreted as booleans. If both booleans are true then the overall value is (refine-compare <c[1]> ...). If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both tests where true. If there are no clauses left, the result is 0.
 
 Select-compare evaluates <x[1]> and <x[2]> exactly once, even in the absence of any clauses. Moreover, each <type?> is evaluated at most once and the resulting procedure type? is called at most twice.
-
-Note:   An example of select-compare is the definition of default-compare given above.
-
-syntax:  (cond-compare <clause[1]> ...)
-
-Syntax: Each <clause>, with the possible exception of the last, is of the form ((<t[1]> <t[2]>) <c[1]> ...) where <t[1]> and <t[2]> are expressions evaluating to booleans, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last <clause> may be an ``else clause'', which has the form (else <c[1]> ...).
-
-Semantics: Cond-compare is another conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5).
-
-Evaluation proceeds as follows: The clauses are evaluated one by one, from left to right. For clause ((<t[1]> <t[2]>) <c[1]> ...), first <t[1]> and <t[2]> are evaluated and the results are interpreted as boolean values. If both booleans are true then the overall value is (refine-compare <c[1]> ...). If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both booleans where true. If there are no clauses left (or there are no clauses to begin with), the result is 0.
+**** Note:
+An example of select-compare is the definition of default-compare given above.
+**** syntax:
+(cond-compare <clause[1]> ...)
+**** Syntax:
+Each <clause>, with the possible exception of the last, is of the form ((<t[1]> <t[2]>) <c[1]> ...) where <t[1]> and <t[2]> are expressions evaluating to booleans, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last <clause> may be an ``else clause'', which has the form (else <c[1]> ...).
+**** Semantics:
+Cond-compare is another conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5).
+**** Evaluation proceeds as follows:
+The clauses are evaluated one by one, from left to right. For clause ((<t[1]> <t[2]>) <c[1]> ...), first <t[1]> and <t[2]> are evaluated and the results are interpreted as boolean values. If both booleans are true then the overall value is (refine-compare <c[1]> ...). If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both booleans where true. If there are no clauses left (or there are no clauses to begin with), the result is 0.
 
 Cond-compare evaluates each expression at most once.
-
-Rationale:   Cond-compare and select-compare only differ in the way the type tests are specified. Both ways are equivalent, and each way is sometimes more convenient than the other.
+**** Rationale:
+Cond-compare and select-compare only differ in the way the type tests are specified. Both ways are equivalent, and each way is sometimes more convenient than the other.
 *** 4.6  Using compare procedures
 The facilities defined in this section provide a mechanism for using a compare procedure (passed as a parameter) in the different situations arising in applications.
-
-syntax:  (if3 <c> <less> <equal> <greater>)
-
-Syntax: <c>, <less>, <equal>, and <greater> are expressions.
-
-Semantics: If3 is the 3-way conditional for comparisons. First <c> is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. If c = - 1 then the value of the if3-expression is obtained by evaluating <less>. If c = 0 then <equal> is evaluated. If c = 1 then <greater> is evaluated.
-
-Note:   As an example, the following procedure inserts x into the sorted list s, possibly replacing the first equivalent element.
-
+**** syntax:
+(if3 <c> <less> <equal> <greater>)
+**** Syntax:
+<c>, <less>, <equal>, and <greater> are expressions.
+**** Semantics:
+If3 is the 3-way conditional for comparisons. First <c> is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. If c = - 1 then the value of the if3-expression is obtained by evaluating <less>. If c = 0 then <equal> is evaluated. If c = 1 then <greater> is evaluated.
+**** Note:
+As an example, the following procedure inserts x into the sorted list s, possibly replacing the first equivalent element.
+**** Example
 #+BEGIN_SRC scheme
 (define (insert compare x s)
   (if (null? s)
@@ -260,8 +261,8 @@ Note:   As an example, the following procedure inserts x into the sorted list s,
            (cons x (cdr s)) ; replace
            (cons (car s) (insert compare x (cdr s))))))
 #+END_SRC
-
-Rationale:   If3 is the preferred way of branching on the result of a comparison in case all three branches are different.
+**** Rationale:
+If3 is the preferred way of branching on the result of a comparison in case all three branches are different.
 
 syntax:  (if=? <c> <consequent> [ <alternate> ])
 syntax:  (if<? <c> <consequent> [ <alternate> ])
@@ -270,11 +271,9 @@ syntax:  (if<=? <c> <consequent> [ <alternate> ])
 syntax:  (if>=? <c> <consequent> [ <alternate> ])
 syntax:  (if-not=? <c> <consequent> [ <alternate> ])
 Syntax: <c>, <consequent>, and <alternate> are expressions. If <alternate> is not provided, (if #f #f) is used.
-
-Semantics: These six macros are 2-way conditionals for comparisons. First <c> is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. Then, depending on the value of c and the name of the macro, either <consequence> or <alternate> is evaluated, and the resulting value is the value of the conditional expression.
-
-The branch is chosen according to the following table:
-
+**** Semantics:
+These six macros are 2-way conditionals for comparisons. First <c> is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. Then, depending on the value of c and the name of the macro, either <consequence> or <alternate> is evaluated, and the resulting value is the value of the conditional expression.
+**** The branch is chosen according to the following table:
 |--------+---------------------------------+---------------------------------|
 |        |<consequent>                     |<alternate>                      |
 |--------+---------------------------------+---------------------------------|
@@ -290,8 +289,8 @@ The branch is chosen according to the following table:
 |--------+---------------------------------+---------------------------------|
 |if-not=?|c [srfi-67-Z-G-D-4.png] { - 1, 1}|c = 0                            |
 |--------+---------------------------------+---------------------------------|
-
-Note:   The macros if<=? etc. are the preferred way of 2-way branching based on the result of a comparison.
+**** Note:
+The macros if<=? etc. are the preferred way of 2-way branching based on the result of a comparison.
 
 procedure:  (=? [ compare ] [ x y ])
 
@@ -305,15 +304,12 @@ procedure:  (>=? [ compare ] [ x y ])
 
 procedure:  (not=? [ compare ] [ x y ])
 
-If the values x and y are given, test if x and y are in the relation specified by the name of the procedure rel?, with respect to compare procedure compare; otherwise
-construct a predicate procedure.
+If the values x and y are given, test if x and y are in the relation specified by the name of the procedure rel?, with respect to compare procedure compare; otherwise construct a predicate procedure.
 
 In the forms (rel? [ compare ] x y), the result is a boolean (either #t or #f) depending on (compare x y) and the test rel? as specified for if<? etc. If compare is not supplied, default-compare is used.
 
 In the form (rel? [ compare ]), the predicate procedure (lambda (x y) (rel? compare x y)) is constructed. Again, if compare is not supplied, default-compare is used.
-
-A few examples for illustration
-
+**** A few examples for illustration
 #+BEGIN_SRC scheme
 (>? "laugh" "LOUD") ===> #t
 (<? string-compare-ci "laugh" "LOUD") ===> #t
@@ -321,9 +317,9 @@ A few examples for illustration
 (sort-by-less '(1 a "b") (<?)) ===> '("b" a 1)
 (sort-by-less '(1 a "b") (>?)) ===> '(1 a "b")
 #+END_SRC
-
-Warning: A common mistake is writing (<=? x y z) where (<=/<=? x y z) is meant; this will most likely manifest itself at the time the expression (x y z) is evaluated.
-
+**** Warning:
+A common mistake is writing (<=? x y z) where (<=/<=? x y z) is meant; this will most likely manifest itself at the time the expression (x y z) is evaluated.
+**** Procedures
 procedure:  (</<? [ compare ] [ x y z ])
 
 procedure:  (</<=? [ compare ] [ x y z ])
@@ -343,9 +339,9 @@ procedure:  (>=/>=? [ compare ] [ x y z ])
 Test if x, y, and z form a chain with the two relations specified by the name of the procedure rel1/rel2?, with respect to the compare procedure compare.
 
 If compare is not provided, default-compare is used. If x y z are not provided, a predicate procedure of three arguments is constructed. The order in which the values are compared is unspecified, but each value is compared at least once.
-
-Note:   (<=/<? real-compare 0 x 1) tests if x is a real number in the half open interval [0,1).
-
+**** Note:
+(<=/<? real-compare 0 x 1) tests if x is a real number in the half open interval [0,1).
+**** chain procedures
 procedure:  (chain=? compare x[1] ...)
 
 procedure:  (chain<? compare x[1] ...)
@@ -363,7 +359,7 @@ A sequence of values x[1], ..., x[n] forms a chain with respect to the relation 
 Since the relations = , <, >, <, and > are transitive, it is sufficient to test (rel? compare x[i] x[i+1]) for 1 < i < n.
 
 Note:   The reason every x[i] participates in at least one comparison is type-checking: After testing if the values form a chain, these value may be assumed to be of the type comparable by compare -- and this holds irrespectively of the number of values, or whether they form a chain.
-
+**** pairwise-not?
 procedure:  (pairwise-not=? compare x[1] ...)
 
 Tests if the values x[1] ...(zero or more values) are pairwise unequal with respect to the compare procedure compare. The result is a boolean (either #t or #f). The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one).
@@ -371,7 +367,7 @@ Tests if the values x[1] ...(zero or more values) are pairwise unequal with resp
 The values x[1], ..., x[n] are pairwise unequal if (not=? compare x[i] x[j]) for all i [srfi-67-Z-G-D-8.png] j. In particular, this is the case for n [srfi-67-Z-G-D-4.png] {0,1}.
 
 Since compare defines a total ordering on the values, the property can be checked in time O(n log n), and implementations are required to do this. (For example by first sorting and then comparing adjacent elements).
-
+**** min-compare and max-compare
 procedure:  (min-compare compare x[1] x[2] ...)
 
 procedure:  (max-compare compare x[1] x[2] ...)
@@ -379,7 +375,7 @@ procedure:  (max-compare compare x[1] x[2] ...)
 A minimum or maximum of the values x[1] x[2] ...(one or more values) with respect to the compare procedure compare.
 
 The result is the first value that is minimal (maximal, respectively). The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one value).
-
+**** kth-largest
 procedure:  (kth-largest compare k x[0] x[1] ...)
 
 The k-th largest element of values x[0] x[1] ...(one or more values) with respect to the compare procedure compare.
@@ -389,7 +385,7 @@ More precisely, (kth-largest compare k x[0] ... x[n-1]) returns the (modulo k n)
 The argument k is an exact integer, and n > 1. The order in which the values x[i] are compared is unspecified, but each value is compared at least once (even if there is just one value).
 
 Note:   The 0-th largest element is the minimum, the ( - 1)-st largest element is the maximum. The median is the (n - 1)/2-th largest element if n is odd, and the average of the (n/2 - 1)-st and n/2-th largest elements if n is even.
-
+**** compare-by procedures
 procedure:  (compare-by< lt-pred [ x y ])
 
 procedure:  (compare-by> gt-pred [ x y ])
@@ -407,13 +403,13 @@ If optional arguments x and y are present then these are compared with respect t
 The predicate procedures mean the following: (lt-pred x y) tests if x < y, le-pred tests for <, gt-pred for >, ge-pred for >, and eq-pred tests if x and y are equivalent. The result returned by a predicate procedure is interpreted as a Scheme truth value (i.e. #f is false and non-#f is true).
 
 The purpose of the procedures compare-bypredicate(s) is to define a compare procedure from an order predicate, and possibly an additional equivalence predicate. If an equivalence predicate eq-pred is given, it is called before the order predicate because the equivalence may be coarser than the total ordering, and it may also be cheaper.
-
-Note:   Char-compare could be defined in terms of char<=? as
+**** Note:
+Char-compare could be defined in terms of char<=? as
 
 #+BEGIN_SRC scheme
 (define char-compare (compare-by<= char<=?))
 #+END_SRC
-
+**** debug-compare
 procedure:  (debug-compare compare)
 
 Constructs a compare procedure equivalent to compare but with debugging code wrapped around the calls to compare. The debugging code signals an error if it detects a violation of the axioms of a compare function. For this it is assumed that compare has no side-effects.
@@ -421,8 +417,8 @@ Constructs a compare procedure equivalent to compare but with debugging code wra
 More specifically, (debug-compare compare) evaluates to a compare procedure compare[1] which checks reflexivity, antisymmetry, and transitivity of compare based on the arguments on which compare[1] is called:
 
 The procedure compare[1] checks reflexivity on any value passed to compare, antisymmetry on any pair of values on which compare is called, and transitivity on triples where two of the arguments are from the current call to compare[1] and the third is a pseudo-random selection from the two arguments of the previous call to compare[1].
-
-Rationale:   The test coverage is partial and determined pseudo-randomly, but the execution time of compare[1] is only a constant factor larger than the execution time of compare.
+**** Rationale:
+The test coverage is partial and determined pseudo-randomly, but the execution time of compare[1] is only a constant factor larger than the execution time of compare.
 ** 5  The theory of compare functions
 This section contains a theoretical justification for the concept ``compare function''. First an axiomatic definition of compare functions is given. Then it is proved that compare functions are just an unconventional way of defining total orders on equivalence classes of elements -- and mathematically that is all there is to say about compare functions.
 
