@@ -772,9 +772,9 @@ This is also reflected in the fact that there are efficient (log-time) search da
       (integer-compare (index x) (index y)))))
 </enscript>
 
-If equal is an equivalence predicate (i.e. it is reflexive, symmetric, and transitive) then (equal->compare equal) is a compare procedure for the objects comparable by equal. The total order defined is unspecified (as it depends on call sequence).
+If equal is an equivalence predicate (i.e. it is reflexive, symmetric, and transitive) then {{(equal->compare equal)}} is a compare procedure for the objects comparable by equal. The total order defined is unspecified (as it depends on call sequence).
 
-Note that the equivalence predicate equal could be defined by using a union-find data structure. But keep in mind that the equivalence relation represented by equal must not change while (equal->compare equal) is in use-so the union-find data structure must be unite classes.
+Note that the equivalence predicate equal could be defined by using a union-find data structure. But keep in mind that the equivalence relation represented by equal must not change while {{(equal->compare equal)}} is in use-so the union-find data structure must be unite classes.
 ==== How do I switch from R^5RS to this SRFI?
 As it happens, the specification of this SRFI is fully compatible with the 25 order predicates found in R^5RS . The easiest way of switching is by defining the R^5RS operations in terms of this SRFI. Refer to the file r5rs-to-srfi.scm for the corresponding Scheme-code.
 
