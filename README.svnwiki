@@ -432,7 +432,7 @@ Test if x, y, and z form a chain with the two relations specified by the name of
 
 If compare is not provided, default-compare is used. If {{x y z}} are not provided, a predicate procedure of three arguments is constructed. The order in which the values are compared is unspecified, but each value is compared at least once.
 ===== Note:
-(<=/<? real-compare 0 x 1) tests if {{x}} is a real number in the half open interval [0,1).
+{{(<=/<? real-compare 0 x 1)}} tests if {{x}} is a real number in the half open interval {{[0,1)}}.
 ===== chain procedures
 procedure:  (chain=? compare x[1] ...)
 
@@ -446,17 +446,17 @@ procedure:  (chain>=? compare x[1] ...)
 
 Test if the values {{x[1] ...(zero or more values)}} form a chain with respect to the relation specified by the name of the procedure, and with respect to the compare procedure compare. The result is a boolean (either {{#t}} or {{#f}}.) The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one.)
 
-A sequence of values x[1], ..., x[n] forms a chain with respect to the relation rel? if (rel? compare x[i] x[j]) for all 1 < i < j < n. In particular, this is the case for n [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
+A sequence of values {{x[1], ..., x[n]}} forms a chain with respect to the relation rel? if (rel? compare x[i] x[j]) for all {{1 < i < j < n}}. In particular, this is the case for n [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
 
-Since the relations = , <, >, <, and > are transitive, it is sufficient to test (rel? compare x[i] x[i+1]) for 1 < i < n.
+Since the relations {{= , <, >, <,}} and {{>}} are transitive, it is sufficient to test (rel? compare x[i] x[i+1]) for {{1 < i < n}}.
 
-Note:   The reason every x[i] participates in at least one comparison is type-checking: After testing if the values form a chain, these value may be assumed to be of the type comparable by compare -- and this holds irrespectively of the number of values, or whether they form a chain.
+Note:   The reason every {{x[i]}} participates in at least one comparison is type-checking: After testing if the values form a chain, these value may be assumed to be of the type comparable by compare -- and this holds irrespectively of the number of values, or whether they form a chain.
 ===== pairwise-not?
 procedure:  (pairwise-not=? compare x[1] ...)
 
 Tests if the values x[1] ...(zero or more values) are pairwise unequal with respect to the compare procedure compare. The result is a boolean (either {{#t}} or {{#f}}). The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one).
 
-The values x[1], ..., x[n] are pairwise unequal if (not=? compare x[i] x[j]) for all i [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-8.png]] j. In particular, this is the case for n [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
+The values {{x[1], ..., x[n]}} are pairwise unequal if {{(not=? compare x[i] x[j])}} for all i [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-8.png]] {{j}}. In particular, this is the case for {{n}} [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
 
 Since compare defines a total ordering on the values, the property can be checked in time O(n log n), and implementations are required to do this. (For example by first sorting and then comparing adjacent elements).
 ===== min-compare and max-compare
@@ -470,13 +470,13 @@ The result is the first value that is minimal (maximal, respectively). The order
 ===== kth-largest
 procedure:  (kth-largest compare k x[0] x[1] ...)
 
-The k-th largest element of values x[0] x[1] ...(one or more values) with respect to the compare procedure compare.
+The {{k-th}} largest element of values {{x[0] x[1] ...(one or more values)}} with respect to the compare procedure compare.
 
-More precisely, (kth-largest compare k x[0] ... x[n-1]) returns the (modulo k n)-th element of the unique sequence obtained by stably sorting (x[0] ··· x[n-1]). (Recall that a sorting algorithm is stable if it does not permute items with equal key, i.e. equivalent w.r.t. compare).
+More precisely, {{(kth-largest compare k x[0] ... x[n-1])}} returns the {{(modulo k n)}}-th element of the unique sequence obtained by stably sorting (x[0] ··· x[n-1]). (Recall that a sorting algorithm is stable if it does not permute items with equal key, i.e. equivalent w.r.t. compare).
 
 The argument k is an exact integer, and n > 1. The order in which the values x[i] are compared is unspecified, but each value is compared at least once (even if there is just one value).
 
-Note:   The 0-th largest element is the minimum, the ( - 1)-st largest element is the maximum. The median is the (n - 1)/2-th largest element if n is odd, and the average of the (n/2 - 1)-st and n/2-th largest elements if n is even.
+Note:   The 0-th largest element is the minimum, the {{( - 1)}}-st largest element is the maximum. The median is the {{(n - 1)/2}}-th largest element if n is odd, and the average of the {{(n/2 - 1)}}-st and {{n/2}}-th largest elements if {{n}} is even.
 ===== compare-by procedures
 procedure:  (compare-by< lt-pred [ x y ])
 
