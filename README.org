@@ -263,14 +263,13 @@ As an example, the following procedure inserts x into the sorted list s, possibl
 #+END_SRC
 **** Rationale:
 If3 is the preferred way of branching on the result of a comparison in case all three branches are different.
-
-syntax:  (if=? <c> <consequent> [ <alternate> ])
-syntax:  (if<? <c> <consequent> [ <alternate> ])
-syntax:  (if>? <c> <consequent> [ <alternate> ])
-syntax:  (if<=? <c> <consequent> [ <alternate> ])
-syntax:  (if>=? <c> <consequent> [ <alternate> ])
-syntax:  (if-not=? <c> <consequent> [ <alternate> ])
-Syntax: <c>, <consequent>, and <alternate> are expressions. If <alternate> is not provided, (if #f #f) is used.
+***** syntax:  (if=? <c> <consequent> [ <alternate> ])
+***** syntax:  (if<? <c> <consequent> [ <alternate> ])
+***** syntax:  (if>? <c> <consequent> [ <alternate> ])
+***** syntax:  (if<=? <c> <consequent> [ <alternate> ])
+***** syntax:  (if>=? <c> <consequent> [ <alternate> ])
+***** syntax:  (if-not=? <c> <consequent> [ <alternate> ])
+***** Syntax: <c>, <consequent>, and <alternate> are expressions. If <alternate> is not provided, (if #f #f) is used.
 **** Semantics:
 These six macros are 2-way conditionals for comparisons. First <c> is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. Then, depending on the value of c and the name of the macro, either <consequence> or <alternate> is evaluated, and the resulting value is the value of the conditional expression.
 **** The branch is chosen according to the following table:
