@@ -88,7 +88,7 @@ A non-{{#f}} value is not interpreted as a "true value," but rather an error wil
 
 <procedure>(char-compare-ci char[1] char[2])</procedure>
 
-Compare characters as char<=? and char-ci<=? respectively. The suffix -ci means "case insensitive."
+Compare characters as {{char<=?}} and {{char-ci<=?}} respectively. The suffix -ci means "case insensitive."
 
 <procedure>(string-compare string[1] string[2])</procedure>
 
@@ -124,7 +124,7 @@ Compares symbols as string<= on the names returned by symbol->string.
 
 Compare two numbers. It is an error if an argument is not of the type specified by the name of the procedure.
 
-Complex numbers are ordered lexicographically on pairs (re, im). For objects representing real numbers {{sign(x - y)}} is computed. The ordering for values satisfying real? or complex? but not representing a real or complex number should be consistent with procedures = and < of R^5RS , and apart from that it is unspecified.
+Complex numbers are ordered lexicographically on pairs ({{re, im}}). For objects representing real numbers {{sign(x - y)}} is computed. The ordering for values satisfying {{real?}} or {{complex?}} but not representing a real or complex number should be consistent with procedures = and < of R^5RS , and apart from that it is unspecified.
 
 Numerical compare procedures are compatible with the R^5RS numerical tower in the following sense: If S is a subtype of the numerical type T and x, y can be represented both in S and in T, then compare-S and compare-T compute the same result.
 ===== Note:
