@@ -17,7 +17,7 @@ For the purpose of this SRFI, however, a total order is represented by a Scheme-
 ==== The primary reason for using 3-valued compare procedures instead of (2-valued) order predicates is efficiency:
 When comparison is computationally expensive, it is wasteful if two predicates are evaluated where a single 3-valued comparison would suffice. This point is discussed in greater detail in Section 6.
 ==== But dealing directly with 3-valued comparisons in the application program is inconvenient and obscures intention:
-For testing x < y one would have to write {{(eqv? (compare x y) -1)}}. For this reason, an operation <? is supplied which allows to phrase the same test as {{(<? compare x y)}}. This is an example of mapping the three possible outcomes of a comparison into the two boolean values {#f, #t}. Since <? takes the total order as an explicit parameter, a comfortably large arsenal of tests can be made available for each and every total order (Section 4.6). This deviates from the approach of R^5RS , in which there are only five operations {{( = , <, >, <, >)}} -- and for each total order ({{real/number}}, {{char}}, {{char-ci}}, {{string}}, {{string-ci}}) a complete set of these five operation is provided.
+For testing x < y one would have to write {{(eqv? (compare x y) -1)}}. For this reason, an operation {{<?}} is supplied which allows to phrase the same test as {{(<? compare x y)}}. This is an example of mapping the three possible outcomes of a comparison into the two boolean values {#f, #t}. Since {{<?}} takes the total order as an explicit parameter, a comfortably large arsenal of tests can be made available for each and every total order (Section 4.6). This deviates from the approach of R^5RS , in which there are only five operations {{( = , <, >, <, >)}} -- and for each total order ({{real/number}}, {{char}}, {{char-ci}}, {{string}}, {{string-ci}}) a complete set of these five operation is provided.
 ==== But still, using <? would be inconvenient if the compare procedure would have to be supplied explicitly every time.
 For this reason, the parameter compare is often made optional in this SRFI -- and the procedure default-compare is used whenever no compare procedure is passed explicitly. Default-compare (Section 4.4) defines some resonable total order on the built-in types of R^5RS .
 ==== For the third aspect of this SRFI, defining compare procedures, special control structures (macros) are provided (Section 4.5).
@@ -723,7 +723,7 @@ We have chosen for control structures instead of higher-order procedures for sim
 ==== Why the operations <?, <=? etc.?
 Programs need both 2-way branching and 3-way branching. For 3-way branching, the conditional {{if3}} is provided.
 
-For 2-way branching, the set { - 1,0,1} of results of a comparison is mapped onto the set {#f, #t}. There are eight functions from a 3-set into a 2-set; all six non-constant functions are provided as =?, <?, etc.
+For 2-way branching, the set { - 1,0,1} of results of a comparison is mapped onto the set {#f, #t}. There are eight functions from a 3-set into a 2-set; all six non-constant functions are provided as {{=?}}, <?, etc.
 
 The five monotonic functions can be generalized to chains of values. In order to make the compare procedure parameter optional in the ordinary comparisons, separate operations ({{chain<?}}, {{chain<=?}} etc.) are defined for chains. For the sixth operation (not=?) the generalization to pairwise unequality is defined as pairwise-not=?. This operation can be implemented efficiently because the compare procedure also defines a total order.
 
@@ -731,7 +731,7 @@ As chains of length three are still frequently tested in programs (think of a ra
 
 For convenience, the compare procedure argument is made optional as often as possible. Unfortunately, this opens up a possibility for mistake: Writing {{(<=? x y z)}} where {{(<=/<=? x y z)}} is meant. Fortunately, the mistake will likely manifest itself at the time {{(x y z)}} is evaluated.
 ==== Why are <? etc. procedures, not macros?
-The procedures <?, </<?, {{chain<?}} etc. could also have been specified as macros. This would have the advantage that they could make full use of "short evaluation": A chain of comparisons stops as soon as one of the comparisons has failed; all remaining argument expressions and comparisons need not be evaluated. This is potentially more efficient.
+The procedures {{<?}}, </<?, {{chain<?}} etc. could also have been specified as macros. This would have the advantage that they could make full use of "short evaluation": A chain of comparisons stops as soon as one of the comparisons has failed; all remaining argument expressions and comparisons need not be evaluated. This is potentially more efficient.
 
 The advantage of procedures, on the other hand, is that in Scheme they are "first class citizens," meaning that they can be passed as arguments and returned from higher-order procedures.
 
@@ -821,9 +821,9 @@ In this SRFI min-compare accepts a compare procedure as a first mandatory argume
 
 We have avoided higher-order procedures in this SRFI for simplicity and efficiency. As said repeatedly, compare procedures are the main vehicle to transport total orders from the code site defining an order to the code site using an order. Moreover, most operations made available through this SRFI appear rather infrequently in programs, so either way there is little to be gained. Finally, dealing with higher-order procedures often involves writing more parentheses and the more simple-minded Scheme systems will create many short-lived closures.
 ==== Why do <? etc. have so many options?
-The procedures =?, <? etc. accept an optional compare procedure but also two optional arguments to compare. This could be made simpler by not specifying some of the cases, or by specifying different procedures for the different functions.
+The procedures {{=?}}, {{<?}} etc. accept an optional compare procedure but also two optional arguments to compare. This could be made simpler by not specifying some of the cases, or by specifying different procedures for the different functions.
 
-The operations <? etc. are the primary mechanism for using compare procedures. As such they should be versatile and concise.
+The operations {{<?}} etc. are the primary mechanism for using compare procedures. As such they should be versatile and concise.
 
 Our original design had two mandatory arguments for objects to compare and an optional argument for the compare procedure, i.e. it provides a parametric comparison (<? compare x y) of two objects. Amir Livne Bar-On then raised the issue of having better support for a higher-order style of programming, i.e. ((<? compare) x y). (Refer to msg00012.)
 
