@@ -76,15 +76,25 @@ In this section, compare procedures for most of the atomic types of R^5RS are de
 type-compare-order
 
 compares two object of the type type with respect to a total order for which order is a mnemonic hint (e.g. -ci for case-insensitive). Of course, -order may be absent if there is just one order or the order is obvious. It is an error if a compare procedure accepting objects of a certain type is called with one or two arguments not of that type.
-===== procedure:  (boolean-compare bool[1] bool[2])
+
+<procedure>(boolean-compare bool[1] bool[2])</procedure>
+
 Compares two booleans, ordered by #f < #t.
 ===== Note:
 A non-#f value is not interpreted as a ``true value,'' but rather an error will be signalled.
-===== procedure:  (char-compare char[1] char[2])
-===== procedure:  (char-compare-ci char[1] char[2])
+
+<procedure>(char-compare char[1] char[2])</procedure>
+
+
+<procedure>(char-compare-ci char[1] char[2])</procedure>
+
 Compare characters as char<=? and char-ci<=? respectively. The suffix -ci means ``case insensitive.''
-===== procedure:  (string-compare string[1] string[2])
-===== procedure:  (string-compare-ci string[1] string[2])
+
+<procedure>(string-compare string[1] string[2])</procedure>
+
+
+<procedure>(string-compare-ci string[1] string[2])</procedure>
+
 Compare strings as string<= and string-ci<=?. The suffix -ci means ``case insensitive.''
 ===== Note:   Compare-string could be defined as
 <enscript highlight="scheme">
@@ -93,13 +103,25 @@ Compare strings as string<= and string-ci<=?. The suffix -ci means ``case insens
                           string1 string2
                           string-length string-ref))
 </enscript>
-===== procedure:  (symbol-compare symbol[1] symbol[2])
+
+<procedure>(symbol-compare symbol[1] symbol[2])</procedure>
+
 Compares symbols as string<= on the names returned by symbol->string.
-===== procedure:  (integer-compare x y)
-===== procedure:  (rational-compare x y)
-===== procedure:  (real-compare x y)
-===== procedure:  (complex-compare x y)
-===== procedure:  (number-compare x y)
+
+<procedure>(integer-compare x y)</procedure>
+
+
+<procedure>(rational-compare x y)</procedure>
+
+
+<procedure>(real-compare x y)</procedure>
+
+
+<procedure>(complex-compare x y)</procedure>
+
+
+<procedure>(number-compare x y)</procedure>
+
 Compare two numbers. It is an error if an argument is not of the type specified by the name of the procedure.
 
 Complex numbers are ordered lexicographically on pairs (re, im). For objects representing real numbers sign(x - y) is computed. The ordering for values satisfying real? or complex? but not representing a real or complex number should be consistent with procedures = and < of R^5RS , and apart from that it is unspecified.
@@ -125,10 +147,18 @@ An object x can be accessed like a vector if there are procedures size and ref s
 An object x can be accessed like a (proper) list if there are procedures empty?, head, and tail such that (empty? x) is a boolean indicating that there are no elements in x, (head x) is the first element of x, and (tail x) is an object representing the residual elements of x. The default list access procedures are null?, car, and cdr.
 
 Independent of the way the elements are accessed, the natural ordering of vectors and lists differs: Sequences are compared as vectors if shorter sequences are smaller than longer sequences, and sequences of the same size are compared lexicographically. Sequences are compared as lists if the empty sequence is smallest, and two non-empty sequences are compared by their first elements, and only if the first elements are equal the residual sequences are compared, recursively.
-===== procedure:  (vector-compare [ compare ] x y [ size ref ])
-===== procedure:  (vector-compare-as-list [ compare ] x y [ size ref ])
-===== procedure:  (list-compare [ compare ] x y [ empty? head tail ])
-===== procedure:  (list-compare-as-vector [ compare ] x y [ empty? head tail ])
+
+<procedure>(vector-compare [ compare ] x y [ size ref ])</procedure>
+
+
+<procedure>(vector-compare-as-list [ compare ] x y [ size ref ])</procedure>
+
+
+<procedure>(list-compare [ compare ] x y [ empty? head tail ])</procedure>
+
+
+<procedure>(list-compare-as-vector [ compare ] x y [ empty? head tail ])</procedure>
+
 Compare two sequences x and y, using compare for comparing elements. The result is an exact integer in { - 1, 0, 1}. If compare is not supplied, default-compare is used.
 
 The procedure named access-compare-as-order accesses the objects like access and compares them with respect to the order given by order. The names type-compare are
@@ -143,8 +173,12 @@ abbreviations for type-compare-as-type.
 </enscript>
 ==== 4.3  Comparing pairs and improper lists
 In this section, compare procedures for Scheme pairs and (possibly) improper lists are defined.
-===== procedure:  (pair-compare-car compare)
-===== procedure:  (pair-compare-cdr compare)
+
+<procedure>(pair-compare-car compare)</procedure>
+
+
+<procedure>(pair-compare-cdr compare)</procedure>
+
 Construct a compare procedure on pairs which only uses the car (only the cdr, respectively), and ignores the other.
 ===== One could define
 <enscript highlight="scheme">
@@ -153,8 +187,12 @@ Construct a compare procedure on pairs which only uses the car (only the cdr, re
 </enscript>
 ===== Rationale:
 Pair-compare-car can be used to turn a search data structure (e.g. a heap) into a dictionary: Store (key . value) pairs and compare them using the compare procedure (pair-compare-car compare-key).
-===== procedure:  (pair-compare compare-car compare-cdr pair[1] pair[2])
-===== procedure:  (pair-compare [ compare ] obj[1] obj[2])
+
+<procedure>(pair-compare compare-car compare-cdr pair[1] pair[2])</procedure>
+
+
+<procedure>(pair-compare [ compare ] obj[1] obj[2])</procedure>
+
 Compares two pairs, or (possibly improper) lists.
 
 The 4-ary form compares two pairs pair[1] pair[2] by comparing their cars using compare-car, and if the cars are equal the cdrs are compared using compare-cdr.
@@ -175,7 +213,9 @@ The 2-ary form uses default-compare for compare.
 </enscript>
 ==== 4.4  The default compare procedure
 It is convenient to have a compare procedure readily available for comparing most built-in types.
-===== procedure:  (default-compare obj[1] obj[2])
+
+<procedure>(default-compare obj[1] obj[2])</procedure>
+
 compares its arguments by type using the ordering
 
 null < pair < boolean < char < string < symbol < number < vector < other
