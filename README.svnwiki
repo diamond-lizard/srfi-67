@@ -5,6 +5,8 @@ This SRFI can be seen as an extension of the standard procedures {{=}}, {{<}}, {
 As soon as new total orders are required, the infrastructure provided by this SRFI is far more convenient and often even more efficient than building each total order from scratch.
 
 Moreover, in case Scheme users and implementors find this mechanism useful and adopt it, the benefit of having a uniform interface to total orders to be used in data structures will manifest itself. Most concretely, a new sorting procedure in the spirit of this SRFI would have the interface {{(my-sort [ compare ] xs)}}, using default-compare if the optional compare was not provided. Then my-sort could be defined using the entire infrastructure of this SRFI: Efficient 2- and 3-way branching, testing for chains and pairwise inequality, min/max, and general order statistics.
+
+For more information, see [[https://srfi.schemers.org/srfi-67/|SRFI 67: Compare Procedures]]
 === 2  Introduction
 This SRFI defines a mechanism for comparing Scheme values with respect to a total order {{(aka linear order)}} [1].
 ==== The mechanism provides operations for:
