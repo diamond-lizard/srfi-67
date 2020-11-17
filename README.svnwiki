@@ -47,7 +47,7 @@ A compare procedure for boxes, comparing first by width then by height and then 
 
 This time, {{(<? box-compare b1 b2)}} tests if box b1 is smaller than box b2 -- in the sense of the order defined. Of course, all the other tests, minimum, maximum etc. are available, too.
 
-As a final complication, assume that there is also a type bowl with accessors radius (a length) and open? (a boolean). Bowls are to be compared first by whether they are open or closed, and then by radius. However, bowls and boxes also need to be compared to each other, ordered such that a bowl is considered ``smaller'' than a box. (There are type-test predicates box? and bowl?). Using the control structure select-compare (Section 4.5) this can be expressed as:
+As a final complication, assume that there is also a type bowl with accessors radius (a length) and open? (a boolean). Bowls are to be compared first by whether they are open or closed, and then by radius. However, bowls and boxes also need to be compared to each other, ordered such that a bowl is considered ``smaller'' than a box. (There are type-test predicates box? and bowl?). Using the control structure {{select-compare}} (Section 4.5) this can be expressed as:
 
 <enscript highlight="scheme">
 (define (container-compare c1 c2)
@@ -264,15 +264,15 @@ This macro is the preferred way to define a compare procedure as a refinement (r
 ===== Syntax:
 Each {{<clause>}}, with the possible exception of the last, is of the form {{(<type?> <c[1]> ...)}} where {{<type?>}} is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ``else clause'', which has the form {{(else <c[1]> ...)}}.
 ===== Semantics:
-Select-compare is a conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5). It compares the values of {{<x [1]>}} and {{<x[2]>}} by trying the type tests in order, and applies an implicit refine-compare on the consequences upon a match.
+{{Select-compare}} is a conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5). It compares the values of {{<x [1]>}} and {{<x[2]>}} by trying the type tests in order, and applies an implicit refine-compare on the consequences upon a match.
 
 In more detail, evaluation proceeds as follows: First {{<x[1]>}} and {{<x[2]>}} are evaluated in unspecified order, resulting in values {{x[1]}} and {{x[2]}}, respectively. Then the clauses are evaluated one by one, from left to right.
 
 For clause {{(<type?> <c[1]> ...)}}, first {{<type?>}} is evaluated resulting in a predicate procedure type? and then the expressions {{(type? x[1])}} and {{(type? x[2])}} are evaluated and interpreted as booleans. If both booleans are true then the overall value is {{(refine-compare <c[1]> ...)}}. If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both tests where true. If there are no clauses left, the result is 0.
 
-Select-compare evaluates {{<x[1]>}} and {{<x[2]>}} exactly once, even in the absence of any clauses. Moreover, each {{<type?>}} is evaluated at most once and the resulting procedure type? is called at most twice.
+{{Select-compare}} evaluates {{<x[1]>}} and {{<x[2]>}} exactly once, even in the absence of any clauses. Moreover, each {{<type?>}} is evaluated at most once and the resulting procedure type? is called at most twice.
 ===== Note:
-An example of select-compare is the definition of default-compare given above.
+An example of {{select-compare}} is the definition of default-compare given above.
 ===== syntax:
 
 <procedure>(cond-compare <clause[1]> ...)</procedure>
@@ -286,7 +286,7 @@ The clauses are evaluated one by one, from left to right. For clause {{((<t[1]> 
 
 Cond-compare evaluates each expression at most once.
 ===== Rationale:
-Cond-compare and select-compare only differ in the way the type tests are specified. Both ways are equivalent, and each way is sometimes more convenient than the other.
+Cond-compare and {{select-compare}} only differ in the way the type tests are specified. Both ways are equivalent, and each way is sometimes more convenient than the other.
 ==== 4.6  Using compare procedures
 The facilities defined in this section provide a mechanism for using a compare procedure (passed as a parameter) in the different situations arising in applications.
 ===== syntax:
@@ -622,7 +622,7 @@ respectively. Then
 is a compare function on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-146.png]]. The function refines ``[[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-147.png]]'' by [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-148.png]] on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-149.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-150.png]]
 on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-151.png]], respectively. This construction can be generalized to an arbitrary family (mind the axiom of choice) of compare functions on disjoint domains.
 
-In Scheme, this SRFI defines macros refine-compare, select-compare, and cond-compare for providing convenient and efficient ways of defining refinement, hierarchical
+In Scheme, this SRFI defines macros refine-compare, {{select-compare}}, and cond-compare for providing convenient and efficient ways of defining refinement, hierarchical
 extension, argument transformation, and sign flip.
 === 6  Design Rationale
 In this section we present our reasoning behind the design decisions made for this SRFI. We would like to be explicit on this because we believe that design is not about the outcome of decisions but about the alternatives considered. The section is organized as a Q&A list.
@@ -716,10 +716,10 @@ While this controversial, we think that it is preferable to introduce different 
 ===== Concerning other vector-like data types, such as those introduced by SRFI 66 and 74, we recommend to define a default ordering which appears most natural for the type.
 These can conveniently be named type-as-ordering. In cases where the order is of minor importance, we recommend to be compatible with this SRFI.
 ==== Why so few higher-order constructions?
-An alternative for the control structures (macros) refine-compare, select-compare, and cond-compare is a set of higher-order procedures for constructing compare
+An alternative for the control structures (macros) refine-compare, {{select-compare}}, and cond-compare is a set of higher-order procedures for constructing compare
 procedures.
 
-We have chosen for control structures instead of higher-order procedures for simplicity. This becomes particularly evident when a recursive compare procedure, e.g. default-compare, is to be defined. Using select-compare it is possible to define default-compare simply as a procedure calling itself in some branches (refer to the example in Section 4.4). In the higher-order approach, the procedure under construction must also be able to call itself, with arguments that are application specific. Expressing this with a flexible higher-order procedure is much more indirect.
+We have chosen for control structures instead of higher-order procedures for simplicity. This becomes particularly evident when a recursive compare procedure, e.g. default-compare, is to be defined. Using {{select-compare}} it is possible to define default-compare simply as a procedure calling itself in some branches (refer to the example in Section 4.4). In the higher-order approach, the procedure under construction must also be able to call itself, with arguments that are application specific. Expressing this with a flexible higher-order procedure is much more indirect.
 ==== Why the operations <?, <=? etc.?
 Programs need both 2-way branching and 3-way branching. For 3-way branching, the conditional {{if3}} is provided.
 
@@ -831,7 +831,7 @@ However, in Scheme the higher-order style is less convenient than it is in curri
 
 Fortunately, Dave Mason proposed a syntax for resolving the apparent alternative parametric test vs. higher order style. (Refer to msg00014.) By combining both functionalities into a single procedure, the user can choose the style at any moment.
 === 7  Related work
-The use of compare procedures is not new; defining control structures ({{if3}}, select-compare etc.) for dealing with them efficiently, however, seems to be new (at least we have not seen it before).
+The use of compare procedures is not new; defining control structures ({{if3}}, {{select-compare}} etc.) for dealing with them efficiently, however, seems to be new (at least we have not seen it before).
 
 Total ordering in R^5RS is represented by typed order predicates, such as <=, char<=? etc. Although a ``less or equal''-predicate is sufficient to define a total order, R^ 5RS defines a complete set of compare predicates (that is = , <, >, <, and <) for the sake of convenience and readability. There are 25 procedures related to total orders in R^5RS . These are named (=|<|>|<=|>=) and (char|string)[-ci](=|<|>|<=|>=)?.
 
