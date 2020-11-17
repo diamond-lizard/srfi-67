@@ -159,7 +159,7 @@ Independent of the way the elements are accessed, the natural ordering of vector
 
 <procedure>(list-compare-as-vector [ compare ] x y [ empty? head tail ])</procedure>
 
-Compare two sequences x and y, using compare for comparing elements. The result is an exact integer in { - 1, 0, 1}. If compare is not supplied, default-compare is used.
+Compare two sequences {{x and y}}, using compare for comparing elements. The result is an exact integer in { - 1, 0, 1}. If compare is not supplied, default-compare is used.
 
 The procedure named access-compare-as-order accesses the objects like access and compares them with respect to the order given by order. The names type-compare are
 abbreviations for type-compare-as-type.
@@ -388,7 +388,7 @@ procedure:  (>=? [ compare ] [ x y ])
 
 procedure:  (not=? [ compare ] [ x y ])
 
-If the values x and y are given, test if x and y are in the relation specified by the name of the procedure rel?, with respect to compare procedure compare; otherwise construct a predicate procedure.
+If the values {{x and y}} are given, test if {{x and y}} are in the relation specified by the name of the procedure rel?, with respect to compare procedure compare; otherwise construct a predicate procedure.
 
 In the forms (rel? [ compare ] x y), the result is a boolean (either #t or #f) depending on (compare x y) and the test rel? as specified for if<? etc. If compare is not supplied, default-compare is used.
 
@@ -482,9 +482,9 @@ procedure:  (compare-by=/< eq-pred lt-pred [ x y ])
 
 procedure:  (compare-by=/> eq-pred gt-pred [ x y ])
 
-If optional arguments x and y are present then these are compared with respect to the total order defined by the predicate(s) given; the result is in { - 1,0,1}. If x and y are not present then a procedure comparing its two arguments using the predicate(s) given is constructed and returned.
+If optional arguments {{x and y}} are present then these are compared with respect to the total order defined by the predicate(s) given; the result is in { - 1,0,1}. If {{x and y}} are not present then a procedure comparing its two arguments using the predicate(s) given is constructed and returned.
 
-The predicate procedures mean the following: (lt-pred x y) tests if x < y, le-pred tests for <, gt-pred for >, ge-pred for >, and eq-pred tests if x and y are equivalent. The result returned by a predicate procedure is interpreted as a Scheme truth value (i.e. #f is false and non-#f is true).
+The predicate procedures mean the following: (lt-pred x y) tests if x < y, le-pred tests for <, gt-pred for >, ge-pred for >, and eq-pred tests if {{x and y}} are equivalent. The result returned by a predicate procedure is interpreted as a Scheme truth value (i.e. #f is false and non-#f is true).
 
 The purpose of the procedures compare-bypredicate(s) is to define a compare procedure from an order predicate, and possibly an additional equivalence predicate. If an equivalence predicate eq-pred is given, it is called before the order predicate because the equivalence may be coarser than the total ordering, and it may also be cheaper.
 ===== Note:
@@ -621,7 +621,7 @@ In this section we present our reasoning behind the design decisions made for th
 ==== Order predicates (2-way) or 3-way comparisons?
 It is mathematical tradition to specify a total order in terms of a ``less or equal'' (<) relation. This usually carries over to programming languages in the form of a <= predicate procedure.
 
-However, there are inherently three possible relations between two elements x and y with respect to a total order: x < y, x = y, and x > y. (With respect to a partial order there is a fourth: x and y are uncomparable.) This implies that any mechanism based on 2-valued operations (be it <, or ( = , <), or other) has cases in which two expressions must be evaluated in order to determine the relation between two elements.
+However, there are inherently three possible relations between two elements {{x and y}} with respect to a total order: x < y, x = y, and x > y. (With respect to a partial order there is a fourth: {{x and y}} are uncomparable.) This implies that any mechanism based on 2-valued operations (be it <, or ( = , <), or other) has cases in which two expressions must be evaluated in order to determine the relation between two elements.
 
 In practice, this is a problem if a comparison is computationally expensive. Examples of this are implicitly defined orders in which the order of elements depends on their relative position in some enumeration. (Think of comparing graphs by isomorphism type.) In this case, each order predicate is as expensive as a compare procedure -- implying that a proper 3-way branch could be twice as fast as cascaded 2-way branches. Hence, there is a potentially considerable loss in performance, and it is purely due to the interface for comparisons.
 
