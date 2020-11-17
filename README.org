@@ -26,40 +26,41 @@ These control structures can be used in the definition of a (potentially recursi
 Assume there is a type length representing physical length. The type has an accessor procedure meters returning the length in meters (a real number). A compare procedure
 for lengths can then be defined in terms of real-compare (Section 4.1) as:
 
-  (define (length-compare length1 length2)
-    (real-compare (meters length1) (meters length2)))
+#+BEGIN_SRC scheme
+(define (length-compare length1 length2)
+  (real-compare (meters length1) (meters length2)))
+#+END_SRC
 
-Now, (<? length-compare x y) tests if length x is shorter than length y. Also, (<=/<? length-compare a x b) tests if length x lies between length a (incl.) and length b
-(excl.) The expression (min-compare length-compare x y z) is a shortest of the lengths x, y, and z. Likewise, (chain<? length-compare x1 x2 x3 x4) test if the lengths x1
-x2 x3 x3 are strictly increasing, and so on (refer to Section 4.6).
+Now, (<? length-compare x y) tests if length x is shorter than length y. Also, (<=/<? length-compare a x b) tests if length x lies between length a (incl.) and length b (excl.) The expression (min-compare length-compare x y z) is a shortest of the lengths x, y, and z. Likewise, (chain<? length-compare x1 x2 x3 x4) test if the lengths x1 x2 x3 x3 are strictly increasing, and so on (refer to Section 4.6).
 
 Furthermore, assume there is another type box representing a physical box. The type has procedures width, height, and depth accessing the dimension (each giving a length).
+
 A compare procedure for boxes, comparing first by width then by height and then by depth, can be defined using the control structure refine-compare (Section 4.5) as:
 
-  (define (box-compare box1 box2)
-    (refine-compare
-      (length-compare (width  box1) (width  box2))
-      (length-compare (height box1) (height box2))
-      (length-compare (depth  box1) (depth  box2))))
+#+BEGIN_SRC scheme
+(define (box-compare box1 box2)
+  (refine-compare
+    (length-compare (width  box1) (width  box2))
+    (length-compare (height box1) (height box2))
+    (length-compare (depth  box1) (depth  box2))))
+#+END_SRC
 
-This time, (<? box-compare b1 b2) tests if box b1 is smaller than box b2 -- in the sense of the order defined. Of course, all the other tests, minimum, maximum etc. are
-available, too.
+This time, (<? box-compare b1 b2) tests if box b1 is smaller than box b2 -- in the sense of the order defined. Of course, all the other tests, minimum, maximum etc. are available, too.
 
-As a final complication, assume that there is also a type bowl with accessors radius (a length) and open? (a boolean). Bowls are to be compared first by whether they are
-open or closed, and then by radius. However, bowls and boxes also need to be compared to each other, ordered such that a bowl is considered ``smaller'' than a box. (There
-are type-test predicates box? and bowl?). Using the control structure select-compare (Section 4.5) this can be expressed as:
+As a final complication, assume that there is also a type bowl with accessors radius (a length) and open? (a boolean). Bowls are to be compared first by whether they are open or closed, and then by radius. However, bowls and boxes also need to be compared to each other, ordered such that a bowl is considered ``smaller'' than a box. (There are type-test predicates box? and bowl?). Using the control structure select-compare (Section 4.5) this can be expressed as:
 
+#+BEGIN_SRC scheme
 (define (container-compare c1 c2)
   (select-compare c1 c2
     (bowl? (boolean-compare (open?  c1) (open?  c2))
            (length-compare  (radius c1) (radius c2)))
     (box?  (box-compare c1 c2))
     (else "neither bowls nor boxes" c1 c2)))
+#+END_SRC
 
 This is an example of ``hierarchical extension'' of compare procedures, as explained in Section 5. Also note the implicit use of refine-compare in the bowl?-case.
 
-The preceeding example illustrates the main functionality of this SRFI. For other examples, refer to Section 4.4, and to the file examples.scm included in the reference
-implementation.
+The preceeding example illustrates the main functionality of this SRFI. For other examples, refer to Section 4.4, and to the file examples.scm included in the reference implementation.
 ** 3  Terminology and Conventions
 A compare procedure is a Scheme-procedure of two arguments returning an exact integer in { - 1,0,1} such that the valid input values are ordered according to some total order. A compare procedure, together with a set of Scheme values to which it is applicable, represents a compare function as defined in Section 5.
 
