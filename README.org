@@ -120,7 +120,7 @@ At first glance, one might expect the first complex number to be larger, because
 *** 4.2  Comparing lists and vectors
 In this section compare procedures are defined for Scheme lists and vectors -- and for objects that can be accessed like lists or like vectors.
 
-An object x can be accessed like a vector if there are procedures size and ref such that (size x) is a non-negative integer n indicating the number of elements, and (ref x i) is the i-th element of x for i [srfi-67-Z-G-D-4.png] {0, ..., n - 1}. The default vector access procedures are vector-length and vector-ref.
+An object x can be accessed like a vector if there are procedures size and ref such that (size x) is a non-negative integer n indicating the number of elements, and (ref x i) is the i-th element of x for i [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0, ..., n - 1}. The default vector access procedures are vector-length and vector-ref.
 
 An object x can be accessed like a (proper) list if there are procedures empty?, head, and tail such that (empty? x) is a boolean indicating that there are no elements in x, (head x) is the first element of x, and (tail x) is an object representing the residual elements of x. The default list access procedures are null?, car, and cdr.
 
@@ -277,17 +277,17 @@ These six macros are 2-way conditionals for comparisons. First <c> is evaluated,
 |--------+---------------------------------+---------------------------------|
 |        |<consequent>                     |<alternate>                      |
 |--------+---------------------------------+---------------------------------|
-|if=?    |c = 0                            |c [srfi-67-Z-G-D-4.png] { - 1, 1}|
+|if=?    |c = 0                            |c [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] { - 1, 1}|
 |--------+---------------------------------+---------------------------------|
-|if<?    |c = - 1                          |c [srfi-67-Z-G-D-4.png] {0, 1}   |
+|if<?    |c = - 1                          |c [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0, 1}   |
 |--------+---------------------------------+---------------------------------|
-|if>?    |c = 1                            |c [srfi-67-Z-G-D-4.png] { - 1, 0}|
+|if>?    |c = 1                            |c [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] { - 1, 0}|
 |--------+---------------------------------+---------------------------------|
-|if<=?   |c [srfi-67-Z-G-D-4.png] { - 1, 0}|c = 1                            |
+|if<=?   |c [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] { - 1, 0}|c = 1                            |
 |--------+---------------------------------+---------------------------------|
-|if>=?   |c [srfi-67-Z-G-D-4.png] {0, 1}   |c = - 1                          |
+|if>=?   |c [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0, 1}   |c = - 1                          |
 |--------+---------------------------------+---------------------------------|
-|if-not=?|c [srfi-67-Z-G-D-4.png] { - 1, 1}|c = 0                            |
+|if-not=?|c [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] { - 1, 1}|c = 0                            |
 |--------+---------------------------------+---------------------------------|
 **** Note:
 The macros if<=? etc. are the preferred way of 2-way branching based on the result of a comparison.
@@ -354,7 +354,7 @@ procedure:  (chain>=? compare x[1] ...)
 
 Test if the values x[1] ...(zero or more values) form a chain with respect to the relation specified by the name of the procedure, and with respect to the compare procedure compare. The result is a boolean (either #t or #f.) The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one.)
 
-A sequence of values x[1], ..., x[n] forms a chain with respect to the relation rel? if (rel? compare x[i] x[j]) for all 1 < i < j < n. In particular, this is the case for n [srfi-67-Z-G-D-4.png] {0,1}.
+A sequence of values x[1], ..., x[n] forms a chain with respect to the relation rel? if (rel? compare x[i] x[j]) for all 1 < i < j < n. In particular, this is the case for n [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
 
 Since the relations = , <, >, <, and > are transitive, it is sufficient to test (rel? compare x[i] x[i+1]) for 1 < i < n.
 
@@ -364,7 +364,7 @@ procedure:  (pairwise-not=? compare x[1] ...)
 
 Tests if the values x[1] ...(zero or more values) are pairwise unequal with respect to the compare procedure compare. The result is a boolean (either #t or #f). The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one).
 
-The values x[1], ..., x[n] are pairwise unequal if (not=? compare x[i] x[j]) for all i [srfi-67-Z-G-D-8.png] j. In particular, this is the case for n [srfi-67-Z-G-D-4.png] {0,1}.
+The values x[1], ..., x[n] are pairwise unequal if (not=? compare x[i] x[j]) for all i [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-8.png]] j. In particular, this is the case for n [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
 
 Since compare defines a total ordering on the values, the property can be checked in time O(n log n), and implementations are required to do this. (For example by first sorting and then comparing adjacent elements).
 **** min-compare and max-compare
@@ -426,109 +426,109 @@ At this point, a mathematician may wonder why we introduce compare functions in 
 
 In order to make this SRFI as accessible as possible we give the theorems and proofs explicitly, no matter how trivial they are.
 *** Definition:
-A compare function on a set [srfi-67-Z-G-1.png] is a function [srfi-67-Z-G-2.png] such that for all [srfi-67-Z-G-3.png]
+A compare function on a set [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-1.png]] is a function [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-2.png]] such that for all [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-3.png]]
 
-[srfi-67-Z-G-4.png]
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-4.png]]
 
 We call the properties (R) reflexivity, (A) antisymmetry, and (T) transitivity.
 *** The archetypical compare function is
-[srfi-67-Z-G-5.png]
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-5.png]]
 
-it compares real numbers with respect to their canonical order. Obviously, [srfi-67-Z-G-6.png] if and only if [srfi-67-Z-G-7.png], which we will fix as our sign convention: Instead of writing ``[srfi-67-Z-G-8.png]'' we will often simply write ``[srfi-67-Z-G-9.png]'' when the compare function [srfi-67-Z-G-10.png] is obvious from the context. (And of course, the convention extends to [srfi-67-Z-G-11.png], [srfi-67-Z-G-12.png], [srfi-67-Z-G-13.png], and [srfi-67-Z-G-14.png] in the obvious way.)
+it compares real numbers with respect to their canonical order. Obviously, [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-6.png]] if and only if [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-7.png]], which we will fix as our sign convention: Instead of writing ``[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-8.png]]'' we will often simply write ``[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-9.png]]'' when the compare function [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-10.png]] is obvious from the context. (And of course, the convention extends to [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-11.png]], [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-12.png]], [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-13.png]], and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-14.png]] in the obvious way.)
 
 The first theorem states that each compare function gives rise to an equivalence relation in a natural way.
 *** Theorem:
-Let [srfi-67-Z-G-15.png] be a compare function on [srfi-67-Z-G-16.png]. Then the relation [srfi-67-Z-G-17.png] defined by
+Let [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-15.png]] be a compare function on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-16.png]]. Then the relation [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-17.png]] defined by
 
-[srfi-67-Z-G-18.png]
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-18.png]]
 
-for [srfi-67-Z-G-19.png], is an equivalence relation on [srfi-67-Z-G-20.png].
+for [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-19.png]], is an equivalence relation on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-20.png]].
 *** Proof:
 Recall that an equivalence relation is reflexive, symmetric, and transitive [2]. We check:
 
-``Reflexive'': Consider [srfi-67-Z-G-21.png]. By (R) [srfi-67-Z-G-22.png], so [srfi-67-Z-G-23.png]
+``Reflexive'': Consider [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-21.png]]. By (R) [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-22.png]], so [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-23.png]]
 
-``Symmetric'': Consider [srfi-67-Z-G-24.png] such that [srfi-67-Z-G-25.png]. By definition of [srfi-67-Z-G-26.png] we have [srfi-67-Z-G-27.png]. By (A) this implies
-[srfi-67-Z-G-28.png]. Thus [srfi-67-Z-G-29.png].
+``Symmetric'': Consider [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-24.png]] such that [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-25.png]]. By definition of [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-26.png]] we have [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-27.png]]. By (A) this implies
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-28.png]]. Thus [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-29.png]].
 
-``Transitive'': Consider [srfi-67-Z-G-30.png] such that [srfi-67-Z-G-31.png] and [srfi-67-Z-G-32.png]. This means [srfi-67-Z-G-33.png]. By (T) this implies
-[srfi-67-Z-G-34.png]. Moreover, by symmetry also [srfi-67-Z-G-35.png] and by (T) this implies [srfi-67-Z-G-36.png]. Hence, [srfi-67-Z-G-37.png] meaning
-[srfi-67-Z-G-38.png].
+``Transitive'': Consider [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-30.png]] such that [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-31.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-32.png]]. This means [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-33.png]]. By (T) this implies
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-34.png]]. Moreover, by symmetry also [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-35.png]] and by (T) this implies [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-36.png]]. Hence, [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-37.png]] meaning
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-38.png]].
 
 The next theorem states that the equivalence classes defined by a compare function are also naturally ordered.
 *** Theorem:
-Let [srfi-67-Z-G-39.png] be a compare function on [srfi-67-Z-G-40.png] and let [srfi-67-Z-G-41.png] be the equivalence relation of the previous theorem. We write
-[srfi-67-Z-G-42.png] for the equivalence class containing [srfi-67-Z-G-43.png], i.e. [srfi-67-Z-G-44.png]. Then the relation [srfi-67-Z-G-45.png] defined by
+Let [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-39.png]] be a compare function on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-40.png]] and let [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-41.png]] be the equivalence relation of the previous theorem. We write
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-42.png]] for the equivalence class containing [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-43.png]], i.e. [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-44.png]]. Then the relation [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-45.png]] defined by
 
-[srfi-67-Z-G-46.png]
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-46.png]]
 
-for [srfi-67-Z-G-47.png], is a total order on the set [srfi-67-Z-G-48.png] of all equivalence classes.
+for [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-47.png]], is a total order on the set [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-48.png]] of all equivalence classes.
 *** Proof:
 Recall that a total order relation is reflexive, (weakly) antisymmetric, transitive, and all elements are comparable [1]. Again, we check:
 
-``Reflexive'': Consider [srfi-67-Z-G-49.png]. By (R) [srfi-67-Z-G-50.png], so [srfi-67-Z-G-51.png] for all [srfi-67-Z-G-52.png].
+``Reflexive'': Consider [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-49.png]]. By (R) [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-50.png]], so [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-51.png]] for all [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-52.png]].
 
-``Antisymmetric'': Consider [srfi-67-Z-G-53.png] such that [srfi-67-Z-G-54.png] and [srfi-67-Z-G-55.png]. By definition of [srfi-67-Z-G-56.png], this means
-[srfi-67-Z-G-57.png] and [srfi-67-Z-G-58.png] by (A). Hence, [srfi-67-Z-G-59.png] which means [srfi-67-Z-G-60.png].
+``Antisymmetric'': Consider [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-53.png]] such that [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-54.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-55.png]]. By definition of [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-56.png]], this means
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-57.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-58.png]] by (A). Hence, [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-59.png]] which means [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-60.png]].
 
-``Transitive'': Consider [srfi-67-Z-G-61.png] such that [srfi-67-Z-G-62.png] and [srfi-67-Z-G-63.png]. By definition of [srfi-67-Z-G-64.png] this means
-[srfi-67-Z-G-65.png] and [srfi-67-Z-G-66.png]. By (T) this implies [srfi-67-Z-G-67.png] which means [srfi-67-Z-G-68.png].
+``Transitive'': Consider [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-61.png]] such that [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-62.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-63.png]]. By definition of [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-64.png]] this means
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-65.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-66.png]]. By (T) this implies [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-67.png]] which means [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-68.png]].
 
-``Comparable'': For [srfi-67-Z-G-69.png], [srfi-67-Z-G-70.png] as [srfi-67-Z-G-71.png] is a compare function. Hence, [srfi-67-Z-G-72.png], meaning [srfi-67-Z-G-73.png], or
-[srfi-67-Z-G-74.png], meaning [srfi-67-Z-G-75.png] by (A).
+``Comparable'': For [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-69.png]], [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-70.png]] as [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-71.png]] is a compare function. Hence, [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-72.png]], meaning [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-73.png]], or
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-74.png]], meaning [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-75.png]] by (A).
 
 Finally, the last theorem shows the converse of the previous two: There is a unique compare function for each total order on a set of equivalence classes.
 *** Theorem:
-Let [srfi-67-Z-G-76.png] be a set, [srfi-67-Z-G-77.png] an equivalence relation on [srfi-67-Z-G-78.png], and [srfi-67-Z-G-79.png] a total order on the set of equivalence
-classes with respect to [srfi-67-Z-G-80.png]. Then the function [srfi-67-Z-G-81.png] defined by
+Let [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-76.png]] be a set, [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-77.png]] an equivalence relation on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-78.png]], and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-79.png]] a total order on the set of equivalence
+classes with respect to [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-80.png]]. Then the function [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-81.png]] defined by
 
-[srfi-67-Z-G-82.png]
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-82.png]]
 
-is a compare function on [srfi-67-Z-G-83.png] giving rise to the order [srfi-67-Z-G-84.png] and the equivalence relation [srfi-67-Z-G-85.png].
+is a compare function on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-83.png]] giving rise to the order [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-84.png]] and the equivalence relation [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-85.png]].
 *** Proof:
-First note that [srfi-67-Z-G-86.png] is well-defined as a function, because [srfi-67-Z-G-87.png] and [srfi-67-Z-G-88.png] imply [srfi-67-Z-G-89.png] (i.e.
-[srfi-67-Z-G-90.png]) by the fact that [srfi-67-Z-G-91.png] is (weakly) antisymmetric. We check the axioms of a compare function:
+First note that [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-86.png]] is well-defined as a function, because [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-87.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-88.png]] imply [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-89.png]] (i.e.
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-90.png]]) by the fact that [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-91.png]] is (weakly) antisymmetric. We check the axioms of a compare function:
 
-``(R)'': Reflexivity of [srfi-67-Z-G-92.png] implies [srfi-67-Z-G-93.png] for all [srfi-67-Z-G-94.png].
+``(R)'': Reflexivity of [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-92.png]] implies [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-93.png]] for all [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-94.png]].
 
-``(A)'': Consider [srfi-67-Z-G-95.png]. Then [srfi-67-Z-G-96.png] or [srfi-67-Z-G-97.png] because [srfi-67-Z-G-98.png] and [srfi-67-Z-G-99.png] are comparable with
-[srfi-67-Z-G-100.png]. If both properties hold then [srfi-67-Z-G-101.png], meaning [srfi-67-Z-G-102.png], so [srfi-67-Z-G-103.png]. Otherwise, either [srfi-67-Z-G-104.png]
-and [srfi-67-Z-G-105.png] or the signs are flipped. In either case, [srfi-67-Z-G-106.png].
+``(A)'': Consider [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-95.png]]. Then [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-96.png]] or [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-97.png]] because [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-98.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-99.png]] are comparable with
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-100.png]]. If both properties hold then [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-101.png]], meaning [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-102.png]], so [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-103.png]]. Otherwise, either [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-104.png]]
+and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-105.png]] or the signs are flipped. In either case, [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-106.png]].
 
-``(T)'': Consider [srfi-67-Z-G-107.png] such that [srfi-67-Z-G-108.png]. Then [srfi-67-Z-G-109.png] and [srfi-67-Z-G-110.png] by definition of [srfi-67-Z-G-111.png]. Since
-[srfi-67-Z-G-112.png] is transitive, this implies [srfi-67-Z-G-113.png], meaning [srfi-67-Z-G-114.png].
+``(T)'': Consider [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-107.png]] such that [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-108.png]]. Then [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-109.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-110.png]] by definition of [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-111.png]]. Since
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-112.png]] is transitive, this implies [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-113.png]], meaning [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-114.png]].
 
 At this point the mathematics of compare functions is finished. However, it is instructive to explore constructions making new compare functions from old ones.
 *** Sign flip:
-Let [srfi-67-Z-G-115.png] be a compare function on [srfi-67-Z-G-116.png]. Then [srfi-67-Z-G-117.png] is also a compare function on [srfi-67-Z-G-118.png]; it is identical
-to [srfi-67-Z-G-119.png].
+Let [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-115.png]] be a compare function on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-116.png]]. Then [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-117.png]] is also a compare function on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-118.png]]; it is identical
+to [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-119.png]].
 
-As it happens, there are only two functions [srfi-67-Z-G-120.png] mapping [srfi-67-Z-G-121.png] into itself such that [srfi-67-Z-G-122.png] is a compare function if
-[srfi-67-Z-G-123.png] is one: [srfi-67-Z-G-124.png] and [srfi-67-Z-G-125.png].
+As it happens, there are only two functions [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-120.png]] mapping [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-121.png]] into itself such that [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-122.png]] is a compare function if
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-123.png]] is one: [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-124.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-125.png]].
 *** Argument transformation:
-Let [srfi-67-Z-G-126.png] be a compare function on [srfi-67-Z-G-127.png] and consider a function [srfi-67-Z-G-128.png]. Then
+Let [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-126.png]] be a compare function on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-127.png]] and consider a function [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-128.png]]. Then
 
-[srfi-67-Z-G-129.png]
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-129.png]]
 
-is a compare function on the set [srfi-67-Z-G-130.png].
+is a compare function on the set [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-130.png]].
 
-One could be tempted to consider the case [srfi-67-Z-G-131.png], [srfi-67-Z-G-132.png]. But this only results in a compare function (i.e. (R), (A), (T) hold) if
-[srfi-67-Z-G-133.png], [srfi-67-Z-G-134.png], and [srfi-67-Z-G-135.png] are closely related.
+One could be tempted to consider the case [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-131.png]], [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-132.png]]. But this only results in a compare function (i.e. (R), (A), (T) hold) if
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-133.png]], [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-134.png]], and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-135.png]] are closely related.
 *** Refinement:
-Let [srfi-67-Z-G-136.png] be compare functions on the same set [srfi-67-Z-G-137.png]. Then
+Let [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-136.png]] be compare functions on the same set [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-137.png]]. Then
 
-[srfi-67-Z-G-138.png]
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-138.png]]
 
 is a compare function. By induction, this construction can be repeated a finite number of times, e.g. starting at the coarsest of all compare functions:
-[srfi-67-Z-G-139.png].
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-139.png]].
 *** Hierarchical extension:
-Let [srfi-67-Z-G-140.png] be disjoint sets and let [srfi-67-Z-G-141.png], [srfi-67-Z-G-142.png] be compare functions on [srfi-67-Z-G-143.png], [srfi-67-Z-G-144.png],
+Let [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-140.png]] be disjoint sets and let [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-141.png]], [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-142.png]] be compare functions on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-143.png]], [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-144.png]],
 respectively. Then
 
-[srfi-67-Z-G-145.png]
+[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-145.png]]
 
-is a compare function on [srfi-67-Z-G-146.png]. The function refines ``[srfi-67-Z-G-147.png]'' by [srfi-67-Z-G-148.png] on [srfi-67-Z-G-149.png] and [srfi-67-Z-G-150.png]
-on [srfi-67-Z-G-151.png], respectively. This construction can be generalized to an arbitrary family (mind the axiom of choice) of compare functions on disjoint domains.
+is a compare function on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-146.png]]. The function refines ``[[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-147.png]]'' by [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-148.png]] on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-149.png]] and [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-150.png]]
+on [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-151.png]], respectively. This construction can be generalized to an arbitrary family (mind the axiom of choice) of compare functions on disjoint domains.
 
 In Scheme, this SRFI defines macros refine-compare, select-compare, and cond-compare for providing convenient and efficient ways of defining refinement, hierarchical
 extension, argument transformation, and sign flip.
