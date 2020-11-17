@@ -5,6 +5,7 @@
  (synopsis "SRFI-67: Compare Procedures")
  (version "0.1")
  (category lang-exts)
+ (dependencies srfi-27)
  (test-dependencies test)
  (license "MIT")
  (components (extension srfi-67)))
