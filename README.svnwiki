@@ -727,7 +727,7 @@ For 2-way branching, the set { - 1,0,1} of results of a comparison is mapped ont
 
 The five monotonic functions can be generalized to chains of values. In order to make the compare procedure parameter optional in the ordinary comparisons, separate operations ({{chain<?}}, {{chain<=?}} etc.) are defined for chains. For the sixth operation ({{not=?}}) the generalization to pairwise unequality is defined as {{pairwise-not=?}}. This operation can be implemented efficiently because the compare procedure also defines a total order.
 
-As chains of length three are still frequently tested in programs (think of a range check "0 < i < n"), and often two different relations are combined, there are special operations for chains of length three ({{</<?}}, </<=?, etc.)
+As chains of length three are still frequently tested in programs (think of a range check "0 < i < n"), and often two different relations are combined, there are special operations for chains of length three ({{</<?}}, {{</<=?}}, etc.)
 
 For convenience, the compare procedure argument is made optional as often as possible. Unfortunately, this opens up a possibility for mistake: Writing {{(<=? x y z)}} where {{(<=/<=? x y z)}} is meant. Fortunately, the mistake will likely manifest itself at the time {{(x y z)}} is evaluated.
 ==== Why are <? etc. procedures, not macros?
