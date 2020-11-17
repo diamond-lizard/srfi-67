@@ -392,17 +392,17 @@ These six macros are 2-way conditionals for comparisons. First {{<c>}} is evalua
 ===== Note:
 The macros {{if<=?}} etc. are the preferred way of 2-way branching based on the result of a comparison.
 
-procedure:  (=? [ compare ] [ x y ])
+<procedure>(=? [ compare ] [ x y ])</procedure>
 
-procedure:  (<? [ compare ] [ x y ])
+<procedure>(<? [ compare ] [ x y ])</procedure>
 
-procedure:  (>? [ compare ] [ x y ])
+<procedure>(>? [ compare ] [ x y ])</procedure>
 
-procedure:  (<=? [ compare ] [ x y ])
+<procedure>(<=? [ compare ] [ x y ])</procedure>
 
-procedure:  (>=? [ compare ] [ x y ])
+<procedure>(>=? [ compare ] [ x y ])</procedure>
 
-procedure:  (not=? [ compare ] [ x y ])
+<procedure>(not=? [ compare ] [ x y ])</procedure>
 
 If the values {{x and y}} are given, test if {{x and y}} are in the relation specified by the name of the procedure rel?, with respect to compare procedure compare; otherwise construct a predicate procedure.
 
@@ -420,21 +420,21 @@ In the form {{(rel? [ compare ])}}, the predicate procedure {{(lambda (x y) (rel
 ===== Warning:
 A common mistake is writing {{(<=? x y z)}} where {{(<=/<=? x y z)}} is meant; this will most likely manifest itself at the time the expression (x y z) is evaluated.
 ===== Procedures
-procedure:  (</<? [ compare ] [ x y z ])
+<procedure>(</<? [ compare ] [ x y z ])</procedure>
 
-procedure:  (</<=? [ compare ] [ x y z ])
+<procedure>(</<=? [ compare ] [ x y z ])</procedure>
 
-procedure:  (<=/<? [ compare ] [ x y z ])
+<procedure>(<=/<? [ compare ] [ x y z ])</procedure>
 
-procedure:  (<=/<=? [ compare ] [ x y z ])
+<procedure>(<=/<=? [ compare ] [ x y z ])</procedure>
 
-procedure:  (>/>? [ compare ] [ x y z ])
+<procedure>(>/>? [ compare ] [ x y z ])</procedure>
 
-procedure:  (>/>=? [ compare ] [ x y z ])
+<procedure>(>/>=? [ compare ] [ x y z ])</procedure>
 
-procedure:  (>=/>? [ compare ] [ x y z ])
+<procedure>(>=/>? [ compare ] [ x y z ])</procedure>
 
-procedure:  (>=/>=? [ compare ] [ x y z ])
+<procedure>(>=/>=? [ compare ] [ x y z ])</procedure>
 
 Test if x, y, and z form a chain with the two relations specified by the name of the procedure rel1/rel2?, with respect to the compare procedure compare.
 
@@ -442,15 +442,15 @@ If compare is not provided, default-compare is used. If {{x y z}} are not provid
 ===== Note:
 {{(<=/<? real-compare 0 x 1)}} tests if {{x}} is a real number in the half open interval {{[0,1)}}.
 ===== chain procedures
-procedure:  (chain=? compare x[1] ...)
+<procedure>(chain=? compare x[1] ...)</procedure>
 
-procedure:  (chain<? compare x[1] ...)
+<procedure>(chain<? compare x[1] ...)</procedure>
 
-procedure:  (chain>? compare x[1] ...)
+<procedure>(chain>? compare x[1] ...)</procedure>
 
-procedure:  (chain<=? compare x[1] ...)
+<procedure>(chain<=? compare x[1] ...)</procedure>
 
-procedure:  (chain>=? compare x[1] ...)
+<procedure>(chain>=? compare x[1] ...)</procedure>
 
 Test if the values {{x[1] ...(zero or more values)}} form a chain with respect to the relation specified by the name of the procedure, and with respect to the compare procedure compare. The result is a boolean (either {{#t}} or {{#f}}.) The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one.)
 
