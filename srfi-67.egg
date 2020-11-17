@@ -1,0 +1,10 @@
+;;; srfi-67.egg -*- Scheme -*- vim: ft=scheme:
+
+((author "Sebastian Egner and Jens Axel Søgaard")
+ (maintainer "Sergey Goldgaber")
+ (synopsis "SRFI-67: Compare Procedures")
+ (version "0.1")
+ (category lang-exts)
+ (test-dependencies test)
+ (license "MIT")
+ (components (extension srfi-67)))
