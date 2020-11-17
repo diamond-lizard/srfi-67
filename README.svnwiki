@@ -825,7 +825,7 @@ The procedures {{=?}}, {{<?}} etc. accept an optional compare procedure but also
 
 The operations {{<?}} etc. are the primary mechanism for using compare procedures. As such they should be versatile and concise.
 
-Our original design had two mandatory arguments for objects to compare and an optional argument for the compare procedure, i.e. it provides a parametric comparison (<? compare x y) of two objects. Amir Livne Bar-On then raised the issue of having better support for a higher-order style of programming, i.e. ((<? compare) x y). (Refer to msg00012.)
+Our original design had two mandatory arguments for objects to compare and an optional argument for the compare procedure, i.e. it provides a parametric comparison {{(<? compare x y)}} of two objects. Amir Livne Bar-On then raised the issue of having better support for a higher-order style of programming, i.e. {{((<? compare) x y)}}. (Refer to msg00012.)
 
 However, in Scheme the higher-order style is less convenient than it is in curried programming languages like Haskell or ML. In practice this manifests itself as follows: The most basic and frequent case of comparing atomic objects with respect to the default ordering would read ((<=?) x y), which is just two parentheses short of optimal.
 
