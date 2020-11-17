@@ -272,11 +272,11 @@ An example of select-compare is the definition of default-compare given above.
 ===== syntax:
 (cond-compare <clause[1]> ...)
 ===== Syntax:
-Each {{<clause>}}, with the possible exception of the last, is of the form ((<t[1]> <t[2]>) <c[1]> ...) where <t[1]> and <t[2]> are expressions evaluating to booleans, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ``else clause'', which has the form (else <c[1]> ...).
+Each {{<clause>}}, with the possible exception of the last, is of the form {{((<t[1]> <t[2]>) <c[1]> ...)}} where {{<t[1]>}} and {{<t[2]>}} are expressions evaluating to booleans, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ``else clause'', which has the form (else <c[1]> ...).
 ===== Semantics:
 Cond-compare is another conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5).
 ===== Evaluation proceeds as follows:
-The clauses are evaluated one by one, from left to right. For clause ((<t[1]> <t[2]>) <c[1]> ...), first <t[1]> and <t[2]> are evaluated and the results are interpreted as boolean values. If both booleans are true then the overall value is (refine-compare <c[1]> ...). If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both booleans where true. If there are no clauses left (or there are no clauses to begin with), the result is 0.
+The clauses are evaluated one by one, from left to right. For clause ((<t[1]> <t[2]>) <c[1]> ...), first {{<t[1]>}} and {{<t[2]>}} are evaluated and the results are interpreted as boolean values. If both booleans are true then the overall value is (refine-compare <c[1]> ...). If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both booleans where true. If there are no clauses left (or there are no clauses to begin with), the result is 0.
 
 Cond-compare evaluates each expression at most once.
 ===== Rationale:
