@@ -240,11 +240,13 @@ Two objects of the same type type are compared as type-compare would, if there i
 ==== 4.5  Constructing compare procedures
 An important goal of this SRFI is to provide a mechanism for defining new compare procedures as conveniently as possible. The syntactic extensions defined in this section are the primary utilities for doing so.
 ===== syntax:
-(refine-compare <c[1]> ...)
 
-Syntax: The <c[i]> are expressions.
+<procedure>(refine-compare <c[1]> ...)</procedure>
+
+
+Syntax: The {{<c[i]>}} are expressions.
 ===== Semantics:
-The arguments <c[1]> ...are evaluated from left to right until a non-zero value is found (which then is the value) or until there are no more arguments to
+The arguments {{<c[1]> ...}} are evaluated from left to right until a non-zero value is found (which then is the value) or until there are no more arguments to
 evaluate (in which case the value is 0). It is allowed that there are no arguments at all.
 ===== Note:
 This macro is the preferred way to define a compare procedure as a refinement (refer to Section 5).
@@ -256,7 +258,9 @@ This macro is the preferred way to define a compare procedure as a refinement (r
     (compare-length (height r) (height s))))
 </enscript>
 ===== syntax:
-(select-compare <x[1]> <x[2]> <clause[1]> ...)
+
+<procedure>(select-compare <x[1]> <x[2]> <clause[1]> ...)</procedure>
+
 ===== Syntax:
 Each {{<clause>}}, with the possible exception of the last, is of the form {{(<type?> <c[1]> ...)}} where {{<type?>}} is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ``else clause'', which has the form (else <c[1]> ...).
 ===== Semantics:
@@ -270,7 +274,9 @@ Select-compare evaluates {{<x[1]>}} and {{<x[2]>}} exactly once, even in the abs
 ===== Note:
 An example of select-compare is the definition of default-compare given above.
 ===== syntax:
-(cond-compare <clause[1]> ...)
+
+<procedure>(cond-compare <clause[1]> ...)</procedure>
+
 ===== Syntax:
 Each {{<clause>}}, with the possible exception of the last, is of the form {{((<t[1]> <t[2]>) <c[1]> ...)}} where {{<t[1]>}} and {{<t[2]>}} are expressions evaluating to booleans, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ``else clause'', which has the form (else <c[1]> ...).
 ===== Semantics:
@@ -284,11 +290,13 @@ Cond-compare and select-compare only differ in the way the type tests are specif
 ==== 4.6  Using compare procedures
 The facilities defined in this section provide a mechanism for using a compare procedure (passed as a parameter) in the different situations arising in applications.
 ===== syntax:
-(if3 <c> <less> <equal> <greater>)
+
+<procedure>(if3 <c> <less> <equal> <greater>)</procedure>
+
 ===== Syntax:
 {{<c>}}, {{<less>}}, {{<equal>}}, and {{<greater>}} are expressions.
 ===== Semantics:
-If3 is the 3-way conditional for comparisons. First {{<c>}} is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. If {{c = - 1}} then the value of the if3-expression is obtained by evaluating <less>. If {{c = 0}} then <equal> is evaluated. If {{c = 1}} then <greater> is evaluated.
+If3 is the 3-way conditional for comparisons. First {{<c>}} is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. If {{c = - 1}} then the value of the if3-expression is obtained by evaluating <less>. If {{c = 0}} then {{<equal>}} is evaluated. If {{c = 1}} then <greater> is evaluated.
 ===== Note:
 As an example, the following procedure inserts {{x}} into the sorted list s, possibly replacing the first equivalent element.
 ===== Example
