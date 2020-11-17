@@ -813,7 +813,7 @@ Given our decision for optional compare, the question arises how to pass the opt
 
 Unfortunately, any particular choice here is a compromise, and it is also controversial. (Please refer to the discussion archive for details, in particular msg00051.) We have chosen for notational convenience in the common case (optional compare) and for consistency within this SRFI (leading optional argument).
 ==== Why chain<? etc. and not a predicate parameter?
-This SRFI specifies the five chain predicates {{chain=?}}, {{chain<?}}, {{chain>?}}, {{chain<=?}}, and {{chain>=?}}. An alterative is to define a single chain predicate that has the ordering as a parameter. (Refer to the discussion archive starting with msg00012.)
+This SRFI specifies the five chain predicates {{chain=?}}, {{chain<?}}, {{chain>?}}, {{chain<=?}}, and {{chain>=?}}. An alternative is to define a single chain predicate that has the ordering as a parameter. (Refer to the discussion archive starting with msg00012.)
 
 The reason we have chosen for five chain predicates is that we use compare procedures to represent orders, not predicate procedures. There are five possible order relations predicates for which a chain test makes sense. (The sixth, not=?, is not not transitive and hence requires pairwise testing.) The five chain tests are clearly defined and can be implemented efficiently, their main overhead being the call to the compare procedure.
 ==== Why not more higher-order procedures?
