@@ -725,7 +725,7 @@ Programs need both 2-way branching and 3-way branching. For 3-way branching, the
 
 For 2-way branching, the set { - 1,0,1} of results of a comparison is mapped onto the set {#f, #t}. There are eight functions from a 3-set into a 2-set; all six non-constant functions are provided as {{=?}}, <?, etc.
 
-The five monotonic functions can be generalized to chains of values. In order to make the compare procedure parameter optional in the ordinary comparisons, separate operations ({{chain<?}}, {{chain<=?}} etc.) are defined for chains. For the sixth operation (not=?) the generalization to pairwise unequality is defined as pairwise-not=?. This operation can be implemented efficiently because the compare procedure also defines a total order.
+The five monotonic functions can be generalized to chains of values. In order to make the compare procedure parameter optional in the ordinary comparisons, separate operations ({{chain<?}}, {{chain<=?}} etc.) are defined for chains. For the sixth operation ({{not=?}}) the generalization to pairwise unequality is defined as {{pairwise-not=?}}. This operation can be implemented efficiently because the compare procedure also defines a total order.
 
 As chains of length three are still frequently tested in programs (think of a range check "0 < i < n"), and often two different relations are combined, there are special operations for chains of length three (</<?, </<=?, etc.)
 
