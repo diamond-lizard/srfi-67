@@ -492,7 +492,7 @@ procedure:  (compare-by=/> eq-pred gt-pred [ x y ])
 
 If optional arguments {{x and y}} are present then these are compared with respect to the total order defined by the predicate(s) given; the result is in { - 1,0,1}. If {{x and y}} are not present then a procedure comparing its two arguments using the predicate(s) given is constructed and returned.
 
-The predicate procedures mean the following: (lt-pred x y) tests if x < y, le-pred tests for <, gt-pred for >, ge-pred for >, and eq-pred tests if {{x and y}} are equivalent. The result returned by a predicate procedure is interpreted as a Scheme truth value (i.e. {{#f}} is false and non-{{#f}} is true).
+The predicate procedures mean the following: {{(lt-pred x y)}} tests if {{x < y}}, {{le-pred}} tests for {{<}}, {{gt-pred}} for {{>}}, {{ge-pred}} for {{>}}, and {{eq-pred}} tests if {{x and y}} are equivalent. The result returned by a predicate procedure is interpreted as a Scheme truth value (i.e. {{#f}} is false and non-{{#f}} is true).
 
 The purpose of the procedures compare-bypredicate(s) is to define a compare procedure from an order predicate, and possibly an additional equivalence predicate. If an equivalence predicate eq-pred is given, it is called before the order predicate because the equivalence may be coarser than the total ordering, and it may also be cheaper.
 ===== Note:
@@ -622,14 +622,13 @@ respectively. Then
 is a compare function on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-146.png]]. The function refines "[[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-147.png]]" by [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-148.png]] on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-149.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-150.png]]
 on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-151.png]], respectively. This construction can be generalized to an arbitrary family (mind the axiom of choice) of compare functions on disjoint domains.
 
-In Scheme, this SRFI defines macros refine-compare, {{select-compare}}, and cond-compare for providing convenient and efficient ways of defining refinement, hierarchical
-extension, argument transformation, and sign flip.
+In Scheme, this SRFI defines macros refine-compare, {{select-compare}}, and {{cond-compare}} for providing convenient and efficient ways of defining refinement, hierarchical extension, argument transformation, and sign flip.
 === 6  Design Rationale
 In this section we present our reasoning behind the design decisions made for this SRFI. We would like to be explicit on this because we believe that design is not about the outcome of decisions but about the alternatives considered. The section is organized as a Q&A list.
 ==== Order predicates (2-way) or 3-way comparisons?
 It is mathematical tradition to specify a total order in terms of a "less or equal" (<) relation. This usually carries over to programming languages in the form of a <= predicate procedure.
 
-However, there are inherently three possible relations between two elements {{x and y}} with respect to a total order: x < y, x = y, and x > y. (With respect to a partial order there is a fourth: {{x and y}} are uncomparable.) This implies that any mechanism based on 2-valued operations (be it <, or ( = , <), or other) has cases in which two expressions must be evaluated in order to determine the relation between two elements.
+However, there are inherently three possible relations between two elements {{x and y}} with respect to a total order: x < y, x = y, and x > y. (With respect to a partial order there is a fourth: {{x and y}} are uncomparable.) This implies that any mechanism based on 2-valued operations (be it {{<}}, or ( {{=}} , {{<}}), or other) has cases in which two expressions must be evaluated in order to determine the relation between two elements.
 
 In practice, this is a problem if a comparison is computationally expensive. Examples of this are implicitly defined orders in which the order of elements depends on their relative position in some enumeration. (Think of comparing graphs by isomorphism type.) In this case, each order predicate is as expensive as a compare procedure -- implying that a proper 3-way branch could be twice as fast as cascaded 2-way branches. Hence, there is a potentially considerable loss in performance, and it is purely due to the interface for comparisons.
 
@@ -643,11 +642,11 @@ We have considered the following alternatives for representing the three possibl
 
  3. the sign of any Scheme number satisfying real?,
 
- 4. three different symbols (e.g. '<, '=, and '>),
+ 4. three different symbols (e.g. {{'<}}, {{'=}}, and {{'>}}),
 
  5. an enumeration type consisting of three elements, and
 
- 6. a built-in type with self-evaluating special constants (e.g. #<, #=, and #>).
+ 6. a built-in type with self-evaluating special constants (e.g. {{#<}}, {{#=}}, and {{#>}}).
 
 The representation acts as an internal interface between programs comparing objects and programs using these comparisons.
 
@@ -655,7 +654,7 @@ The advantage of using only three values is that the representation of each case
 
 The advantage of using a non-unique (numerical) representation is that the result of a computation can sometimes immediately be used in a branch, much like the "non-{{#f}} means true"-convention. However, with the operations in Section 4.6 this advantage hardly matters. Moreover, the "non-{{#f}} means true"-convention is a major cause of unexpected program behavior itself.
 
-The advantage of using { - 1, 0, 1} over using three symbols is that the integers support additional operations, for example they can directly be used in index computations. A particularly useful operation is (* sign (compare x y)) which inverts the order relation depending on sign (either - 1 or 1). In addition, the integers are unique -- once it is known that comparisons result in integers it is obvious which integers. A minor consideration is that Scheme systems usually treat small integers as unboxed values, and that integers are self-evaluating literals.
+The advantage of using { - 1, 0, 1} over using three symbols is that the integers support additional operations, for example they can directly be used in index computations. A particularly useful operation is {{(* sign (compare x y))}} which inverts the order relation depending on sign (either - 1 or 1). In addition, the integers are unique -- once it is known that comparisons result in integers it is obvious which integers. A minor consideration is that Scheme systems usually treat small integers as unboxed values, and that integers are self-evaluating literals.
 
 The advantage of using three symbols is that they can be chosen to be more descriptive. For example, it is more instructive to see (symbol-compare 'foo 'bar) result in 'greater than in 1. Unfortunately, there is no obvious choice of name for the three symbols. Amoung the choices that make sense are 'less 'equal 'greater, or 'lt 'eq 'gt, or '< '= '>. A disadvantage of using symbols for the three cases is that Scheme symbols are ordered, too, and this ordering may differ from the desired ordered for the three cases.
 
@@ -667,15 +666,15 @@ Given this situation, we have chosen for { - 1,0,1}, while providing facilities 
 ==== How to order complex numbers?
 Mathematically, no total order of the complex numbers exists which is compatible with the algebraic or topological structure. Nevertheless, it is useful for programming purposes to have some total order of complex numbers readily available.
 
-Several total orders on the complex numbers are at least compatible with the natural ordering of real numbers. The least surprising of these is lexicographic on (re, im).
+Several total orders on the complex numbers are at least compatible with the natural ordering of real numbers. The least surprising of these is lexicographic on ({{re, im}}).
 ==== How to order special floating point symbols?
-Floating point formats often do not only represent rational numbers but extend this set by special symbols, for example +Inf, -Inf, NaN ("Not a number"), and -0. How should these symbols be ordered with respect to the ordinary numerical values and with respect to each other? (Refer to the discussion archive starting with [[https://srfi.schemers.org/srfi-67/mail-archive/msg00010.html|msg00010]].)
+Floating point formats often do not only represent rational numbers but extend this set by special symbols, for example {{+Inf, -Inf, NaN}} ("Not a number"), and -0. How should these symbols be ordered with respect to the ordinary numerical values and with respect to each other? (Refer to the discussion archive starting with [[https://srfi.schemers.org/srfi-67/mail-archive/msg00010.html|msg00010]].)
 
 Let us briefly recall the purpose of the special symbols. The general rationale for introducing special symbols into a floating point format is for numerical calculations to continue in the presence of data-dependent errors, while still retaining some meaningful information about the result. The symbols +Inf and -Inf indicate that the calculation has produced a value exceeding the representable range. The special symbol -0, indicates that a calculation has produced a value of unrepresentable small magnitude, but retains the information that the underflow approached zero from the negative side (otherwise it would be +0). This sign information is useful in the presence of branch-cuts. Finally, NaN indicates that the information about the value has been lost entirely (example: -Inf + Inf) NaN avoids raising an exception and allows carrying on with other parts of the calculation. It should be noted that several NaNs can exist. For example in the IEEE 754 standard many bit patterns represent NaN (whatever the interpretation).
 
-As +Inf and -Inf are designed to represent extremal numbers, their ordering with respect to real numbers is obvious. For signed zeros, the ordering is also obvious. However, the notion of two zeros (or even three: -0, 0, and +0) is incompatible with the arithmetic structure of the real numbers. Hence, in most situations all zeros should be treated as equal, even though this can destroy information about results. But the alternative design may also make sense in certain situations where the full information carried in a floating point object is to be retained.
+As {{+Inf}} and {{-Inf}} are designed to represent extremal numbers, their ordering with respect to real numbers is obvious. For signed zeros, the ordering is also obvious. However, the notion of two zeros (or even three: -0, 0, and +0) is incompatible with the arithmetic structure of the real numbers. Hence, in most situations all zeros should be treated as equal, even though this can destroy information about results. But the alternative design may also make sense in certain situations where the full information carried in a floating point object is to be retained.
 
-For NaN (or even several NaNs) the situation is even more ambiguous because there is not even a natural order relation of NaN with the other possible floating point values. One design alternative is to raise an error if NaN is to participate in a comparison; the reasoning being "if the control flow depends on a NaN you are in trouble anyway". An alternative is to define some order by force; the reasoning being "if an object satisfies real? then it can be compared with real-compare." Neither approach is obviously better than the other.
+For NaN (or even several {{NaN}}s) the situation is even more ambiguous because there is not even a natural order relation of {{NaN}} with the other possible floating point values. One design alternative is to raise an error if NaN is to participate in a comparison; the reasoning being "if the control flow depends on a NaN you are in trouble anyway". An alternative is to define some order by force; the reasoning being "if an object satisfies real? then it can be compared with real-compare." Neither approach is obviously better than the other.
 
 Given this situation, we have decided to leave the effect of using a special floating point value in real-compare unspecified, in line with the approach of R^5RS . This approach might change once Scheme itself is more explicit about floating point representations and numerical computation.
 ==== How to define default-compare?
