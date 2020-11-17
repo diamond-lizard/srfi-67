@@ -398,9 +398,9 @@ procedure:  (not=? [ compare ] [ x y ])
 
 If the values {{x and y}} are given, test if {{x and y}} are in the relation specified by the name of the procedure rel?, with respect to compare procedure compare; otherwise construct a predicate procedure.
 
-In the forms (rel? [ compare ] x y), the result is a boolean (either {{#t}} or {{#f}}) depending on (compare x y) and the test rel? as specified for if<? etc. If compare is not supplied, default-compare is used.
+In the forms {{(rel? [ compare ] x y)}}, the result is a boolean (either {{#t}} or {{#f}}) depending on (compare x y) and the test rel? as specified for {{if<?}} etc. If compare is not supplied, default-compare is used.
 
-In the form (rel? [ compare ]), the predicate procedure (lambda (x y) (rel? compare x y)) is constructed. Again, if compare is not supplied, default-compare is used.
+In the form {{(rel? [ compare ])}}, the predicate procedure {{(lambda (x y) (rel? compare x y))}} is constructed. Again, if compare is not supplied, default-compare is used.
 ===== A few examples for illustration
 <enscript highlight="scheme">
 (>? "laugh" "LOUD") ===> #t
@@ -410,7 +410,7 @@ In the form (rel? [ compare ]), the predicate procedure (lambda (x y) (rel? comp
 (sort-by-less '(1 a "b") (>?)) ===> '(1 a "b")
 </enscript>
 ===== Warning:
-A common mistake is writing (<=? x y z) where (<=/<=? x y z) is meant; this will most likely manifest itself at the time the expression (x y z) is evaluated.
+A common mistake is writing {{(<=? x y z)}} where {{(<=/<=? x y z)}} is meant; this will most likely manifest itself at the time the expression (x y z) is evaluated.
 ===== Procedures
 procedure:  (</<? [ compare ] [ x y z ])
 
