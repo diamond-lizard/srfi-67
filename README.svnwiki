@@ -669,7 +669,7 @@ Mathematically, no total order of the complex numbers exists which is compatible
 
 Several total orders on the complex numbers are at least compatible with the natural ordering of real numbers. The least surprising of these is lexicographic on (re, im).
 ==== How to order special floating point symbols?
-Floating point formats often do not only represent rational numbers but extend this set by special symbols, for example +Inf, -Inf, NaN ("Not a number"), and -0. How should these symbols be ordered with respect to the ordinary numerical values and with respect to each other? (Refer to the discussion archive starting with msg00010.)
+Floating point formats often do not only represent rational numbers but extend this set by special symbols, for example +Inf, -Inf, NaN ("Not a number"), and -0. How should these symbols be ordered with respect to the ordinary numerical values and with respect to each other? (Refer to the discussion archive starting with [[https://srfi.schemers.org/srfi-67/mail-archive/msg00010.html|msg00010]].)
 
 Let us briefly recall the purpose of the special symbols. The general rationale for introducing special symbols into a floating point format is for numerical calculations to continue in the presence of data-dependent errors, while still retaining some meaningful information about the result. The symbols +Inf and -Inf indicate that the calculation has produced a value exceeding the representable range. The special symbol -0, indicates that a calculation has produced a value of unrepresentable small magnitude, but retains the information that the underflow approached zero from the negative side (otherwise it would be +0). This sign information is useful in the presence of branch-cuts. Finally, NaN indicates that the information about the value has been lost entirely (example: -Inf + Inf) NaN avoids raising an exception and allows carrying on with other parts of the calculation. It should be noted that several NaNs can exist. For example in the IEEE 754 standard many bit patterns represent NaN (whatever the interpretation).
 
@@ -710,7 +710,7 @@ The choice affects vector-compare, default-compare, and the way orders are inter
 * 1. Conceptually vectors and lists are representations of sequences, and if there is only one ordering for them it should be LEX.
 * 2. LENGTH-LEX is more fundamental and efficient for types supporting a constant-time `size' operation.
 * 3. Conceptually strings are "vectors of characters" and strings are conventionally ordered LEX by default, so vectors should be ordered LEX as well in order to minimize the potential for confusion.
-(Please refer to the discussion archive for details, in particular msg00054.)
+(Please refer to the discussion archive for details, in particular [[https://srfi.schemers.org/srfi-67/mail-archive/msg00054.html|msg00054]].)
 ===== We consider 2. the most important due to its mathematical nature, followed by 1. because it simplifies the design.
 While this controversial, we think that it is preferable to introduce different orders for different data types, and not derive every order from a single one for sequences. Finally, we consider 3. a weak argument because the default ordering of strings is motivated primarily historically for ordering written words of (small alphabet) natural languages.
 ===== Concerning other vector-like data types, such as those introduced by SRFI 66 and 74, we recommend to define a default ordering which appears most natural for the type.
@@ -811,9 +811,9 @@ In the cases where we have chosen to make compare optional it is for the sake of
 
 Given our decision for optional compare, the question arises how to pass the option. In the absence of other widely accepted mechanisms for options, we can only vary the length of the argument list. For historical reasons -- before case-lambda of SRFI 16 -- optional arguments are passed at the end of the argument list for simplified parsing. On the other hand, {{(<? compare x y)}} is more consistent with the rest of the SRFI than {{(<? x y compare)}}.
 
-Unfortunately, any particular choice here is a compromise, and it is also controversial. (Please refer to the discussion archive for details, in particular msg00051.) We have chosen for notational convenience in the common case (optional compare) and for consistency within this SRFI (leading optional argument).
+Unfortunately, any particular choice here is a compromise, and it is also controversial. (Please refer to the discussion archive for details, in particular [[https://srfi.schemers.org/srfi-67/mail-archive/msg00051.html|msg00051]].) We have chosen for notational convenience in the common case (optional compare) and for consistency within this SRFI (leading optional argument).
 ==== Why chain<? etc. and not a predicate parameter?
-This SRFI specifies the five chain predicates {{chain=?}}, {{chain<?}}, {{chain>?}}, {{chain<=?}}, and {{chain>=?}}. An alternative is to define a single chain predicate that has the ordering as a parameter. (Refer to the discussion archive starting with msg00012.)
+This SRFI specifies the five chain predicates {{chain=?}}, {{chain<?}}, {{chain>?}}, {{chain<=?}}, and {{chain>=?}}. An alternative is to define a single chain predicate that has the ordering as a parameter. (Refer to the discussion archive starting with [[https://srfi.schemers.org/srfi-67/mail-archive/msg00012.html|msg00012]].)
 
 The reason we have chosen for five chain predicates is that we use compare procedures to represent orders, not predicate procedures. There are five possible order relations predicates for which a chain test makes sense. (The sixth, not=?, is not not transitive and hence requires pairwise testing.) The five chain tests are clearly defined and can be implemented efficiently, their main overhead being the call to the compare procedure.
 ==== Why not more higher-order procedures?
@@ -825,11 +825,11 @@ The procedures {{=?}}, {{<?}} etc. accept an optional compare procedure but also
 
 The operations {{<?}} etc. are the primary mechanism for using compare procedures. As such they should be versatile and concise.
 
-Our original design had two mandatory arguments for objects to compare and an optional argument for the compare procedure, i.e. it provides a parametric comparison {{(<? compare x y)}} of two objects. Amir Livne Bar-On then raised the issue of having better support for a higher-order style of programming, i.e. {{((<? compare) x y)}}. (Refer to msg00012.)
+Our original design had two mandatory arguments for objects to compare and an optional argument for the compare procedure, i.e. it provides a parametric comparison {{(<? compare x y)}} of two objects. Amir Livne Bar-On then raised the issue of having better support for a higher-order style of programming, i.e. {{((<? compare) x y)}}. (Refer to [[https://srfi.schemers.org/srfi-67/mail-archive/msg00012.html|msg00012]].)
 
 However, in Scheme the higher-order style is less convenient than it is in curried programming languages like Haskell or ML. In practice this manifests itself as follows: The most basic and frequent case of comparing atomic objects with respect to the default ordering would read {{((<=?) x y)}}, which is just two parentheses short of optimal.
 
-Fortunately, Dave Mason proposed a syntax for resolving the apparent alternative parametric test vs. higher order style. (Refer to msg00014.) By combining both functionalities into a single procedure, the user can choose the style at any moment.
+Fortunately, Dave Mason proposed a syntax for resolving the apparent alternative parametric test vs. higher order style. (Refer to [[https://srfi.schemers.org/srfi-67/mail-archive/msg00014.html|msg00014]].) By combining both functionalities into a single procedure, the user can choose the style at any moment.
 === 7  Related work
 The use of compare procedures is not new; defining control structures ({{if3}}, {{select-compare}} etc.) for dealing with them efficiently, however, seems to be new (at least we have not seen it before).
 
