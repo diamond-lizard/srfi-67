@@ -26,10 +26,10 @@ These control structures can be used in the definition of a (potentially recursi
 Assume there is a type length representing physical length. The type has an accessor procedure meters returning the length in meters (a real number). A compare procedure
 for lengths can then be defined in terms of real-compare (Section 4.1) as:
 
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define (length-compare length1 length2)
   (real-compare (meters length1) (meters length2)))
-#+END_SRC
+</enscript>
 
 Now, (<? length-compare x y) tests if length x is shorter than length y. Also, (<=/<? length-compare a x b) tests if length x lies between length a (incl.) and length b (excl.) The expression (min-compare length-compare x y z) is a shortest of the lengths x, y, and z. Likewise, (chain<? length-compare x1 x2 x3 x4) test if the lengths x1 x2 x3 x3 are strictly increasing, and so on (refer to Section 4.6).
 
@@ -37,26 +37,26 @@ Furthermore, assume there is another type box representing a physical box. The t
 
 A compare procedure for boxes, comparing first by width then by height and then by depth, can be defined using the control structure refine-compare (Section 4.5) as:
 
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define (box-compare box1 box2)
   (refine-compare
     (length-compare (width  box1) (width  box2))
     (length-compare (height box1) (height box2))
     (length-compare (depth  box1) (depth  box2))))
-#+END_SRC
+</enscript>
 
 This time, (<? box-compare b1 b2) tests if box b1 is smaller than box b2 -- in the sense of the order defined. Of course, all the other tests, minimum, maximum etc. are available, too.
 
 As a final complication, assume that there is also a type bowl with accessors radius (a length) and open? (a boolean). Bowls are to be compared first by whether they are open or closed, and then by radius. However, bowls and boxes also need to be compared to each other, ordered such that a bowl is considered ``smaller'' than a box. (There are type-test predicates box? and bowl?). Using the control structure select-compare (Section 4.5) this can be expressed as:
 
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define (container-compare c1 c2)
   (select-compare c1 c2
     (bowl? (boolean-compare (open?  c1) (open?  c2))
            (length-compare  (radius c1) (radius c2)))
     (box?  (box-compare c1 c2))
     (else "neither bowls nor boxes" c1 c2)))
-#+END_SRC
+</enscript>
 
 This is an example of ``hierarchical extension'' of compare procedures, as explained in Section 5. Also note the implicit use of refine-compare in the bowl?-case.
 
@@ -87,12 +87,12 @@ Compare characters as char<=? and char-ci<=? respectively. The suffix -ci means 
 **** procedure:  (string-compare-ci string[1] string[2])
 Compare strings as string<= and string-ci<=?. The suffix -ci means ``case insensitive.''
 **** Note:   Compare-string could be defined as
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define (string-compare string1 string2)
   (vector-compare-as-list char-compare
                           string1 string2
                           string-length string-ref))
-#+END_SRC
+</enscript>
 **** procedure:  (symbol-compare symbol[1] symbol[2])
 Compares symbols as string<= on the names returned by symbol->string.
 **** procedure:  (integer-compare x y)
@@ -110,11 +110,11 @@ Floating point formats usually include several symbolic values not simply repres
 **** Warning:
 The propagation of inexactness can lead to surprises.
 ***** In a Scheme system propagating inexactness in complex numbers (such as PLT, version 208):
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (complex-compare (make-rectangular (/ 1 3)  1.)
                  (make-rectangular (/ 1 3) -1))
 ===> -1
-#+END_SRC
+</enscript>
 
 At first glance, one might expect the first complex number to be larger, because the numbers are equal on their real parts and the first imaginary part (1.) is larger than the second (-1). Closer inspection reveals that the decimal dot causes the first real part to be made inexact upon construction of the complex number, and since (exact-> inexact (/ 1 3)) is less than (/ 1 3) in the underlying floating point format used, the real parts decide the comparison of the complex numbers.
 *** 4.2  Comparing lists and vectors
@@ -135,22 +135,22 @@ The procedure named access-compare-as-order accesses the objects like access and
 abbreviations for type-compare-as-type.
 **** Examples:
 
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (list-compare           '(2) '(1 2))    ===>  1
 (list-compare-as-vector '(2) '(1 2))    ===> -1
 (vector-compare         '#(2) '#(1 2))  ===> -1
 (vector-compare-as-list '#(2) '#(1 2))  ===>  1
-#+END_SRC
+</enscript>
 *** 4.3  Comparing pairs and improper lists
 In this section, compare procedures for Scheme pairs and (possibly) improper lists are defined.
 **** procedure:  (pair-compare-car compare)
 **** procedure:  (pair-compare-cdr compare)
 Construct a compare procedure on pairs which only uses the car (only the cdr, respectively), and ignores the other.
 **** One could define
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define (pair-compare-car compare)
    (lambda (x y) (compare (car x) (car y))))
-#+END_SRC
+</enscript>
 **** Rationale:
 Pair-compare-car can be used to turn a search data structure (e.g. a heap) into a dictionary: Store (key . value) pairs and compare them using the compare procedure (pair-compare-car compare-key).
 **** procedure:  (pair-compare compare-car compare-cdr pair[1] pair[2])
@@ -167,12 +167,12 @@ Two objects of type neither-null-nor-pair are compared using compare. Two pairs 
 
 The 2-ary form uses default-compare for compare.
 
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (pair-compare '() 'foo)      ===>  -1
 (pair-compare '() '(1 . 2))) ===>  -1
 (pair-compare '(1 . 2) 'foo) ===>  -1
 (pair-compare 3 4)           ===>  -1
-#+END_SRC
+</enscript>
 *** 4.4  The default compare procedure
 It is convenient to have a compare procedure readily available for comparing most built-in types.
 **** procedure:  (default-compare obj[1] obj[2])
@@ -183,7 +183,7 @@ null < pair < boolean < char < string < symbol < number < vector < other
 Two objects of the same type type are compared as type-compare would, if there is such a procedure. The type null consists of the empty list '(). The effect of comparing two other objects or of comparing cyclic structures (made from lists or vectors) is unspecified. (Implementations are encouraged to add comparisons for other built-in types, e.g. records, regexps, etc.)
 **** Rationale:   Default-compare refines pair-compare by splitting neither-null-nor-pair.
 **** Note:   Default-compare could be defined as follows (mind the order of the cases!):
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define (default-compare x y)
   (select-compare x y
     (null?    0)
@@ -196,7 +196,7 @@ Two objects of the same type type are compared as type-compare would, if there i
     (number?  (number-compare  x y))
     (vector?  (vector-compare default-compare x y))
     (else (error "unrecognized types" x y))))
-#+END_SRC
+</enscript>
 *** 4.5  Constructing compare procedures
 An important goal of this SRFI is to provide a mechanism for defining new compare procedures as conveniently as possible. The syntactic extensions defined in this section are the primary utilities for doing so.
 **** syntax:
@@ -209,12 +209,12 @@ evaluate (in which case the value is 0). It is allowed that there are no argumen
 **** Note:
 This macro is the preferred way to define a compare procedure as a refinement (refer to Section 5).
 **** Example:
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define (compare-rectangle r s)
   (refine-compare
     (compare-length (width  r) (width  s))
     (compare-length (height r) (height s))))
-#+END_SRC
+</enscript>
 **** syntax:
 (select-compare <x[1]> <x[2]> <clause[1]> ...)
 **** Syntax:
@@ -252,7 +252,7 @@ If3 is the 3-way conditional for comparisons. First <c> is evaluated, resulting 
 **** Note:
 As an example, the following procedure inserts x into the sorted list s, possibly replacing the first equivalent element.
 **** Example
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define (insert compare x s)
   (if (null? s)
       (list x)
@@ -260,7 +260,7 @@ As an example, the following procedure inserts x into the sorted list s, possibl
            (cons x s)
            (cons x (cdr s)) ; replace
            (cons (car s) (insert compare x (cdr s))))))
-#+END_SRC
+</enscript>
 **** Rationale:
 If3 is the preferred way of branching on the result of a comparison in case all three branches are different.
 ***** syntax:  (if=? <c> <consequent> [ <alternate> ])
@@ -309,13 +309,13 @@ In the forms (rel? [ compare ] x y), the result is a boolean (either #t or #f) d
 
 In the form (rel? [ compare ]), the predicate procedure (lambda (x y) (rel? compare x y)) is constructed. Again, if compare is not supplied, default-compare is used.
 **** A few examples for illustration
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (>? "laugh" "LOUD") ===> #t
 (<? string-compare-ci "laugh" "LOUD") ===> #t
 (define char<=? (<=? char-compare))
 (sort-by-less '(1 a "b") (<?)) ===> '("b" a 1)
 (sort-by-less '(1 a "b") (>?)) ===> '(1 a "b")
-#+END_SRC
+</enscript>
 **** Warning:
 A common mistake is writing (<=? x y z) where (<=/<=? x y z) is meant; this will most likely manifest itself at the time the expression (x y z) is evaluated.
 **** Procedures
@@ -405,9 +405,9 @@ The purpose of the procedures compare-bypredicate(s) is to define a compare proc
 **** Note:
 Char-compare could be defined in terms of char<=? as
 
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define char-compare (compare-by<= char<=?))
-#+END_SRC
+</enscript>
 **** debug-compare
 procedure:  (debug-compare compare)
 
@@ -662,7 +662,7 @@ In reverse, one could be tempted to define a ``compare function'' c from just an
 
 This is also reflected in the fact that there are efficient (log-time) search data structures based on a total order, but we know of no efficient (sublinear worst-case) data structures based solely on an equivalence relation. The following program takes time and space O(h), where h is the number of equivalence classes in use:
 
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (define (equal->compare equal)
   (let ((reps '()) (length-reps 0))
     (define (index x)
@@ -677,7 +677,7 @@ This is also reflected in the fact that there are efficient (log-time) search da
                 (loop (- i 1) (cdr rs))))))
     (lambda (x y)
       (integer-compare (index x) (index y)))))
-#+END_SRC
+</enscript>
 
 If equal is an equivalence predicate (i.e. it is reflexive, symmetric, and transitive) then (equal->compare equal) is a compare procedure for the objects comparable by equal. The total order defined is unspecified (as it depends on call sequence).
 
@@ -689,12 +689,12 @@ Alternatively, each expression involving a reference to an R^5RS order predicate
 
 However, if the meaning of an expression may be altered, it is often possible to increase type safety or simplicity. Consider for example the following potential replacements of (and (<= 0 i) (< i n)):
 
-#+BEGIN_SRC scheme
+<enscript highlight="scheme">
 (and (<=? real-compare 0 i) (<? real-compare i n))
 (<=/<? real-compare 0 i n)    ; always compares n
 (<=/<? integer-compare 0 i n) ; only integer i, n
 (<=/<? 0 i n)                 ; uses default-compare
-#+END_SRC
+</enscript>
 
 Only the first alternative is equivalent to the original expression, but the other alternatives might be useful, too, depending on the goal.
 *** Why be so tight with types?
