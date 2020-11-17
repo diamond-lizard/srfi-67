@@ -699,9 +699,9 @@ What is the "natural order" of lists and vectors?
 
 By "natural order" of an abstract data type we mean a total order that is defined to match the basic operations operations supported by the data type.
 
-The basic access operations with constant execution time for Scheme lists are null?, car, and cdr. These are exactly the operations needed for comparing two sequences lexicographically.
+The basic access operations with constant execution time for Scheme lists are null?, {{car}}, and {{cdr}}. These are exactly the operations needed for comparing two sequences lexicographically.
 
-The constant time access operations for Scheme vectors are vector-length (size) and vector-ref (ref). Using these operations, the fundamental ordering of vectors is first comparing by size, and only if the sizes are equal, by comparing the elements lexicographically.
+The constant time access operations for Scheme vectors are {{vector-length}} ({{size}}) and {{vector-ref}} ({{ref}}). Using these operations, the fundamental ordering of vectors is first comparing by size, and only if the sizes are equal, by comparing the elements lexicographically.
 ==== Why are vectors not ordered lexicographically?
 In this SRFI, lists and strings are ordered lexicographically ("LEX") by default, e.g. {{"12" < "2"}}. The default order of vectors is first by length and then lexicographically ("LENGTH-LEX"), e.g. {{#(2) < #(1 2)}}. Alternatively, vectors could be ordered purely lexicographically, too. In the extreme, lists, strings, and vectors could even be ordered lexicographically as sequences without distinguishing the concrete representation, implying {{"12" = (#\1 #\2) = #(#\1 #\2)}}.
 
