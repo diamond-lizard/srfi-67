@@ -31,7 +31,7 @@ for lengths can then be defined in terms of real-compare (Section 4.1) as:
   (real-compare (meters length1) (meters length2)))
 #+END_SRC
 
-Now, (<? length-compare x y) tests if length x is shorter than length y. Also, (<=/<? length-compare a x b) tests if length x lies between length a (incl.) and length b (excl.) The expression (min-compare length-compare x y z) is a shortest of the lengths x, y, and z. Likewise, (chain<? length-compare x1 x2 x3 x4) test if the lengths x1 x2 x3 x3 are strictly increasing, and so on (refer to Section 4.6).
+Now, (<? length-compare x y) tests if length {{x}} is shorter than length y. Also, (<=/<? length-compare a x b) tests if length {{x}} lies between length a (incl.) and length b (excl.) The expression (min-compare length-compare x y z) is a shortest of the lengths x, y, and z. Likewise, (chain<? length-compare x1 x2 x3 x4) test if the lengths x1 x2 x3 x3 are strictly increasing, and so on (refer to Section 4.6).
 
 Furthermore, assume there is another type box representing a physical box. The type has procedures width, height, and depth accessing the dimension (each giving a length).
 
@@ -68,7 +68,7 @@ A comparison is either an expression applying a compare procedure to two values,
 
 Each operation (macro or procedure) processing the value of a comparison checks if the value is indeed an exact integer in the set { - 1,0,1}. If this is not the case, an error is signalled.
 
-Compare procedures expecting certain types of argument should raise an error in case the arguments are not of this type. For most compare procedures specified in this SRFI, this behavior is required. A compare procedure compare can be used for type-checking value x by evaluating (compare x x), in case that is desired. This is useful in procedures like chain<? which guarantee to check each argument unconditionally.
+Compare procedures expecting certain types of argument should raise an error in case the arguments are not of this type. For most compare procedures specified in this SRFI, this behavior is required. A compare procedure compare can be used for type-checking value {{x}} by evaluating (compare x x), in case that is desired. This is useful in procedures like chain<? which guarantee to check each argument unconditionally.
 ** 4  Specification
 *** 4.1  Comparing atoms
 In this section, compare procedures for most of the atomic types of R^5RS are defined: Booleans, characters, strings, symbols, and numbers.
@@ -120,16 +120,16 @@ At first glance, one might expect the first complex number to be larger, because
 *** 4.2  Comparing lists and vectors
 In this section compare procedures are defined for Scheme lists and vectors -- and for objects that can be accessed like lists or like vectors.
 
-An object x can be accessed like a vector if there are procedures size and ref such that (size x) is a non-negative integer n indicating the number of elements, and (ref x i) is the i-th element of x for i [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0, ..., n - 1}. The default vector access procedures are vector-length and vector-ref.
+An object {{x}} can be accessed like a vector if there are procedures size and ref such that (size x) is a non-negative integer n indicating the number of elements, and (ref x i) is the i-th element of {{x}} for i [[https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0, ..., n - 1}. The default vector access procedures are vector-length and vector-ref.
 
-An object x can be accessed like a (proper) list if there are procedures empty?, head, and tail such that (empty? x) is a boolean indicating that there are no elements in x, (head x) is the first element of x, and (tail x) is an object representing the residual elements of x. The default list access procedures are null?, car, and cdr.
+An object {{x}} can be accessed like a (proper) list if there are procedures empty?, head, and tail such that (empty? x) is a boolean indicating that there are no elements in x, (head x) is the first element of x, and (tail x) is an object representing the residual elements of x. The default list access procedures are null?, car, and cdr.
 
 Independent of the way the elements are accessed, the natural ordering of vectors and lists differs: Sequences are compared as vectors if shorter sequences are smaller than longer sequences, and sequences of the same size are compared lexicographically. Sequences are compared as lists if the empty sequence is smallest, and two non-empty sequences are compared by their first elements, and only if the first elements are equal the residual sequences are compared, recursively.
 **** procedure:  (vector-compare [ compare ] x y [ size ref ])
 **** procedure:  (vector-compare-as-list [ compare ] x y [ size ref ])
 **** procedure:  (list-compare [ compare ] x y [ empty? head tail ])
 **** procedure:  (list-compare-as-vector [ compare ] x y [ empty? head tail ])
-Compare two sequences x and y, using compare for comparing elements. The result is an exact integer in { - 1, 0, 1}. If compare is not supplied, default-compare is used.
+Compare two sequences {{x}} and y, using compare for comparing elements. The result is an exact integer in { - 1, 0, 1}. If compare is not supplied, default-compare is used.
 
 The procedure named access-compare-as-order accesses the objects like access and compares them with respect to the order given by order. The names type-compare are
 abbreviations for type-compare-as-type.
@@ -250,7 +250,7 @@ The facilities defined in this section provide a mechanism for using a compare p
 **** Semantics:
 If3 is the 3-way conditional for comparisons. First <c> is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. If c = - 1 then the value of the if3-expression is obtained by evaluating <less>. If c = 0 then <equal> is evaluated. If c = 1 then <greater> is evaluated.
 **** Note:
-As an example, the following procedure inserts x into the sorted list s, possibly replacing the first equivalent element.
+As an example, the following procedure inserts {{x}} into the sorted list s, possibly replacing the first equivalent element.
 **** Example
 #+BEGIN_SRC scheme
 (define (insert compare x s)
@@ -304,7 +304,7 @@ procedure:  (>=? [ compare ] [ x y ])
 
 procedure:  (not=? [ compare ] [ x y ])
 
-If the values x and y are given, test if x and y are in the relation specified by the name of the procedure rel?, with respect to compare procedure compare; otherwise construct a predicate procedure.
+If the values {{x}} and y are given, test if {{x}} and y are in the relation specified by the name of the procedure rel?, with respect to compare procedure compare; otherwise construct a predicate procedure.
 
 In the forms (rel? [ compare ] x y), the result is a boolean (either #t or #f) depending on (compare x y) and the test rel? as specified for if<? etc. If compare is not supplied, default-compare is used.
 
@@ -338,7 +338,7 @@ procedure:  (>=/>=? [ compare ] [ x y z ])
 
 Test if x, y, and z form a chain with the two relations specified by the name of the procedure rel1/rel2?, with respect to the compare procedure compare.
 
-If compare is not provided, default-compare is used. If x y z are not provided, a predicate procedure of three arguments is constructed. The order in which the values are compared is unspecified, but each value is compared at least once.
+If compare is not provided, default-compare is used. If {{x}} y z are not provided, a predicate procedure of three arguments is constructed. The order in which the values are compared is unspecified, but each value is compared at least once.
 **** Note:
 (<=/<? real-compare 0 x 1) tests if x is a real number in the half open interval [0,1).
 **** chain procedures
@@ -398,9 +398,9 @@ procedure:  (compare-by=/< eq-pred lt-pred [ x y ])
 
 procedure:  (compare-by=/> eq-pred gt-pred [ x y ])
 
-If optional arguments x and y are present then these are compared with respect to the total order defined by the predicate(s) given; the result is in { - 1,0,1}. If x and y are not present then a procedure comparing its two arguments using the predicate(s) given is constructed and returned.
+If optional arguments {{x}} and y are present then these are compared with respect to the total order defined by the predicate(s) given; the result is in { - 1,0,1}. If {{x}} and y are not present then a procedure comparing its two arguments using the predicate(s) given is constructed and returned.
 
-The predicate procedures mean the following: (lt-pred x y) tests if x < y, le-pred tests for <, gt-pred for >, ge-pred for >, and eq-pred tests if x and y are equivalent. The result returned by a predicate procedure is interpreted as a Scheme truth value (i.e. #f is false and non-#f is true).
+The predicate procedures mean the following: (lt-pred x y) tests if x < y, le-pred tests for <, gt-pred for >, ge-pred for >, and eq-pred tests if {{x}} and y are equivalent. The result returned by a predicate procedure is interpreted as a Scheme truth value (i.e. #f is false and non-#f is true).
 
 The purpose of the procedures compare-bypredicate(s) is to define a compare procedure from an order predicate, and possibly an additional equivalence predicate. If an equivalence predicate eq-pred is given, it is called before the order predicate because the equivalence may be coarser than the total ordering, and it may also be cheaper.
 **** Note:
@@ -537,7 +537,7 @@ In this section we present our reasoning behind the design decisions made for th
 *** Order predicates (2-way) or 3-way comparisons?
 It is mathematical tradition to specify a total order in terms of a ``less or equal'' (<) relation. This usually carries over to programming languages in the form of a <= predicate procedure.
 
-However, there are inherently three possible relations between two elements x and y with respect to a total order: x < y, x = y, and x > y. (With respect to a partial order there is a fourth: x and y are uncomparable.) This implies that any mechanism based on 2-valued operations (be it <, or ( = , <), or other) has cases in which two expressions must be evaluated in order to determine the relation between two elements.
+However, there are inherently three possible relations between two elements {{x}} and y with respect to a total order: x < y, x = y, and x > y. (With respect to a partial order there is a fourth: {{x}} and y are uncomparable.) This implies that any mechanism based on 2-valued operations (be it <, or ( = , <), or other) has cases in which two expressions must be evaluated in order to determine the relation between two elements.
 
 In practice, this is a problem if a comparison is computationally expensive. Examples of this are implicitly defined orders in which the order of elements depends on their relative position in some enumeration. (Think of comparing graphs by isomorphism type.) In this case, each order predicate is as expensive as a compare procedure -- implying that a proper 3-way branch could be twice as fast as cascaded 2-way branches. Hence, there is a potentially considerable loss in performance, and it is purely due to the interface for comparisons.
 
@@ -643,7 +643,7 @@ The procedures <?, </<?, chain<? etc. could also have been specified as macros. 
 
 The advantage of procedures, on the other hand, is that in Scheme they are ``first class citizens,'' meaning that they can be passed as arguments and returned from higher-order procedures.
 
-Taking this approach one step further, one can even require the compare procedures to check the types of all arguments, even if the result of the comparison is already known. This is what Section 6.2.5 of R^5RS calls ``transitive`` behavior of the predicates =, <, etc. For example, (< 0 x y) first tests if x is positive, and only if this is the case (< x y) is tested. But even if x is not positive it is checked that y is indeed a real -- otherwise an error is raised. In ``short evaluation,'' on the contrary, if x is not positive, y can be an arbitrary Scheme value.
+Taking this approach one step further, one can even require the compare procedures to check the types of all arguments, even if the result of the comparison is already known. This is what Section 6.2.5 of R^5RS calls ``transitive`` behavior of the predicates =, <, etc. For example, (< 0 x y) first tests if {{x}} is positive, and only if this is the case (< x y) is tested. But even if {{x}} is not positive it is checked that y is indeed a real -- otherwise an error is raised. In ``short evaluation,'' on the contrary, if {{x}} is not positive, y can be an arbitrary Scheme value.
 
 Clearly, ``transitive'' tests have an overhead, namely that they need to execute potentially redundant type checks. Even worse, as types are only known to the compare procedure the only way to check the type of a value is to compare it, maybe with itself (which should result in 0 by definition of a compare procedure).
 
