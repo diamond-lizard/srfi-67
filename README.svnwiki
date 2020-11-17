@@ -288,7 +288,7 @@ The facilities defined in this section provide a mechanism for using a compare p
 ===== Syntax:
 {{<c>}}, {{<less>}}, {{<equal>}}, and {{<greater>}} are expressions.
 ===== Semantics:
-If3 is the 3-way conditional for comparisons. First {{<c>}} is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. If {{c = - 1}} then the value of the if3-expression is obtained by evaluating <less>. If c = 0 then <equal> is evaluated. If {{c = 1}} then <greater> is evaluated.
+If3 is the 3-way conditional for comparisons. First {{<c>}} is evaluated, resulting in value c. The value c must be an exact integer in { - 1, 0, 1}, otherwise an error is signalled. If {{c = - 1}} then the value of the if3-expression is obtained by evaluating <less>. If {{c = 0}} then <equal> is evaluated. If {{c = 1}} then <greater> is evaluated.
 ===== Note:
 As an example, the following procedure inserts {{x}} into the sorted list s, possibly replacing the first equivalent element.
 ===== Example
