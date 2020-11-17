@@ -444,7 +444,7 @@ procedure:  (chain<=? compare x[1] ...)
 
 procedure:  (chain>=? compare x[1] ...)
 
-Test if the values {{x[1]}} ...(zero or more values) form a chain with respect to the relation specified by the name of the procedure, and with respect to the compare procedure compare. The result is a boolean (either #t or #f.) The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one.)
+Test if the values {{x[1] ...(zero or more values)}} form a chain with respect to the relation specified by the name of the procedure, and with respect to the compare procedure compare. The result is a boolean (either #t or #f.) The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one.)
 
 A sequence of values x[1], ..., x[n] forms a chain with respect to the relation rel? if (rel? compare x[i] x[j]) for all 1 < i < j < n. In particular, this is the case for n [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
 
