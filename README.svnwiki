@@ -268,7 +268,7 @@ Select-compare is a conditional for defining hierarchical extensions and refinem
 
 In more detail, evaluation proceeds as follows: First {{<x[1]>}} and {{<x[2]>}} are evaluated in unspecified order, resulting in values {{x[1]}} and {{x[2]}}, respectively. Then the clauses are evaluated one by one, from left to right.
 
-For clause (<type?> <c[1]> ...), first {{<type?>}} is evaluated resulting in a predicate procedure type? and then the expressions (type? x[1]) and (type? x[2]) are evaluated and interpreted as booleans. If both booleans are true then the overall value is (refine-compare <c[1]> ...). If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both tests where true. If there are no clauses left, the result is 0.
+For clause {{(<type?> <c[1]> ...)}}, first {{<type?>}} is evaluated resulting in a predicate procedure type? and then the expressions {{(type? x[1])}} and {{(type? x[2])}} are evaluated and interpreted as booleans. If both booleans are true then the overall value is {{(refine-compare <c[1]> ...)}}. If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both tests where true. If there are no clauses left, the result is 0.
 
 Select-compare evaluates {{<x[1]>}} and {{<x[2]>}} exactly once, even in the absence of any clauses. Moreover, each {{<type?>}} is evaluated at most once and the resulting procedure type? is called at most twice.
 ===== Note:
