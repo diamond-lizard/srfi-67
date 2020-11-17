@@ -422,7 +422,7 @@ procedure:  (>=/>=? [ compare ] [ x y z ])
 
 Test if x, y, and z form a chain with the two relations specified by the name of the procedure rel1/rel2?, with respect to the compare procedure compare.
 
-If compare is not provided, default-compare is used. If x y z are not provided, a predicate procedure of three arguments is constructed. The order in which the values are compared is unspecified, but each value is compared at least once.
+If compare is not provided, default-compare is used. If {{x y z}} are not provided, a predicate procedure of three arguments is constructed. The order in which the values are compared is unspecified, but each value is compared at least once.
 ===== Note:
 (<=/<? real-compare 0 x 1) tests if {{x}} is a real number in the half open interval [0,1).
 ===== chain procedures
