@@ -833,7 +833,7 @@ Fortunately, Dave Mason proposed a syntax for resolving the apparent alternative
 === 7  Related work
 The use of compare procedures is not new; defining control structures ({{if3}}, {{select-compare}} etc.) for dealing with them efficiently, however, seems to be new (at least we have not seen it before).
 
-Total ordering in R^5RS is represented by typed order predicates, such as <=, char<=? etc. Although a ``less or equal''-predicate is sufficient to define a total order, R^ 5RS defines a complete set of compare predicates (that is = , <, >, <, and <) for the sake of convenience and readability. There are 25 procedures related to total orders in R^5RS . These are named (=|<|>|<=|>=) and (char|string)[-ci](=|<|>|<=|>=)?.
+Total ordering in R^5RS is represented by typed order predicates, such as {{<=}}, {{char<=?}} etc. Although a ``less or equal''-predicate is sufficient to define a total order, R^ 5RS defines a complete set of compare predicates (that is {{= , <, >, <,}} and {{<}}) for the sake of convenience and readability. There are 25 procedures related to total orders in R^5RS . These are named {{(=|<|>|<=|>=)}} and {{(char|string)[-ci](=|<|>|<=|>=)?}}.
 
 The traditional approach in Scheme to equivalence (``Are two values treated as equal?'') is the fixed set of predicates eq?, eqv?, and equal?. Historically, this approach was motivated by the desire to compare only pointers and avoid structural recursion. This SRFI provides the generalization to arbitrary equivalence relations, provided the equivalence classes are totally ordered.
 
