@@ -13,7 +13,7 @@ This SRFI defines a mechanism for comparing Scheme values with respect to a tota
 * 3. facilitating the definition of a new total order.
 ==== In the following, these aspects will briefly be illustrated.
 * Traditionally, a total order is represented in Scheme by an order predicate, like < or char<?.
-For the purpose of this SRFI, however, a total order is represented by a Scheme-procedure comparing its two arguments and returning either -1, 0, or 1 depending on whether the first argument is considered smaller, equal, or greater than the second argument respectively. Examples of such compare procedures include {{(lambda (x y) (sign (- x y)))}} for comparing real numbers, but also {{(lambda (x y) 0)}} comparing anything. For most built-in types specified in the Revised^5 Report on the Algorithmic Language Scheme ( R^5RS , [3]) compare procedures are specified in Sections 4.1, 4.2 , and 4.3 of this SRFI. An axiomatic definition of ``compare procedure'' is given in Section 5.
+For the purpose of this SRFI, however, a total order is represented by a Scheme-procedure comparing its two arguments and returning either -1, 0, or 1 depending on whether the first argument is considered smaller, equal, or greater than the second argument respectively. Examples of such compare procedures include {{(lambda (x y) (sign (- x y)))}} for comparing real numbers, but also {{(lambda (x y) 0)}} comparing anything. For most built-in types specified in the Revised^5 Report on the Algorithmic Language Scheme ( R^5RS , [3]) compare procedures are specified in Sections 4.1, 4.2 , and 4.3 of this SRFI. An axiomatic definition of ''compare procedure'' is given in Section 5.
 ==== The primary reason for using 3-valued compare procedures instead of (2-valued) order predicates is efficiency:
 When comparison is computationally expensive, it is wasteful if two predicates are evaluated where a single 3-valued comparison would suffice. This point is discussed in greater detail in Section 6.
 ==== But dealing directly with 3-valued comparisons in the application program is inconvenient and obscures intention:
@@ -47,7 +47,7 @@ A compare procedure for boxes, comparing first by width then by height and then 
 
 This time, {{(<? box-compare b1 b2)}} tests if box b1 is smaller than box b2 -- in the sense of the order defined. Of course, all the other tests, minimum, maximum etc. are available, too.
 
-As a final complication, assume that there is also a type bowl with accessors radius (a length) and open? (a boolean). Bowls are to be compared first by whether they are open or closed, and then by radius. However, bowls and boxes also need to be compared to each other, ordered such that a bowl is considered ``smaller'' than a box. (There are type-test predicates box? and bowl?). Using the control structure {{select-compare}} (Section 4.5) this can be expressed as:
+As a final complication, assume that there is also a type bowl with accessors radius (a length) and open? (a boolean). Bowls are to be compared first by whether they are open or closed, and then by radius. However, bowls and boxes also need to be compared to each other, ordered such that a bowl is considered ''smaller'' than a box. (There are type-test predicates box? and bowl?). Using the control structure {{select-compare}} (Section 4.5) this can be expressed as:
 
 <enscript highlight="scheme">
 (define (container-compare c1 c2)
@@ -58,7 +58,7 @@ As a final complication, assume that there is also a type bowl with accessors ra
     (else "neither bowls nor boxes" c1 c2)))
 </enscript>
 
-This is an example of ``hierarchical extension'' of compare procedures, as explained in Section 5. Also note the implicit use of refine-compare in the bowl?-case.
+This is an example of ''hierarchical extension'' of compare procedures, as explained in Section 5. Also note the implicit use of refine-compare in the bowl?-case.
 
 The preceeding example illustrates the main functionality of this SRFI. For other examples, refer to Section 4.4, and to the file examples.scm included in the reference implementation.
 === 3  Terminology and Conventions
@@ -81,21 +81,21 @@ compares two object of the type type with respect to a total order for which ord
 
 Compares two booleans, ordered by #f < #t.
 ===== Note:
-A non-{{#f}} value is not interpreted as a ``true value,'' but rather an error will be signalled.
+A non-{{#f}} value is not interpreted as a ''true value,'' but rather an error will be signalled.
 
 <procedure>(char-compare char[1] char[2])</procedure>
 
 
 <procedure>(char-compare-ci char[1] char[2])</procedure>
 
-Compare characters as char<=? and char-ci<=? respectively. The suffix -ci means ``case insensitive.''
+Compare characters as char<=? and char-ci<=? respectively. The suffix -ci means ''case insensitive.''
 
 <procedure>(string-compare string[1] string[2])</procedure>
 
 
 <procedure>(string-compare-ci string[1] string[2])</procedure>
 
-Compare strings as string<= and string-ci<=?. The suffix -ci means ``case insensitive.''
+Compare strings as string<= and string-ci<=?. The suffix -ci means ''case insensitive.''
 ===== Note:   Compare-string could be defined as
 <enscript highlight="scheme">
 (define (string-compare string1 string2)
@@ -262,7 +262,7 @@ This macro is the preferred way to define a compare procedure as a refinement (r
 <procedure>(select-compare <x[1]> <x[2]> <clause[1]> ...)</procedure>
 
 ===== Syntax:
-Each {{<clause>}}, with the possible exception of the last, is of the form {{(<type?> <c[1]> ...)}} where {{<type?>}} is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ``else clause'', which has the form {{(else <c[1]> ...)}}.
+Each {{<clause>}}, with the possible exception of the last, is of the form {{(<type?> <c[1]> ...)}} where {{<type?>}} is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ''else clause'', which has the form {{(else <c[1]> ...)}}.
 ===== Semantics:
 {{Select-compare}} is a conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5). It compares the values of {{<x [1]>}} and {{<x[2]>}} by trying the type tests in order, and applies an implicit refine-compare on the consequences upon a match.
 
@@ -278,7 +278,7 @@ An example of {{select-compare}} is the definition of default-compare given abov
 <procedure>(cond-compare <clause[1]> ...)</procedure>
 
 ===== Syntax:
-Each {{<clause>}}, with the possible exception of the last, is of the form {{((<t[1]> <t[2]>) <c[1]> ...)}} where {{<t[1]>}} and {{<t[2]>}} are expressions evaluating to booleans, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ``else clause'', which has the form (else <c[1]> ...).
+Each {{<clause>}}, with the possible exception of the last, is of the form {{((<t[1]> <t[2]>) <c[1]> ...)}} where {{<t[1]>}} and {{<t[2]>}} are expressions evaluating to booleans, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ''else clause'', which has the form (else <c[1]> ...).
 ===== Semantics:
 Cond-compare is another conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5).
 ===== Evaluation proceeds as follows:
@@ -512,7 +512,7 @@ The procedure compare[1] checks reflexivity on any value passed to compare, anti
 ===== Rationale:
 The test coverage is partial and determined pseudo-randomly, but the execution time of compare[1] is only a constant factor larger than the execution time of compare.
 === 5  The theory of compare functions
-This section contains a theoretical justification for the concept ``compare function''. First an axiomatic definition of compare functions is given. Then it is proved that compare functions are just an unconventional way of defining total orders on equivalence classes of elements -- and mathematically that is all there is to say about compare functions.
+This section contains a theoretical justification for the concept ''compare function''. First an axiomatic definition of compare functions is given. Then it is proved that compare functions are just an unconventional way of defining total orders on equivalence classes of elements -- and mathematically that is all there is to say about compare functions.
 
 At this point, a mathematician may wonder why we introduce compare functions in the first place. The answer is: Because they are convenient and efficient for writing programs involving total orders.
 
@@ -526,7 +526,7 @@ We call the properties (R) reflexivity, (A) antisymmetry, and (T) transitivity.
 ==== The archetypical compare function is
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-5.png]]
 
-it compares real numbers with respect to their canonical order. Obviously, [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-6.png]] if and only if [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-7.png]], which we will fix as our sign convention: Instead of writing ``[[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-8.png]]'' we will often simply write ``[[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-9.png]]'' when the compare function [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-10.png]] is obvious from the context. (And of course, the convention extends to [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-11.png]], [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-12.png]], [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-13.png]], and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-14.png]] in the obvious way.)
+it compares real numbers with respect to their canonical order. Obviously, [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-6.png]] if and only if [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-7.png]], which we will fix as our sign convention: Instead of writing ''[[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-8.png]]'' we will often simply write ''[[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-9.png]]'' when the compare function [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-10.png]] is obvious from the context. (And of course, the convention extends to [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-11.png]], [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-12.png]], [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-13.png]], and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-14.png]] in the obvious way.)
 
 The first theorem states that each compare function gives rise to an equivalence relation in a natural way.
 ==== Theorem:
@@ -538,12 +538,12 @@ for [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-19.png]], is an equiva
 ==== Proof:
 Recall that an equivalence relation is reflexive, symmetric, and transitive [2]. We check:
 
-``Reflexive'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-21.png]]. By (R) [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-22.png]], so [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-23.png]]
+''Reflexive'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-21.png]]. By (R) [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-22.png]], so [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-23.png]]
 
-``Symmetric'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-24.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-25.png]]. By definition of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-26.png]] we have [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-27.png]]. By (A) this implies
+''Symmetric'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-24.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-25.png]]. By definition of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-26.png]] we have [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-27.png]]. By (A) this implies
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-28.png]]. Thus [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-29.png]].
 
-``Transitive'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-30.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-31.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-32.png]]. This means [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-33.png]]. By (T) this implies
+''Transitive'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-30.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-31.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-32.png]]. This means [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-33.png]]. By (T) this implies
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-34.png]]. Moreover, by symmetry also [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-35.png]] and by (T) this implies [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-36.png]]. Hence, [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-37.png]] meaning
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-38.png]].
 
@@ -558,15 +558,15 @@ for [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-47.png]], is a total o
 ==== Proof:
 Recall that a total order relation is reflexive, (weakly) antisymmetric, transitive, and all elements are comparable [1]. Again, we check:
 
-``Reflexive'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-49.png]]. By (R) [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-50.png]], so [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-51.png]] for all [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-52.png]].
+''Reflexive'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-49.png]]. By (R) [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-50.png]], so [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-51.png]] for all [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-52.png]].
 
-``Antisymmetric'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-53.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-54.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-55.png]]. By definition of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-56.png]], this means
+''Antisymmetric'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-53.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-54.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-55.png]]. By definition of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-56.png]], this means
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-57.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-58.png]] by (A). Hence, [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-59.png]] which means [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-60.png]].
 
-``Transitive'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-61.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-62.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-63.png]]. By definition of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-64.png]] this means
+''Transitive'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-61.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-62.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-63.png]]. By definition of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-64.png]] this means
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-65.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-66.png]]. By (T) this implies [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-67.png]] which means [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-68.png]].
 
-``Comparable'': For [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-69.png]], [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-70.png]] as [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-71.png]] is a compare function. Hence, [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-72.png]], meaning [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-73.png]], or
+''Comparable'': For [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-69.png]], [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-70.png]] as [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-71.png]] is a compare function. Hence, [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-72.png]], meaning [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-73.png]], or
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-74.png]], meaning [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-75.png]] by (A).
 
 Finally, the last theorem shows the converse of the previous two: There is a unique compare function for each total order on a set of equivalence classes.
@@ -581,13 +581,13 @@ is a compare function on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-8
 First note that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-86.png]] is well-defined as a function, because [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-87.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-88.png]] imply [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-89.png]] (i.e.
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-90.png]]) by the fact that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-91.png]] is (weakly) antisymmetric. We check the axioms of a compare function:
 
-``(R)'': Reflexivity of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-92.png]] implies [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-93.png]] for all [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-94.png]].
+''(R)'': Reflexivity of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-92.png]] implies [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-93.png]] for all [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-94.png]].
 
-``(A)'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-95.png]]. Then [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-96.png]] or [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-97.png]] because [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-98.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-99.png]] are comparable with
+''(A)'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-95.png]]. Then [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-96.png]] or [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-97.png]] because [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-98.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-99.png]] are comparable with
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-100.png]]. If both properties hold then [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-101.png]], meaning [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-102.png]], so [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-103.png]]. Otherwise, either [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-104.png]]
 and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-105.png]] or the signs are flipped. In either case, [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-106.png]].
 
-``(T)'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-107.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-108.png]]. Then [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-109.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-110.png]] by definition of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-111.png]]. Since
+''(T)'': Consider [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-107.png]] such that [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-108.png]]. Then [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-109.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-110.png]] by definition of [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-111.png]]. Since
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-112.png]] is transitive, this implies [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-113.png]], meaning [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-114.png]].
 
 At this point the mathematics of compare functions is finished. However, it is instructive to explore constructions making new compare functions from old ones.
@@ -619,7 +619,7 @@ respectively. Then
 
 [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-145.png]]
 
-is a compare function on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-146.png]]. The function refines ``[[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-147.png]]'' by [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-148.png]] on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-149.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-150.png]]
+is a compare function on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-146.png]]. The function refines ''[[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-147.png]]'' by [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-148.png]] on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-149.png]] and [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-150.png]]
 on [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-151.png]], respectively. This construction can be generalized to an arbitrary family (mind the axiom of choice) of compare functions on disjoint domains.
 
 In Scheme, this SRFI defines macros refine-compare, {{select-compare}}, and cond-compare for providing convenient and efficient ways of defining refinement, hierarchical
@@ -627,7 +627,7 @@ extension, argument transformation, and sign flip.
 === 6  Design Rationale
 In this section we present our reasoning behind the design decisions made for this SRFI. We would like to be explicit on this because we believe that design is not about the outcome of decisions but about the alternatives considered. The section is organized as a Q&A list.
 ==== Order predicates (2-way) or 3-way comparisons?
-It is mathematical tradition to specify a total order in terms of a ``less or equal'' (<) relation. This usually carries over to programming languages in the form of a <= predicate procedure.
+It is mathematical tradition to specify a total order in terms of a ''less or equal'' (<) relation. This usually carries over to programming languages in the form of a <= predicate procedure.
 
 However, there are inherently three possible relations between two elements {{x and y}} with respect to a total order: x < y, x = y, and x > y. (With respect to a partial order there is a fourth: {{x and y}} are uncomparable.) This implies that any mechanism based on 2-valued operations (be it <, or ( = , <), or other) has cases in which two expressions must be evaluated in order to determine the relation between two elements.
 
@@ -653,7 +653,7 @@ The representation acts as an internal interface between programs comparing obje
 
 The advantage of using only three values is that the representation of each case is uniquely defined. In particular, this enables the use of case instead of if, and it ensures portability. Portability of numbers is problematic in R^5RS due to underspecification and inexactness.
 
-The advantage of using a non-unique (numerical) representation is that the result of a computation can sometimes immediately be used in a branch, much like the ``non-{{#f}} means true''-convention. However, with the operations in Section 4.6 this advantage hardly matters. Moreover, the ``non-{{#f}} means true''-convention is a major cause of unexpected program behavior itself.
+The advantage of using a non-unique (numerical) representation is that the result of a computation can sometimes immediately be used in a branch, much like the ''non-{{#f}} means true''-convention. However, with the operations in Section 4.6 this advantage hardly matters. Moreover, the ''non-{{#f}} means true''-convention is a major cause of unexpected program behavior itself.
 
 The advantage of using { - 1, 0, 1} over using three symbols is that the integers support additional operations, for example they can directly be used in index computations. A particularly useful operation is (* sign (compare x y)) which inverts the order relation depending on sign (either - 1 or 1). In addition, the integers are unique -- once it is known that comparisons result in integers it is obvious which integers. A minor consideration is that Scheme systems usually treat small integers as unboxed values, and that integers are self-evaluating literals.
 
@@ -669,13 +669,13 @@ Mathematically, no total order of the complex numbers exists which is compatible
 
 Several total orders on the complex numbers are at least compatible with the natural ordering of real numbers. The least surprising of these is lexicographic on (re, im).
 ==== How to order special floating point symbols?
-Floating point formats often do not only represent rational numbers but extend this set by special symbols, for example +Inf, -Inf, NaN (``Not a number''), and -0. How should these symbols be ordered with respect to the ordinary numerical values and with respect to each other? (Refer to the discussion archive starting with msg00010.)
+Floating point formats often do not only represent rational numbers but extend this set by special symbols, for example +Inf, -Inf, NaN (''Not a number''), and -0. How should these symbols be ordered with respect to the ordinary numerical values and with respect to each other? (Refer to the discussion archive starting with msg00010.)
 
 Let us briefly recall the purpose of the special symbols. The general rationale for introducing special symbols into a floating point format is for numerical calculations to continue in the presence of data-dependent errors, while still retaining some meaningful information about the result. The symbols +Inf and -Inf indicate that the calculation has produced a value exceeding the representable range. The special symbol -0, indicates that a calculation has produced a value of unrepresentable small magnitude, but retains the information that the underflow approached zero from the negative side (otherwise it would be +0). This sign information is useful in the presence of branch-cuts. Finally, NaN indicates that the information about the value has been lost entirely (example: -Inf + Inf) NaN avoids raising an exception and allows carrying on with other parts of the calculation. It should be noted that several NaNs can exist. For example in the IEEE 754 standard many bit patterns represent NaN (whatever the interpretation).
 
 As +Inf and -Inf are designed to represent extremal numbers, their ordering with respect to real numbers is obvious. For signed zeros, the ordering is also obvious. However, the notion of two zeros (or even three: -0, 0, and +0) is incompatible with the arithmetic structure of the real numbers. Hence, in most situations all zeros should be treated as equal, even though this can destroy information about results. But the alternative design may also make sense in certain situations where the full information carried in a floating point object is to be retained.
 
-For NaN (or even several NaNs) the situation is even more ambiguous because there is not even a natural order relation of NaN with the other possible floating point values. One design alternative is to raise an error if NaN is to participate in a comparison; the reasoning being ``if the control flow depends on a NaN you are in trouble anyway''. An alternative is to define some order by force; the reasoning being ``if an object satisfies real? then it can be compared with real-compare.'' Neither approach is obviously better than the other.
+For NaN (or even several NaNs) the situation is even more ambiguous because there is not even a natural order relation of NaN with the other possible floating point values. One design alternative is to raise an error if NaN is to participate in a comparison; the reasoning being ''if the control flow depends on a NaN you are in trouble anyway''. An alternative is to define some order by force; the reasoning being ''if an object satisfies real? then it can be compared with real-compare.'' Neither approach is obviously better than the other.
 
 Given this situation, we have decided to leave the effect of using a special floating point value in real-compare unspecified, in line with the approach of R^5RS . This approach might change once Scheme itself is more explicit about floating point representations and numerical computation.
 ==== How to define default-compare?
@@ -688,16 +688,16 @@ However, there are limits as to how default-compare can be defined. For example,
 Unfortunately, this imposes limits on what can be compared using default-compare because it is very desireable to have a portable reference implementation. In particular, portable ways of dealing with circular structures are overly costly.
 
 Naturally, the question arises how the types should be ordered. For this question it is useful to understand that boolean-compare and pair-compare both already define a total order for all values (at least in priciple). Hence, default-compare could refine one of them, but unfortunately not both at the same time (unless {{#f}} and '() are minimum and maximum of the order, respectively). Since pair-compare is more frequently used than boolean-compare we base default-compare on pair-compare. The other portably comparable types are ordered by increasing complexity, which clearly is an arbitrary choice.
-==== What is the ``lexicographic order''?
+==== What is the ''lexicographic order''?
 The lexicographic order is a general way of defining an ordering for sequences from an ordering of elements:
 
 In the lexicographic order, the empty sequence is the smallest sequence of all, and two non-empty sequences are first compared by their first element and only if these are equal the residual sequences are compared, recursively.
 
 The lexicographic order has its name from its use in a lexicon: For example, fun < funloving < jolly.
 
-What is the ``natural order'' of lists and vectors?
+What is the ''natural order'' of lists and vectors?
 
-By ``natural order'' of an abstract data type we mean a total order that is defined to match the basic operations operations supported by the data type.
+By ''natural order'' of an abstract data type we mean a total order that is defined to match the basic operations operations supported by the data type.
 
 The basic access operations with constant execution time for Scheme lists are null?, car, and cdr. These are exactly the operations needed for comparing two sequences lexicographically.
 
@@ -705,11 +705,11 @@ The constant time access operations for Scheme vectors are vector-length (size) 
 ==== Why are vectors not ordered lexicographically?
 In this SRFI, lists and strings are ordered lexicographically (`LEX') by default, e.g. "12" < "2". The default order of vectors is first by length and then lexicographically (`LENGTH-LEX'), e.g. #(2) < #(1 2). Alternatively, vectors could be ordered purely lexicographically, too. In the extreme, lists, strings, and vectors could even be ordered lexicographically as sequences without distinguishing the concrete representation, implying "12" = (#\1 #\2) = #(#\1 #\2).
 
-The choice affects vector-compare, default-compare, and the way orders are interpreted conceptually. Moreover, this SRFI introduces the terminology ``ordered as lists'' and ``ordered as vectors'' to refer to the two fundamental ways of lifting an order to sequences (LEX and LENGTH-LEX). The choice also has implications for any other SRFI introducing container data types (e.g. 66 and 74), in case the author wishes to specify default compare procedures compatible with this SRFI.
+The choice affects vector-compare, default-compare, and the way orders are interpreted conceptually. Moreover, this SRFI introduces the terminology ''ordered as lists'' and ''ordered as vectors'' to refer to the two fundamental ways of lifting an order to sequences (LEX and LENGTH-LEX). The choice also has implications for any other SRFI introducing container data types (e.g. 66 and 74), in case the author wishes to specify default compare procedures compatible with this SRFI.
 ===== Summarizing the discussion, there seem to be three major arguments:
 * 1. Conceptually vectors and lists are representations of sequences, and if there is only one ordering for them it should be LEX.
 * 2. LENGTH-LEX is more fundamental and efficient for types supporting a constant-time `size' operation.
-* 3. Conceptually strings are ``vectors of characters'' and strings are conventionally ordered LEX by default, so vectors should be ordered LEX as well in order to minimize the potential for confusion.
+* 3. Conceptually strings are ''vectors of characters'' and strings are conventionally ordered LEX by default, so vectors should be ordered LEX as well in order to minimize the potential for confusion.
 (Please refer to the discussion archive for details, in particular msg00054.)
 ===== We consider 2. the most important due to its mathematical nature, followed by 1. because it simplifies the design.
 While this controversial, we think that it is preferable to introduce different orders for different data types, and not derive every order from a single one for sequences. Finally, we consider 3. a weak argument because the default ordering of strings is motivated primarily historically for ordering written words of (small alphabet) natural languages.
@@ -731,15 +731,15 @@ As chains of length three are still frequently tested in programs (think of a ra
 
 For convenience, the compare procedure argument is made optional as often as possible. Unfortunately, this opens up a possibility for mistake: Writing (<=? x y z) where (<=/<=? x y z) is meant. Fortunately, the mistake will likely manifest itself at the time (x y z) is evaluated.
 ==== Why are <? etc. procedures, not macros?
-The procedures <?, </<?, chain<? etc. could also have been specified as macros. This would have the advantage that they could make full use of ``short evaluation'': A chain of comparisons stops as soon as one of the comparisons has failed; all remaining argument expressions and comparisons need not be evaluated. This is potentially more efficient.
+The procedures <?, </<?, chain<? etc. could also have been specified as macros. This would have the advantage that they could make full use of ''short evaluation'': A chain of comparisons stops as soon as one of the comparisons has failed; all remaining argument expressions and comparisons need not be evaluated. This is potentially more efficient.
 
-The advantage of procedures, on the other hand, is that in Scheme they are ``first class citizens,'' meaning that they can be passed as arguments and returned from higher-order procedures.
+The advantage of procedures, on the other hand, is that in Scheme they are ''first class citizens,'' meaning that they can be passed as arguments and returned from higher-order procedures.
 
 Taking this approach one step further, one can even require the compare procedures to check the types of all arguments, even if the result of the comparison is already known. This is what Section 6.2.5 of R^5RS calls ``transitive`` behavior of the predicates =, <, etc. For example, (< 0 x y) first tests if {{x}} is positive, and only if this is the case (< x y) is tested. But even if {{x}} is not positive it is checked that y is indeed a real -- otherwise an error is raised. In ``short evaluation,'' on the contrary, if {{x}} is not positive, y can be an arbitrary Scheme value.
 
-Clearly, ``transitive'' tests have an overhead, namely that they need to execute potentially redundant type checks. Even worse, as types are only known to the compare procedure the only way to check the type of a value is to compare it, maybe with itself (which should result in 0 by definition of a compare procedure).
+Clearly, ''transitive'' tests have an overhead, namely that they need to execute potentially redundant type checks. Even worse, as types are only known to the compare procedure the only way to check the type of a value is to compare it, maybe with itself (which should result in 0 by definition of a compare procedure).
 
-The advantage of ``transitive'' comparisons is the automatic insertion of a type assertion. For example, after (chain<? integer-compare x y z) has been evaluated, no matter the result, it is known that x, y, and z are integers. We consider this advantage sufficiently important to pay the price.
+The advantage of ''transitive'' comparisons is the automatic insertion of a type assertion. For example, after (chain<? integer-compare x y z) has been evaluated, no matter the result, it is known that x, y, and z are integers. We consider this advantage sufficiently important to pay the price.
 ==== Why compare-by< etc.?
 It is often easier to define an order predicate, and possibly a separate equivalence relation, than it is to define a compare procedure. For this case, compare< etc.
 provide a convenient and robust way of constructing the associated compare procedure.
@@ -751,7 +751,7 @@ You better don't.
 
 A compare function defines a total order on equivalence classes, and vice versa (refer to Section 5). Hence, a compare procedure compare can be used to test equivalence: (=? compare x y).
 
-In reverse, one could be tempted to define a ``compare function'' c from just an equivalence relation ~ as c(x, y) = 0 if x ~ y and c(x, y) = 1 otherwise. However, c is not antisymmetric (unless all objects are equivalent, i.e. c(x,y) = 0 for all x, y) and hence it is not a compare function. In fact, there is no way at all of avoiding a total order on the equivalence classes.
+In reverse, one could be tempted to define a ''compare function'' c from just an equivalence relation ~ as c(x, y) = 0 if x ~ y and c(x, y) = 1 otherwise. However, c is not antisymmetric (unless all objects are equivalent, i.e. c(x,y) = 0 for all x, y) and hence it is not a compare function. In fact, there is no way at all of avoiding a total order on the equivalence classes.
 
 This is also reflected in the fact that there are efficient (log-time) search data structures based on a total order, but we know of no efficient (sublinear worst-case) data structures based solely on an equivalence relation. The following program takes time and space O(h), where h is the number of equivalence classes in use:
 
@@ -799,7 +799,7 @@ Yes and no.
 
 The focus of the reference implementation is correctness and portability; performance will very likely suffer due to the overhead of internal procedure calls and type-checking.
 
-But as the word ``SRFI'' suggests, this document is a ``request for implementation,'' meaning we would love to see this SRFI being implemented efficiently by the implementation experts of particular Scheme systems. In practice, this means that most of the operations defined here, if not all, are supported natively.
+But as the word ''SRFI'' suggests, this document is a ''request for implementation,'' meaning we would love to see this SRFI being implemented efficiently by the implementation experts of particular Scheme systems. In practice, this means that most of the operations defined here, if not all, are supported natively.
 
 In this case, there is no performance penalty for using the mechanisms of this SRFI -- using this SRFI might even be faster due to explicit 3-way branching and better typing.
 ==== Why are there optional leading arguments?
@@ -833,17 +833,17 @@ Fortunately, Dave Mason proposed a syntax for resolving the apparent alternative
 === 7  Related work
 The use of compare procedures is not new; defining control structures ({{if3}}, {{select-compare}} etc.) for dealing with them efficiently, however, seems to be new (at least we have not seen it before).
 
-Total ordering in R^5RS is represented by typed order predicates, such as {{<=}}, {{char<=?}} etc. Although a ``less or equal''-predicate is sufficient to define a total order, R^ 5RS defines a complete set of compare predicates (that is {{= , <, >, <,}} and {{<}}) for the sake of convenience and readability. There are 25 procedures related to total orders in R^5RS . These are named {{(=|<|>|<=|>=)}} and {{(char|string)[-ci](=|<|>|<=|>=)?}}.
+Total ordering in R^5RS is represented by typed order predicates, such as {{<=}}, {{char<=?}} etc. Although a ''less or equal''-predicate is sufficient to define a total order, R^ 5RS defines a complete set of compare predicates (that is {{= , <, >, <,}} and {{<}}) for the sake of convenience and readability. There are 25 procedures related to total orders in R^5RS . These are named {{(=|<|>|<=|>=)}} and {{(char|string)[-ci](=|<|>|<=|>=)?}}.
 
-The traditional approach in Scheme to equivalence (``Are two values treated as equal?'') is the fixed set of predicates {{eq?}}, {{eqv?}}, and {{equal?}}. Historically, this approach was motivated by the desire to compare only pointers and avoid structural recursion. This SRFI provides the generalization to arbitrary equivalence relations, provided the equivalence classes are totally ordered.
+The traditional approach in Scheme to equivalence (''Are two values treated as equal?'') is the fixed set of predicates {{eq?}}, {{eqv?}}, and {{equal?}}. Historically, this approach was motivated by the desire to compare only pointers and avoid structural recursion. This SRFI provides the generalization to arbitrary equivalence relations, provided the equivalence classes are totally ordered.
 
 The Ruby programming language [4] provides a method {{<=>}} which is a compare procedure in the sense of this SRFI. By (re-)defining this method a total order can be defined for the instances of a class, when compared against other objects. All 2-way comparisons are based on {{<=>}}, but in Ruby essentially every method can be overloaded.
 
 In the Haskell 98 programming language [6] order predicates and compare functions coexist. The type Ordering [6, Sect 6.1.8] is an enumeration of the three symbolic constants LT, EQ, GT. The type class Ord [6, Sect 6.3.2] asserts the presence of a total order for a type, provided the type class Eq [6, Sect 6.3.1] also asserts the presence of an equivalence. Since the default definition of the method compare is in terms of the methods == and <=, and vice versa, it can be chosen easily how to provide the total order without affecting its pattern of use.
 
-The C function {{strcmp}} [7] of the ``string.h''-library acts as a compare procedure in the sense of this SRFI, although it is specified to return an integer of which only the sign matters. Python [5] has a built-in function cmp which is a compare procedure in the sense of this SRFI.
+The C function {{strcmp}} [7] of the ''string.h''-library acts as a compare procedure in the sense of this SRFI, although it is specified to return an integer of which only the sign matters. Python [5] has a built-in function cmp which is a compare procedure in the sense of this SRFI.
 
-In SRFI-32 (Sort libraries) [13] the total orders used for sorting are represented by a ``less than'' procedure. The discussion archive [13] contains a short discussion thread on the use of 3-value comparisons under the aspect whether they can be used to improve the sorting algorithm itself.
+In SRFI-32 (Sort libraries) [13] the total orders used for sorting are represented by a ''less than'' procedure. The discussion archive [13] contains a short discussion thread on the use of 3-value comparisons under the aspect whether they can be used to improve the sorting algorithm itself.
 
 In the Galore.plt library of data structures for PLT Scheme, total orders are represented by the signature definition (define-signature order^ (elm= elm< elm<=)).
 === 8  Reference implementation
@@ -867,7 +867,7 @@ Higher-Order and Symbolic Computation, Vol. 11, No. 1, August, 1998.
 www.schemers.org/Documents/Standards/R5RS/
 * [4]   Y. Matsumoto: Programming Ruby. The Pragmatic Programmer's Guide.
 www.ruby-doc.org/docs/ProgrammingRuby/
-* [5]   G. van Rossum, F. L. Drake, Jr., (ed.): Python Library Reference. Release 2.4 of 30 November 2004. Section 2.1 ``built-in functions''. Python Software Foundation.
+* [5]   G. van Rossum, F. L. Drake, Jr., (ed.): Python Library Reference. Release 2.4 of 30 November 2004. Section 2.1 ''built-in functions''. Python Software Foundation.
 http://docs.python.org/lib/lib.html
 * [6]   S. Peyton Jones (ed.): Haskell 98 Language and Libraries The Revised Report, December 2002.
 http://www.haskell.org/definition/
@@ -883,7 +883,7 @@ http://srfi.schemers.org/srfi-9/
 http://srfi.schemers.org/srfi-23/
 * [12]   S. Egner: SRFI 27 Sources of random bits.
 http://srfi.schemers.org/srfi-27/
-* [13]   O. Shivers: SRFI 32 Sort libraries. Section ``Ordering, comparison functions & stability'' and mail-archive msg000{23,24,33}.html. SRFI has been withdrawn July 17, 2003.
+* [13]   O. Shivers: SRFI 32 Sort libraries. Section ''Ordering, comparison functions & stability'' and mail-archive msg000{23,24,33}.html. SRFI has been withdrawn July 17, 2003.
 http://srfi.schemers.org/srfi-32/
 * [14]   S. Egner: SRFI 42 Eager comprehensions.
 http://srfi.schemers.org/srfi-42/
@@ -900,10 +900,10 @@ www.call-with-current-continuation.org.
 === Copyright
 Copyright (c) 2005 Sebastian Egner and Jens Axel Søgaard.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ``Software''), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 === Version history
 * [[https://github.com/diamond-lizard/srfi-67/releases/tag/0.1|0.1]] - Ported to Chicken Scheme 5
