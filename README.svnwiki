@@ -8,11 +8,11 @@ Moreover, in case Scheme users and implementors find this mechanism useful and a
 === 2  Introduction
 This SRFI defines a mechanism for comparing Scheme values with respect to a total order (aka linear order) [1].
 ==== The mechanism provides operations for:
-===== 1. comparing objects of the built-in types,
-===== 2. using a total order in situations that arise in programs,
-===== 3. facilitating the definition of a new total order.
+* 1. comparing objects of the built-in types,
+* 2. using a total order in situations that arise in programs,
+* 3. facilitating the definition of a new total order.
 ==== In the following, these aspects will briefly be illustrated.
-==== Traditionally, a total order is represented in Scheme by an order predicate, like < or char<?.
+* Traditionally, a total order is represented in Scheme by an order predicate, like < or char<?.
 For the purpose of this SRFI, however, a total order is represented by a Scheme-procedure comparing its two arguments and returning either -1, 0, or 1 depending on whether the first argument is considered smaller, equal, or greater than the second argument respectively. Examples of such compare procedures include (lambda (x y) (sign (- x y))) for comparing real numbers, but also (lambda (x y) 0) comparing anything. For most built-in types specified in the Revised^5 Report on the Algorithmic Language Scheme ( R^5RS , [3]) compare procedures are specified in Sections 4.1, 4.2 , and 4.3 of this SRFI. An axiomatic definition of ``compare procedure'' is given in Section 5.
 ==== The primary reason for using 3-valued compare procedures instead of (2-valued) order predicates is efficiency:
 When comparison is computationally expensive, it is wasteful if two predicates are evaluated where a single 3-valued comparison would suffice. This point is discussed in greater detail in Section 6.
@@ -614,10 +614,10 @@ In this SRFI, lists and strings are ordered lexicographically (`LEX') by default
 
 The choice affects vector-compare, default-compare, and the way orders are interpreted conceptually. Moreover, this SRFI introduces the terminology ``ordered as lists'' and ``ordered as vectors'' to refer to the two fundamental ways of lifting an order to sequences (LEX and LENGTH-LEX). The choice also has implications for any other SRFI introducing container data types (e.g. 66 and 74), in case the author wishes to specify default compare procedures compatible with this SRFI.
 ===== Summarizing the discussion, there seem to be three major arguments:
-====== 1. Conceptually vectors and lists are representations of sequences, and if there is only one ordering for them it should be LEX.
-====== 2. LENGTH-LEX is more fundamental and efficient for types supporting a constant-time `size' operation.
-====== 3. Conceptually strings are ``vectors of characters'' and strings are conventionally ordered LEX by default, so vectors should be ordered LEX as well in order to minimize the potential for confusion.
-===== (Please refer to the discussion archive for details, in particular msg00054.)
+* 1. Conceptually vectors and lists are representations of sequences, and if there is only one ordering for them it should be LEX.
+* 2. LENGTH-LEX is more fundamental and efficient for types supporting a constant-time `size' operation.
+* 3. Conceptually strings are ``vectors of characters'' and strings are conventionally ordered LEX by default, so vectors should be ordered LEX as well in order to minimize the potential for confusion.
+(Please refer to the discussion archive for details, in particular msg00054.)
 ===== We consider 2. the most important due to its mathematical nature, followed by 1. because it simplifies the design.
 While this controversial, we think that it is preferable to introduce different orders for different data types, and not derive every order from a single one for sequences. Finally, we consider 3. a weak argument because the default ordering of strings is motivated primarily historically for ordering written words of (small alphabet) natural languages.
 ===== Concerning other vector-like data types, such as those introduced by SRFI 66 and 74, we recommend to define a default ordering which appears most natural for the type.
@@ -760,50 +760,50 @@ Test code and examples are collected in examples.scm; it requires SRFI-42 (compr
 
 Code defining the order predicates of R^5RS in terms of this SRFI is in the file r5rs-to-srfi.scm.
 === References
-==== [1]   E. Weisstein: Totally Ordered Set,
+* [1]   E. Weisstein: Totally Ordered Set,
 Mathworld at Wolfram Research.
 
 TotallyOrderedSet.html
-==== [2]   E. Weisstein: Equivalence Relation,
+* [2]   E. Weisstein: Equivalence Relation,
 Mathworld at Wolfram Research.
 
 mathworld.wolfram.com/EquivalenceRelation.html
-==== [3]   R. Kelsey, W. Clinger, J. Rees (eds.): Revised^5 Report on the Algorithmic Language Scheme,
+* [3]   R. Kelsey, W. Clinger, J. Rees (eds.): Revised^5 Report on the Algorithmic Language Scheme,
 Higher-Order and Symbolic Computation, Vol. 11, No. 1, August, 1998.
 
 www.schemers.org/Documents/Standards/R5RS/
-==== [4]   Y. Matsumoto: Programming Ruby. The Pragmatic Programmer's Guide.
+* [4]   Y. Matsumoto: Programming Ruby. The Pragmatic Programmer's Guide.
 www.ruby-doc.org/docs/ProgrammingRuby/
-==== [5]   G. van Rossum, F. L. Drake, Jr., (ed.): Python Library Reference. Release 2.4 of 30 November 2004. Section 2.1 ``built-in functions''. Python Software Foundation.
+* [5]   G. van Rossum, F. L. Drake, Jr., (ed.): Python Library Reference. Release 2.4 of 30 November 2004. Section 2.1 ``built-in functions''. Python Software Foundation.
 http://docs.python.org/lib/lib.html
-==== [6]   S. Peyton Jones (ed.): Haskell 98 Language and Libraries The Revised Report, December 2002.
+* [6]   S. Peyton Jones (ed.): Haskell 98 Language and Libraries The Revised Report, December 2002.
 http://www.haskell.org/definition/
-==== [7]   ANSI-C ISO/IEC 9899:1999, published 1 December.
+* [7]   ANSI-C ISO/IEC 9899:1999, published 1 December.
 http://www.open-std.org/jtc1/sc22/wg14/www/standards
-==== [8]   J. A. Søgaard: Data Structures Galore for PLT Scheme.
+* [8]   J. A. Søgaard: Data Structures Galore for PLT Scheme.
 http://planet.plt-scheme.org:80/207.1/docs/soegaard/galore.plt/1/1/doc.txt
-==== [9]   L. T. Hansen: SRFI 16 Syntax for procedures of variable arity.
+* [9]   L. T. Hansen: SRFI 16 Syntax for procedures of variable arity.
 http://srfi.schemers.org/srfi-16/
-==== [10]   R. Kelsey: SRFI 9 Defining record types.
+* [10]   R. Kelsey: SRFI 9 Defining record types.
 http://srfi.schemers.org/srfi-9/
-==== [11]   S. Houben: SRFI 23 Error reporting mechanism.
+* [11]   S. Houben: SRFI 23 Error reporting mechanism.
 http://srfi.schemers.org/srfi-23/
-==== [12]   S. Egner: SRFI 27 Sources of random bits.
+* [12]   S. Egner: SRFI 27 Sources of random bits.
 http://srfi.schemers.org/srfi-27/
-==== [13]   O. Shivers: SRFI 32 Sort libraries. Section ``Ordering, comparison functions & stability'' and mail-archive msg000{23,24,33}.html. SRFI has been withdrawn July 17, 2003.
+* [13]   O. Shivers: SRFI 32 Sort libraries. Section ``Ordering, comparison functions & stability'' and mail-archive msg000{23,24,33}.html. SRFI has been withdrawn July 17, 2003.
 http://srfi.schemers.org/srfi-32/
-==== [14]   S. Egner: SRFI 42 Eager comprehensions.
+* [14]   S. Egner: SRFI 42 Eager comprehensions.
 http://srfi.schemers.org/srfi-42/
-==== [15]   PLT Scheme.
+* [15]   PLT Scheme.
 http://www.plt-scheme.org/
-==== [16]   R. Kelsey, J. Rees: Scheme48, version 1.1.
+* [16]   R. Kelsey, J. Rees: Scheme48, version 1.1.
 http://s48.org/
-==== [17]   Chicken, version 1.70.
+* [17]   Chicken, version 1.70.
 www.call-with-current-continuation.org.
 === Authors
-==== [[sebastian.egner-at-philips.com][Sebastian Egner]]
-==== [[jensaxel-at-soegaard.net][Jens Axel Søgaard]]
-==== Ported to Chicken 5 by Sergey Goldgaber
+* [[sebastian.egner-at-philips.com][Sebastian Egner]]
+* [[jensaxel-at-soegaard.net][Jens Axel Søgaard]]
+* Ported to Chicken 5 by Sergey Goldgaber
 === Copyright
 Copyright (c) 2005 Sebastian Egner and Jens Axel Søgaard.
 
@@ -813,4 +813,4 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 === Version history
-==== [[https://github.com/diamond-lizard/srfi-67/releases/tag/0.1][0.1]] - Ported to Chicken Scheme 5
+* [[https://github.com/diamond-lizard/srfi-67/releases/tag/0.1][0.1]] - Ported to Chicken Scheme 5
