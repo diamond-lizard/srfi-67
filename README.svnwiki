@@ -81,7 +81,7 @@ compares two object of the type type with respect to a total order for which ord
 
 Compares two booleans, ordered by #f < #t.
 ===== Note:
-A non-#f value is not interpreted as a ``true value,'' but rather an error will be signalled.
+A non-{{#f}} value is not interpreted as a ``true value,'' but rather an error will be signalled.
 
 <procedure>(char-compare char[1] char[2])</procedure>
 
@@ -398,7 +398,7 @@ procedure:  (not=? [ compare ] [ x y ])
 
 If the values {{x and y}} are given, test if {{x and y}} are in the relation specified by the name of the procedure rel?, with respect to compare procedure compare; otherwise construct a predicate procedure.
 
-In the forms (rel? [ compare ] x y), the result is a boolean (either #t or #f) depending on (compare x y) and the test rel? as specified for if<? etc. If compare is not supplied, default-compare is used.
+In the forms (rel? [ compare ] x y), the result is a boolean (either {{#t}} or {{#f}}) depending on (compare x y) and the test rel? as specified for if<? etc. If compare is not supplied, default-compare is used.
 
 In the form (rel? [ compare ]), the predicate procedure (lambda (x y) (rel? compare x y)) is constructed. Again, if compare is not supplied, default-compare is used.
 ===== A few examples for illustration
@@ -444,7 +444,7 @@ procedure:  (chain<=? compare x[1] ...)
 
 procedure:  (chain>=? compare x[1] ...)
 
-Test if the values {{x[1] ...(zero or more values)}} form a chain with respect to the relation specified by the name of the procedure, and with respect to the compare procedure compare. The result is a boolean (either #t or #f.) The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one.)
+Test if the values {{x[1] ...(zero or more values)}} form a chain with respect to the relation specified by the name of the procedure, and with respect to the compare procedure compare. The result is a boolean (either {{#t}} or {{#f}}.) The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one.)
 
 A sequence of values x[1], ..., x[n] forms a chain with respect to the relation rel? if (rel? compare x[i] x[j]) for all 1 < i < j < n. In particular, this is the case for n [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
 
@@ -454,7 +454,7 @@ Note:   The reason every x[i] participates in at least one comparison is type-ch
 ===== pairwise-not?
 procedure:  (pairwise-not=? compare x[1] ...)
 
-Tests if the values x[1] ...(zero or more values) are pairwise unequal with respect to the compare procedure compare. The result is a boolean (either #t or #f). The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one).
+Tests if the values x[1] ...(zero or more values) are pairwise unequal with respect to the compare procedure compare. The result is a boolean (either {{#t}} or {{#f}}). The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one).
 
 The values x[1], ..., x[n] are pairwise unequal if (not=? compare x[i] x[j]) for all i [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-8.png]] j. In particular, this is the case for n [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
 
@@ -492,7 +492,7 @@ procedure:  (compare-by=/> eq-pred gt-pred [ x y ])
 
 If optional arguments {{x and y}} are present then these are compared with respect to the total order defined by the predicate(s) given; the result is in { - 1,0,1}. If {{x and y}} are not present then a procedure comparing its two arguments using the predicate(s) given is constructed and returned.
 
-The predicate procedures mean the following: (lt-pred x y) tests if x < y, le-pred tests for <, gt-pred for >, ge-pred for >, and eq-pred tests if {{x and y}} are equivalent. The result returned by a predicate procedure is interpreted as a Scheme truth value (i.e. #f is false and non-#f is true).
+The predicate procedures mean the following: (lt-pred x y) tests if x < y, le-pred tests for <, gt-pred for >, ge-pred for >, and eq-pred tests if {{x and y}} are equivalent. The result returned by a predicate procedure is interpreted as a Scheme truth value (i.e. {{#f}} is false and non-{{#f}} is true).
 
 The purpose of the procedures compare-bypredicate(s) is to define a compare procedure from an order predicate, and possibly an additional equivalence predicate. If an equivalence predicate eq-pred is given, it is called before the order predicate because the equivalence may be coarser than the total ordering, and it may also be cheaper.
 ===== Note:
@@ -653,7 +653,7 @@ The representation acts as an internal interface between programs comparing obje
 
 The advantage of using only three values is that the representation of each case is uniquely defined. In particular, this enables the use of case instead of if, and it ensures portability. Portability of numbers is problematic in R^5RS due to underspecification and inexactness.
 
-The advantage of using a non-unique (numerical) representation is that the result of a computation can sometimes immediately be used in a branch, much like the ``non-#f means true''-convention. However, with the operations in Section 4.6 this advantage hardly matters. Moreover, the ``non-#f means true''-convention is a major cause of unexpected program behavior itself.
+The advantage of using a non-unique (numerical) representation is that the result of a computation can sometimes immediately be used in a branch, much like the ``non-{{#f}} means true''-convention. However, with the operations in Section 4.6 this advantage hardly matters. Moreover, the ``non-{{#f}} means true''-convention is a major cause of unexpected program behavior itself.
 
 The advantage of using { - 1, 0, 1} over using three symbols is that the integers support additional operations, for example they can directly be used in index computations. A particularly useful operation is (* sign (compare x y)) which inverts the order relation depending on sign (either - 1 or 1). In addition, the integers are unique -- once it is known that comparisons result in integers it is obvious which integers. A minor consideration is that Scheme systems usually treat small integers as unboxed values, and that integers are self-evaluating literals.
 
@@ -687,7 +687,7 @@ However, there are limits as to how default-compare can be defined. For example,
 
 Unfortunately, this imposes limits on what can be compared using default-compare because it is very desireable to have a portable reference implementation. In particular, portable ways of dealing with circular structures are overly costly.
 
-Naturally, the question arises how the types should be ordered. For this question it is useful to understand that boolean-compare and pair-compare both already define a total order for all values (at least in priciple). Hence, default-compare could refine one of them, but unfortunately not both at the same time (unless #f and '() are minimum and maximum of the order, respectively). Since pair-compare is more frequently used than boolean-compare we base default-compare on pair-compare. The other portably comparable types are ordered by increasing complexity, which clearly is an arbitrary choice.
+Naturally, the question arises how the types should be ordered. For this question it is useful to understand that boolean-compare and pair-compare both already define a total order for all values (at least in priciple). Hence, default-compare could refine one of them, but unfortunately not both at the same time (unless {{#f}} and '() are minimum and maximum of the order, respectively). Since pair-compare is more frequently used than boolean-compare we base default-compare on pair-compare. The other portably comparable types are ordered by increasing complexity, which clearly is an arbitrary choice.
 ==== What is the ``lexicographic order''?
 The lexicographic order is a general way of defining an ordering for sequences from an ordering of elements:
 
