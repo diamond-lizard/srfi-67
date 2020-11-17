@@ -780,7 +780,7 @@ As it happens, the specification of this SRFI is fully compatible with the 25 or
 
 Alternatively, each expression involving a reference to an R^5RS order predicate can be transformed into an equivalent expression using the facilities of this SRFI. Be reminded though that this requires an understanding of the context of the expression in question, in particular variable bindings, macro definitions, and the use of eval.
 
-However, if the meaning of an expression may be altered, it is often possible to increase type safety or simplicity. Consider for example the following potential replacements of (and (<= 0 i) (< i n)):
+However, if the meaning of an expression may be altered, it is often possible to increase type safety or simplicity. Consider for example the following potential replacements of {{(and (<= 0 i) (< i n))}}:
 
 <enscript highlight="scheme">
 (and (<=? real-compare 0 i) (<? real-compare i n))
