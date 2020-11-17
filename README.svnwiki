@@ -258,7 +258,7 @@ This macro is the preferred way to define a compare procedure as a refinement (r
 ===== syntax:
 (select-compare <x[1]> <x[2]> <clause[1]> ...)
 ===== Syntax:
-Each <clause>, with the possible exception of the last, is of the form {{(<type?> <c[1]> ...)}} where {{<type?>}} is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last <clause> may be an ``else clause'', which has the form (else <c[1]> ...).
+Each {{<clause>}}, with the possible exception of the last, is of the form {{(<type?> <c[1]> ...)}} where {{<type?>}} is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ``else clause'', which has the form (else <c[1]> ...).
 ===== Semantics:
 Select-compare is a conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5). It compares the values of {{<x [1]>}} and {{<x[2]>}} by trying the type tests in order, and applies an implicit refine-compare on the consequences upon a match.
 
@@ -272,7 +272,7 @@ An example of select-compare is the definition of default-compare given above.
 ===== syntax:
 (cond-compare <clause[1]> ...)
 ===== Syntax:
-Each <clause>, with the possible exception of the last, is of the form ((<t[1]> <t[2]>) <c[1]> ...) where <t[1]> and <t[2]> are expressions evaluating to booleans, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last <clause> may be an ``else clause'', which has the form (else <c[1]> ...).
+Each {{<clause>}}, with the possible exception of the last, is of the form ((<t[1]> <t[2]>) <c[1]> ...) where <t[1]> and <t[2]> are expressions evaluating to booleans, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last {{<clause>}} may be an ``else clause'', which has the form (else <c[1]> ...).
 ===== Semantics:
 Cond-compare is another conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5).
 ===== Evaluation proceeds as follows:
