@@ -860,14 +860,9 @@ Test code and examples are collected in examples.scm; it requires SRFI-42 (compr
 
 Code defining the order predicates of R^5RS in terms of this SRFI is in the file r5rs-to-srfi.scm.
 === References
-* [1]   E. Weisstein: Totally Ordered Set,
-Mathworld at Wolfram Research.
-
-TotallyOrderedSet.html
-* [2]   E. Weisstein: [[http://mathworld.wolfram.com/EquivalenceRelation.html|Equivalence Relation]],
-Mathworld at Wolfram Research.
-* [3]   R. Kelsey, W. Clinger, J. Rees (eds.): [[http://www.schemers.org/Documents/Standards/R5RS/|Revised^5 Report on the Algorithmic Language Scheme]],
-Higher-Order and Symbolic Computation, Vol. 11, No. 1, August, 1998.
+* [1]   E. Weisstein: [[http://mathworld.wolfram.com/TotallyOrderedSet.html|Totally Ordered Set]], Mathworld at Wolfram Research.
+* [2]   E. Weisstein: [[http://mathworld.wolfram.com/EquivalenceRelation.html|Equivalence Relation]], Mathworld at Wolfram Research.
+* [3]   R. Kelsey, W. Clinger, J. Rees (eds.): [[http://www.schemers.org/Documents/Standards/R5RS/|Revised^5 Report on the Algorithmic Language Scheme]], Higher-Order and Symbolic Computation, Vol. 11, No. 1, August, 1998.
 * [4]   Y. Matsumoto: [[http://www.ruby-doc.org/docs/ProgrammingRuby/|Programming Ruby]]. The Pragmatic Programmer's Guide.
 * [5]   G. van Rossum, F. L. Drake, Jr., (ed.): [[http://docs.python.org/lib/lib.html|Python Library Reference]]. Release 2.4 of 30 November 2004. Section 2.1 "built-in functions". Python Software Foundation.
 * [6]   S. Peyton Jones (ed.): [[http://www.haskell.org/definition/|Haskell 98 Language and Libraries The Revised Report]], December 2002.
