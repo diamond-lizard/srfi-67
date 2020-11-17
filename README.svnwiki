@@ -1,23 +1,23 @@
 == SRFI 67: Compare Procedures
 === 1  Abstract and Rationale
-This SRFI can be seen as an extension of the standard procedures =, <, char<? etc. of R^5RS -- or even as a replacement. The primary design aspect in this SRFI is the separation of representing a total order and using it. For representing the order, we have chosen for truly 3-way comparisons. For using it we provide an extensive set of operations, each of which accepts a procedure used for comparison. Since these compare procedures are often optional, comparing built-in types is as convenient as R^5RS , sometimes more convenient: For example, testing if the integer index i lies in the integer range {0, ..., n - 1} can be written as (<=/<? 0 i n), implicitly invoking default-compare.
+This SRFI can be seen as an extension of the standard procedures =, <, char<? etc. of R^5RS -- or even as a replacement. The primary design aspect in this SRFI is the separation of representing a total order and using it. For representing the order, we have chosen for truly 3-way comparisons. For using it we provide an extensive set of operations, each of which accepts a procedure used for comparison. Since these compare procedures are often optional, comparing built-in types is as convenient as R^5RS , sometimes more convenient: For example, testing if the integer index i lies in the integer range {0, ..., n - 1} can be written as {{(<=/<? 0 i n)}}, implicitly invoking default-compare.
 
 As soon as new total orders are required, the infrastructure provided by this SRFI is far more convenient and often even more efficient than building each total order from scratch.
 
-Moreover, in case Scheme users and implementors find this mechanism useful and adopt it, the benefit of having a uniform interface to total orders to be used in data structures will manifest itself. Most concretely, a new sorting procedure in the spirit of this SRFI would have the interface (my-sort [ compare ] xs), using default-compare if the optional compare was not provided. Then my-sort could be defined using the entire infrastructure of this SRFI: Efficient 2- and 3-way branching, testing for chains and pairwise inequality, min/max, and general order statistics.
+Moreover, in case Scheme users and implementors find this mechanism useful and adopt it, the benefit of having a uniform interface to total orders to be used in data structures will manifest itself. Most concretely, a new sorting procedure in the spirit of this SRFI would have the interface {{(my-sort [ compare ] xs)}}, using default-compare if the optional compare was not provided. Then my-sort could be defined using the entire infrastructure of this SRFI: Efficient 2- and 3-way branching, testing for chains and pairwise inequality, min/max, and general order statistics.
 === 2  Introduction
-This SRFI defines a mechanism for comparing Scheme values with respect to a total order (aka linear order) [1].
+This SRFI defines a mechanism for comparing Scheme values with respect to a total order {{(aka linear order)}} [1].
 ==== The mechanism provides operations for:
 * 1. comparing objects of the built-in types,
 * 2. using a total order in situations that arise in programs,
 * 3. facilitating the definition of a new total order.
 ==== In the following, these aspects will briefly be illustrated.
 * Traditionally, a total order is represented in Scheme by an order predicate, like < or char<?.
-For the purpose of this SRFI, however, a total order is represented by a Scheme-procedure comparing its two arguments and returning either -1, 0, or 1 depending on whether the first argument is considered smaller, equal, or greater than the second argument respectively. Examples of such compare procedures include (lambda (x y) (sign (- x y))) for comparing real numbers, but also (lambda (x y) 0) comparing anything. For most built-in types specified in the Revised^5 Report on the Algorithmic Language Scheme ( R^5RS , [3]) compare procedures are specified in Sections 4.1, 4.2 , and 4.3 of this SRFI. An axiomatic definition of ``compare procedure'' is given in Section 5.
+For the purpose of this SRFI, however, a total order is represented by a Scheme-procedure comparing its two arguments and returning either -1, 0, or 1 depending on whether the first argument is considered smaller, equal, or greater than the second argument respectively. Examples of such compare procedures include {{(lambda (x y) (sign (- x y)))}} for comparing real numbers, but also {{(lambda (x y) 0)}} comparing anything. For most built-in types specified in the Revised^5 Report on the Algorithmic Language Scheme ( R^5RS , [3]) compare procedures are specified in Sections 4.1, 4.2 , and 4.3 of this SRFI. An axiomatic definition of ``compare procedure'' is given in Section 5.
 ==== The primary reason for using 3-valued compare procedures instead of (2-valued) order predicates is efficiency:
 When comparison is computationally expensive, it is wasteful if two predicates are evaluated where a single 3-valued comparison would suffice. This point is discussed in greater detail in Section 6.
 ==== But dealing directly with 3-valued comparisons in the application program is inconvenient and obscures intention:
-For testing x < y one would have to write (eqv? (compare x y) -1). For this reason, an operation <? is supplied which allows to phrase the same test as (<? compare x y). This is an example of mapping the three possible outcomes of a comparison into the two boolean values {#f, #t}. Since <? takes the total order as an explicit parameter, a comfortably large arsenal of tests can be made available for each and every total order (Section 4.6). This deviates from the approach of R^5RS , in which there are only five operations ( = , <, >, <, >) -- and for each total order (real/number, char, char-ci, string, string-ci) a complete set of these five operation is provided.
+For testing x < y one would have to write {{(eqv? (compare x y) -1)}}. For this reason, an operation <? is supplied which allows to phrase the same test as {{(<? compare x y)}}. This is an example of mapping the three possible outcomes of a comparison into the two boolean values {#f, #t}. Since <? takes the total order as an explicit parameter, a comfortably large arsenal of tests can be made available for each and every total order (Section 4.6). This deviates from the approach of R^5RS , in which there are only five operations {{( = , <, >, <, >)}} -- and for each total order ({{real/number}}, {{char}}, {{char-ci}}, {{string}}, {{string-ci}}) a complete set of these five operation is provided.
 ==== But still, using <? would be inconvenient if the compare procedure would have to be supplied explicitly every time.
 For this reason, the parameter compare is often made optional in this SRFI -- and the procedure default-compare is used whenever no compare procedure is passed explicitly. Default-compare (Section 4.4) defines some resonable total order on the built-in types of R^5RS .
 ==== For the third aspect of this SRFI, defining compare procedures, special control structures (macros) are provided (Section 4.5).
@@ -31,7 +31,7 @@ for lengths can then be defined in terms of real-compare (Section 4.1) as:
   (real-compare (meters length1) (meters length2)))
 </enscript>
 
-Now, (<? length-compare x y) tests if length {{x}} is shorter than length y. Also, (<=/<? length-compare a x b) tests if length {{x}} lies between length a (incl.) and length b (excl.) The expression (min-compare length-compare x y z) is a shortest of the lengths x, y, and z. Likewise, (chain<? length-compare x1 x2 x3 x4) test if the lengths x1 x2 x3 x3 are strictly increasing, and so on (refer to Section 4.6).
+Now, {{(<? length-compare x y)}} tests if length {{x}} is shorter than length y. Also, {{(<=/<? length-compare a x b)}} tests if length {{x}} lies between length a (incl.) and length b (excl.) The expression {{(min-compare length-compare x y z)}} is a shortest of the lengths x, y, and z. Likewise, {{(chain<? length-compare x1 x2 x3 x4)}} test if the lengths x1 x2 x3 x3 are strictly increasing, and so on (refer to Section 4.6).
 
 Furthermore, assume there is another type box representing a physical box. The type has procedures width, height, and depth accessing the dimension (each giving a length).
 
@@ -45,7 +45,7 @@ A compare procedure for boxes, comparing first by width then by height and then 
     (length-compare (depth  box1) (depth  box2))))
 </enscript>
 
-This time, (<? box-compare b1 b2) tests if box b1 is smaller than box b2 -- in the sense of the order defined. Of course, all the other tests, minimum, maximum etc. are available, too.
+This time, {{(<? box-compare b1 b2)}} tests if box b1 is smaller than box b2 -- in the sense of the order defined. Of course, all the other tests, minimum, maximum etc. are available, too.
 
 As a final complication, assume that there is also a type bowl with accessors radius (a length) and open? (a boolean). Bowls are to be compared first by whether they are open or closed, and then by radius. However, bowls and boxes also need to be compared to each other, ordered such that a bowl is considered ``smaller'' than a box. (There are type-test predicates box? and bowl?). Using the control structure select-compare (Section 4.5) this can be expressed as:
 
@@ -68,7 +68,7 @@ A comparison is either an expression applying a compare procedure to two values,
 
 Each operation (macro or procedure) processing the value of a comparison checks if the value is indeed an exact integer in the set { - 1,0,1}. If this is not the case, an error is signalled.
 
-Compare procedures expecting certain types of argument should raise an error in case the arguments are not of this type. For most compare procedures specified in this SRFI, this behavior is required. A compare procedure compare can be used for type-checking value {{x}} by evaluating (compare x x), in case that is desired. This is useful in procedures like chain<? which guarantee to check each argument unconditionally.
+Compare procedures expecting certain types of argument should raise an error in case the arguments are not of this type. For most compare procedures specified in this SRFI, this behavior is required. A compare procedure compare can be used for type-checking value {{x}} by evaluating {{(compare x x)}}, in case that is desired. This is useful in procedures like chain<? which guarantee to check each argument unconditionally.
 === 4  Specification
 ==== 4.1  Comparing atoms
 In this section, compare procedures for most of the atomic types of R^5RS are defined: Booleans, characters, strings, symbols, and numbers.
@@ -124,7 +124,7 @@ Compares symbols as string<= on the names returned by symbol->string.
 
 Compare two numbers. It is an error if an argument is not of the type specified by the name of the procedure.
 
-Complex numbers are ordered lexicographically on pairs (re, im). For objects representing real numbers sign(x - y) is computed. The ordering for values satisfying real? or complex? but not representing a real or complex number should be consistent with procedures = and < of R^5RS , and apart from that it is unspecified.
+Complex numbers are ordered lexicographically on pairs (re, im). For objects representing real numbers {{sign(x - y)}} is computed. The ordering for values satisfying real? or complex? but not representing a real or complex number should be consistent with procedures = and < of R^5RS , and apart from that it is unspecified.
 
 Numerical compare procedures are compatible with the R^5RS numerical tower in the following sense: If S is a subtype of the numerical type T and x, y can be represented both in S and in T, then compare-S and compare-T compute the same result.
 ===== Note:
@@ -138,13 +138,13 @@ The propagation of inexactness can lead to surprises.
 ===> -1
 </enscript>
 
-At first glance, one might expect the first complex number to be larger, because the numbers are equal on their real parts and the first imaginary part (1.) is larger than the second (-1). Closer inspection reveals that the decimal dot causes the first real part to be made inexact upon construction of the complex number, and since (exact-> inexact (/ 1 3)) is less than (/ 1 3) in the underlying floating point format used, the real parts decide the comparison of the complex numbers.
+At first glance, one might expect the first complex number to be larger, because the numbers are equal on their real parts and the first imaginary part {{(1.)}} is larger than the second {{(-1)}}. Closer inspection reveals that the decimal dot causes the first real part to be made inexact upon construction of the complex number, and since {{(exact-> inexact (/ 1 3))}} is less than {{(/ 1 3)}} in the underlying floating point format used, the real parts decide the comparison of the complex numbers.
 ==== 4.2  Comparing lists and vectors
 In this section compare procedures are defined for Scheme lists and vectors -- and for objects that can be accessed like lists or like vectors.
 
-An object {{x}} can be accessed like a vector if there are procedures size and ref such that (size x) is a non-negative integer n indicating the number of elements, and (ref x i) is the i-th element of {{x}} for i [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0, ..., n - 1}. The default vector access procedures are vector-length and vector-ref.
+An object {{x}} can be accessed like a vector if there are procedures size and ref such that {{(size x)}} is a non-negative integer n indicating the number of elements, and {{(ref x i)}} is the i-th element of {{x}} for i [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0, ..., n - 1}. The default vector access procedures are vector-length and vector-ref.
 
-An object {{x}} can be accessed like a (proper) list if there are procedures empty?, head, and tail such that (empty? x) is a boolean indicating that there are no elements in x, (head x) is the first element of x, and (tail x) is an object representing the residual elements of x. The default list access procedures are null?, car, and cdr.
+An object {{x}} can be accessed like a (proper) list if there are procedures empty?, head, and tail such that {{(empty? x)}} is a boolean indicating that there are no elements in x, {{(head x)}} is the first element of x, and {{(tail x)}} is an object representing the residual elements of x. The default list access procedures are null?, car, and cdr.
 
 Independent of the way the elements are accessed, the natural ordering of vectors and lists differs: Sequences are compared as vectors if shorter sequences are smaller than longer sequences, and sequences of the same size are compared lexicographically. Sequences are compared as lists if the empty sequence is smallest, and two non-empty sequences are compared by their first elements, and only if the first elements are equal the residual sequences are compared, recursively.
 
@@ -186,7 +186,7 @@ Construct a compare procedure on pairs which only uses the car (only the cdr, re
    (lambda (x y) (compare (car x) (car y))))
 </enscript>
 ===== Rationale:
-Pair-compare-car can be used to turn a search data structure (e.g. a heap) into a dictionary: Store (key . value) pairs and compare them using the compare procedure (pair-compare-car compare-key).
+Pair-compare-car can be used to turn a search data structure (e.g. a heap) into a dictionary: Store {{(key . value)}} pairs and compare them using the compare procedure {{(pair-compare-car compare-key)}}.
 
 <procedure>(pair-compare compare-car compare-cdr pair[1] pair[2])</procedure>
 
@@ -258,15 +258,15 @@ This macro is the preferred way to define a compare procedure as a refinement (r
 ===== syntax:
 (select-compare <x[1]> <x[2]> <clause[1]> ...)
 ===== Syntax:
-Each <clause>, with the possible exception of the last, is of the form (<type?> <c[1]> ...) where <type?> is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last <clause> may be an ``else clause'', which has the form (else <c[1]> ...).
+Each <clause>, with the possible exception of the last, is of the form {{(<type?> <c[1]> ...)}} where {{<type?>}} is an expression evaluating to a predicate procedure, and <c[i]> are expressions evaluating to an exact integer in { - 1,0,1}. The last <clause> may be an ``else clause'', which has the form (else <c[1]> ...).
 ===== Semantics:
 Select-compare is a conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5). It compares the values of <x [1]> and <x[2]> by trying the type tests in order, and applies an implict refine-compare on the consequences upon a match.
 
 In more detail, evaluation proceeds as follows: First <x[1]> and <x[2]> are evaluated in unspecified order, resulting in values x[1] and x[2], respectively. Then the clauses are evaluated one by one, from left to right.
 
-For clause (<type?> <c[1]> ...), first <type?> is evaluated resulting in a predicate procedure type? and then the expressions (type? x[1]) and (type? x[2]) are evaluated and interpreted as booleans. If both booleans are true then the overall value is (refine-compare <c[1]> ...). If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both tests where true. If there are no clauses left, the result is 0.
+For clause (<type?> <c[1]> ...), first {{<type?>}} is evaluated resulting in a predicate procedure type? and then the expressions (type? x[1]) and (type? x[2]) are evaluated and interpreted as booleans. If both booleans are true then the overall value is (refine-compare <c[1]> ...). If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both tests where true. If there are no clauses left, the result is 0.
 
-Select-compare evaluates <x[1]> and <x[2]> exactly once, even in the absence of any clauses. Moreover, each <type?> is evaluated at most once and the resulting procedure type? is called at most twice.
+Select-compare evaluates <x[1]> and <x[2]> exactly once, even in the absence of any clauses. Moreover, each {{<type?>}} is evaluated at most once and the resulting procedure type? is called at most twice.
 ===== Note:
 An example of select-compare is the definition of default-compare given above.
 ===== syntax:
