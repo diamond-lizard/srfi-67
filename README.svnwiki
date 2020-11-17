@@ -266,7 +266,7 @@ Each {{<clause>}}, with the possible exception of the last, is of the form {{(<t
 ===== Semantics:
 Select-compare is a conditional for defining hierarchical extensions and refinements of compare procedures (refer to Section 5). It compares the values of {{<x [1]>}} and {{<x[2]>}} by trying the type tests in order, and applies an implicit refine-compare on the consequences upon a match.
 
-In more detail, evaluation proceeds as follows: First {{<x[1]>}} and {{<x[2]>}} are evaluated in unspecified order, resulting in values x[1] and x[2], respectively. Then the clauses are evaluated one by one, from left to right.
+In more detail, evaluation proceeds as follows: First {{<x[1]>}} and {{<x[2]>}} are evaluated in unspecified order, resulting in values {{x[1]}} and {{x[2]}}, respectively. Then the clauses are evaluated one by one, from left to right.
 
 For clause (<type?> <c[1]> ...), first {{<type?>}} is evaluated resulting in a predicate procedure type? and then the expressions (type? x[1]) and (type? x[2]) are evaluated and interpreted as booleans. If both booleans are true then the overall value is (refine-compare <c[1]> ...). If only the first is true the result is -1, if only the second is true the result is 1, and if neither is true the next clause is considered. An else clause is treated as if both tests where true. If there are no clauses left, the result is 0.
 
@@ -444,7 +444,7 @@ procedure:  (chain<=? compare x[1] ...)
 
 procedure:  (chain>=? compare x[1] ...)
 
-Test if the values x[1] ...(zero or more values) form a chain with respect to the relation specified by the name of the procedure, and with respect to the compare procedure compare. The result is a boolean (either #t or #f.) The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one.)
+Test if the values {{x[1]}} ...(zero or more values) form a chain with respect to the relation specified by the name of the procedure, and with respect to the compare procedure compare. The result is a boolean (either #t or #f.) The order in which the values are compared is unspecified, but each value is compared at least once (even if there is just one.)
 
 A sequence of values x[1], ..., x[n] forms a chain with respect to the relation rel? if (rel? compare x[i] x[j]) for all 1 < i < j < n. In particular, this is the case for n [[image:https://srfi.schemers.org/srfi-67/srfi-67-Z-G-D-4.png]] {0,1}.
 
