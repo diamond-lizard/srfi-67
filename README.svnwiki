@@ -687,7 +687,7 @@ However, there are limits as to how default-compare can be defined. For example,
 
 Unfortunately, this imposes limits on what can be compared using default-compare because it is very desireable to have a portable reference implementation. In particular, portable ways of dealing with circular structures are overly costly.
 
-Naturally, the question arises how the types should be ordered. For this question it is useful to understand that boolean-compare and pair-compare both already define a total order for all values (at least in priciple). Hence, default-compare could refine one of them, but unfortunately not both at the same time (unless {{#f}} and '() are minimum and maximum of the order, respectively). Since pair-compare is more frequently used than boolean-compare we base default-compare on pair-compare. The other portably comparable types are ordered by increasing complexity, which clearly is an arbitrary choice.
+Naturally, the question arises how the types should be ordered. For this question it is useful to understand that boolean-compare and pair-compare both already define a total order for all values (at least in priciple). Hence, default-compare could refine one of them, but unfortunately not both at the same time (unless {{#f}} and {{'(}}) are minimum and maximum of the order, respectively). Since pair-compare is more frequently used than boolean-compare we base default-compare on pair-compare. The other portably comparable types are ordered by increasing complexity, which clearly is an arbitrary choice.
 ==== What is the "lexicographic order"?
 The lexicographic order is a general way of defining an ordering for sequences from an ordering of elements:
 
