@@ -841,7 +841,7 @@ The Ruby programming language [4] provides a method {{<=>}} which is a compare p
 
 In the Haskell 98 programming language [6] order predicates and compare functions coexist. The type Ordering [6, Sect 6.1.8] is an enumeration of the three symbolic constants LT, EQ, GT. The type class Ord [6, Sect 6.3.2] asserts the presence of a total order for a type, provided the type class Eq [6, Sect 6.3.1] also asserts the presence of an equivalence. Since the default definition of the method compare is in terms of the methods == and <=, and vice versa, it can be chosen easily how to provide the total order without affecting its pattern of use.
 
-The C function strcmp [7] of the ``string.h''-library acts as a compare procedure in the sense of this SRFI, although it is specified to return an integer of which only the sign matters. Python [5] has a built-in function cmp which is a compare procedure in the sense of this SRFI.
+The C function {{strcmp}} [7] of the ``string.h''-library acts as a compare procedure in the sense of this SRFI, although it is specified to return an integer of which only the sign matters. Python [5] has a built-in function cmp which is a compare procedure in the sense of this SRFI.
 
 In SRFI-32 (Sort libraries) [13] the total orders used for sorting are represented by a ``less than'' procedure. The discussion archive [13] contains a short discussion thread on the use of 3-value comparisons under the aspect whether they can be used to improve the sorting algorithm itself.
 
